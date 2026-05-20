@@ -34,7 +34,7 @@ out/
 .serverless/
 .turbo/
 
-# ===== Videos (hospedar externamente) =====
+# ===== Videos (originais pesados ficam de fora; comprimidos em /videos sobem) =====
 *.mp4
 *.mov
 *.avi
@@ -42,6 +42,8 @@ out/
 *.webm
 *.wmv
 *.flv
+!videos/*.mp4
+!videos/*.webm
 
 # ===== OS / Sistema =====
 .DS_Store
