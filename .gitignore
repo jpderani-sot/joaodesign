@@ -1,0 +1,92 @@
+# ===== Secrets & Environment =====
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.cert
+*.crt
+*.p12
+*.pfx
+secrets.json
+credentials.json
+config.local.*
+*.local
+
+# ===== Dependencies =====
+node_modules/
+bower_components/
+jspm_packages/
+vendor/
+.pnp.*
+.yarn/
+
+# ===== Build & Deploy =====
+dist/
+build/
+out/
+.next/
+.nuxt/
+.cache/
+.parcel-cache/
+.vercel/
+.netlify/
+.serverless/
+.turbo/
+
+# ===== Videos (hospedar externamente) =====
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.webm
+*.wmv
+*.flv
+
+# ===== OS / Sistema =====
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# ===== Editor / IDE =====
+.vscode/
+!.vscode/settings.json.example
+.idea/
+*.swp
+*.swo
+*~
+.history/
+.project
+.classpath
+
+# ===== Logs =====
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ===== Testes / Cobertura =====
+coverage/
+.nyc_output/
+*.lcov
+
+# ===== Temporários / Backup =====
+*.tmp
+*.temp
+*.bak
+*.backup
+*.old
+*.orig
+~$*
+
+# ===== Arquivos de teste/rascunho =====
+test.html
+scratch/
+rascunho/
+TODO.local.md

@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elite Components V2 | Design System</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <!-- Scripts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+
+    <style>
+        :root {
+            --rose-gold: #c4a265;
+            --deep-black: #0d0d0c;
+        }
+
+        body {
+            background-color: var(--deep-black);
+            color: white;
+            font-family: 'Outfit', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .font-serif { font-family: 'Playfair Display', serif; }
+
+        /* CURSOR CUSTOMIZADO GLOBAL */
+        .custom-cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            background: var(--rose-gold);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1000;
+            mix-blend-mode: difference;
+            transition: transform 0.1s ease-out;
+            transform: translate(-50%, -50%);
+        }
+
+        .cursor-ring {
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            border: 1px solid rgba(196, 162, 101, 0.3);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 999;
+            transform: translate(-50%, -50%);
+            transition: transform 0.15s ease-out;
+        }
+
+        /* COMPONENTE 1: MAGNETIC SPOTLIGHT CURSOR */
+        .spotlight-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            background: #000;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: none;
+        }
+
+        .spotlight-reveal {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            z-index: 1;
+            mask-image: radial-gradient(circle 150px at var(--x, 50%) var(--y, 50%), black 0%, transparent 100%);
+            -webkit-mask-image: radial-gradient(circle 150px at var(--x, 50%) var(--y, 50%), black 0%, transparent 100%);
+        }
+
+        .spotlight-base {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            filter: grayscale(100%) brightness(10%);
+            z-index: 0;
+        }
+
+        /* COMPONENTE 2: HORIZONTAL SCROLLYTELLING */
+        .horizontal-section {
+            height: 400vh;
+            position: relative;
+            background: #000;
+        }
+
+        .sticky-wrapper {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            width: 100%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+
+        .horizontal-track {
+            display: flex;
+            gap: 10vw;
+            padding: 0 15vw;
+            will-change: transform;
+        }
+
+        .horizontal-item {
+            flex: 0 0 70vw;
+            height: 60vh;
+            position: relative;
+            border-radius: 40px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .horizontal-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s ease;
+        }
+
+        .horizontal-item:hover img { transform: scale(1.05); }
+
+        .item-info {
+            position: absolute;
+            bottom: 40px;
+            left: 40px;
+            z-index: 10;
+        }
+
+        /* COMPONENTE 3: SPLIT MOOD-SWITCH */
+        .split-section {
+            height: 100vh;
+            display: flex;
+            position: relative;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .split-side {
+            flex: 1;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 2;
+            cursor: pointer;
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .split-side::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--side-bg);
+            opacity: 0.1;
+            z-index: -1;
+            transition: opacity 0.6s ease;
+        }
+
+        .split-side:hover { flex: 1.5; }
+        .split-side:hover::before { opacity: 0.3; }
+
+        .mood-bg {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.8s ease, transform 1.2s ease;
+            z-index: 1;
+            filter: blur(80px);
+        }
+
+        .split-section.show-science .mood-science { opacity: 0.5; transform: scale(1.1); }
+        .split-section.show-art .mood-art { opacity: 0.5; transform: scale(1.1); }
+
+        /* COMPONENTE 4: MAGNETIC CTA */
+        .magnetic-wrap {
+            display: inline-block;
+            padding: 40px;
+            cursor: pointer;
+        }
+
+        .magnetic-btn {
+            background: var(--rose-gold);
+            color: black;
+            padding: 20px 40px;
+            border-radius: 100px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: transform 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+            will-change: transform;
+            box-shadow: 0 0 30px rgba(196, 162, 101, 0.2);
+        }
+
+        .magnetic-btn iconify-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .magnetic-btn:hover iconify-icon {
+            transform: translateX(5px) rotate(-45deg);
+        }
+
+        /* COMPONENTE 5: DYNAMIC MESH GRADIENT */
+        .mesh-container {
+            position: relative;
+            height: 100vh;
+            width: 100%;
+            background: #0d0d0c;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mesh-blob {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.4;
+            animation: blob-move 20s infinite alternate;
+        }
+
+        .blob-1 { background: var(--rose-gold); top: -10%; left: -10%; animation-delay: 0s; }
+        .blob-2 { background: #4a3b32; bottom: -10%; right: -10%; animation-delay: -5s; }
+        .blob-3 { background: #1e3a8a; top: 50%; left: 50%; transform: translate(-50%, -50%); animation: blob-move-alt 25s infinite alternate; }
+
+        @keyframes blob-move {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(15vw, 20vh) scale(1.3); }
+        }
+
+        @keyframes blob-move-alt {
+            0% { transform: translate(-50%, -50%) scale(1.2); }
+            100% { transform: translate(-30%, -10%) scale(0.9); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- CURSOR SYSTEM -->
+    <div class="custom-cursor" id="cursor"></div>
+    <div class="cursor-ring" id="cursor-ring"></div>
+
+    <!-- 1. SPOTLIGHT -->
+    <section class="spotlight-container" id="spotlight-section">
+        <div class="spotlight-base"></div>
+        <div class="spotlight-reveal" id="reveal-layer"></div>
+        <div class="relative z-10 text-center pointer-events-none px-6">
+            <span class="text-rose-gold font-bold text-xs uppercase tracking-[8px] mb-6 block">Precisão Absoluta</span>
+            <h2 class="font-serif text-5xl md:text-8xl mb-4 text-white">Descubra a <br> <span class="italic font-light">Essência</span></h2>
+            <p class="text-white/30 text-sm uppercase tracking-widest">Mova o cursor para revelar detalhes técnicos</p>
+        </div>
+    </section>
+
+    <!-- 2. SCROLLYTELLING -->
+    <section class="horizontal-section" id="horizontal-trigger">
+        <div class="sticky-wrapper">
+            <div class="horizontal-track" id="horizontal-track">
+                <div class="flex flex-col justify-center min-w-[40vw] pr-20">
+                    <span class="text-rose-gold font-bold text-xs uppercase tracking-[6px] mb-6 block">The Portfolio</span>
+                    <h2 class="font-serif text-6xl md:text-8xl italic font-light">Casos de <br>Sucesso</h2>
+                </div>
+                <div class="horizontal-item">
+                    <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1200&q=80" alt="Caso 1">
+                    <div class="item-info">
+                        <h4 class="text-3xl font-serif mb-2">Escultura Facial</h4>
+                        <p class="text-white/50 uppercase tracking-widest text-xs">Protocolo Premium 2024</p>
+                    </div>
+                </div>
+                <div class="horizontal-item">
+                    <img src="https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?auto=format&fit=crop&w=1200&q=80" alt="Caso 2">
+                    <div class="item-info">
+                        <h4 class="text-3xl font-serif mb-2">Lipo Shape 360</h4>
+                        <p class="text-white/50 uppercase tracking-widest text-xs">Resultados Naturais</p>
+                    </div>
+                </div>
+                <div class="horizontal-item">
+                    <img src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=1200&q=80" alt="Caso 3">
+                    <div class="item-info">
+                        <h4 class="text-3xl font-serif mb-2">Harmonização Corporal</h4>
+                        <p class="text-white/50 uppercase tracking-widest text-xs">Excelência Curitibana</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. SPLIT MOOD -->
+    <section class="split-section" id="split-section">
+        <div class="mood-bg mood-science bg-blue-900/50"></div>
+        <div class="mood-bg mood-art bg-rose-gold/30"></div>
+        <div class="split-side border-r border-white/5" id="side-science" style="--side-bg: #1e3a8a;">
+            <div class="text-center p-12">
+                <iconify-icon icon="solar:atom-bold-duotone" class="text-6xl text-blue-400 mb-8"></iconify-icon>
+                <h3 class="font-serif text-5xl mb-4">Ciência</h3>
+                <p class="text-white/40 uppercase tracking-widest text-xs">Precisão Molecular</p>
+            </div>
+        </div>
+        <div class="split-side" id="side-art" style="--side-bg: #c4a265;">
+            <div class="text-center p-12">
+                <iconify-icon icon="solar:palette-bold-duotone" class="text-6xl text-rose-gold mb-8"></iconify-icon>
+                <h3 class="font-serif text-5xl mb-4">Arte</h3>
+                <p class="text-white/40 uppercase tracking-widest text-xs">Sensibilidade Estética</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. MAGNETIC CTA -->
+    <section class="py-40 flex flex-col items-center justify-center bg-black">
+        <h2 class="font-serif text-4xl mb-16 opacity-30 italic">Interação de Alta Performance</h2>
+        <div class="magnetic-wrap" id="magnetic-wrap">
+            <button class="magnetic-btn" id="magnetic-btn">
+                <span>Agendar Experiência</span>
+                <iconify-icon icon="solar:arrow-right-up-bold-duotone" class="text-xl"></iconify-icon>
+            </button>
+        </div>
+        <p class="mt-12 text-white/20 text-xs uppercase tracking-widest">Aproxime o cursor para sentir a atração</p>
+    </section>
+
+    <!-- 5. MESH GRADIENT -->
+    <section class="mesh-container">
+        <div class="mesh-blob blob-1"></div>
+        <div class="mesh-blob blob-2"></div>
+        <div class="mesh-blob blob-3"></div>
+        <div class="relative z-10 text-center px-6">
+            <h2 class="font-serif text-5xl md:text-8xl mb-8">Atmosfera <br> <span class="italic font-light">Imersiva</span></h2>
+            <p class="text-white/40 max-w-xl mx-auto leading-relaxed">
+                Gradientes fluidos que eliminam a estática e criam uma experiência visual profunda e orgânica para marcas de alto valor.
+            </p>
+        </div>
+    </section>
+
+    <footer class="py-20 bg-black text-center border-t border-white/5">
+        <p class="text-white/20 text-[10px] uppercase tracking-widest font-bold">Elite Design System V2 • Powered by Antigravity</p>
+    </footer>
+
+    <script>
+        const cursor = document.getElementById('cursor');
+        const ring = document.getElementById('cursor-ring');
+        const revealLayer = document.getElementById('reveal-layer');
+        const spotlightSection = document.getElementById('spotlight-section');
+
+        // Global Mouse Move
+        window.addEventListener('mousemove', (e) => {
+            cursor.style.left = `${e.clientX}px`;
+            cursor.style.top = `${e.clientY}px`;
+            ring.style.left = `${e.clientX}px`;
+            ring.style.top = `${e.clientY}px`;
+
+            // Spotlight Local Logic
+            const rect = spotlightSection.getBoundingClientRect();
+            if (e.clientY >= rect.top && e.clientY <= rect.bottom) {
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                revealLayer.style.setProperty('--x', `${x}px`);
+                revealLayer.style.setProperty('--y', `${y}px`);
+            }
+        });
+
+        // Horizontal Scroll
+        const horizTrigger = document.getElementById('horizontal-trigger');
+        const horizTrack = document.getElementById('horizontal-track');
+        window.addEventListener('scroll', () => {
+            const rect = horizTrigger.getBoundingClientRect();
+            if (rect.top <= 0 && rect.bottom >= window.innerHeight) {
+                const progress = Math.abs(rect.top) / (rect.height - window.innerHeight);
+                const max = horizTrack.scrollWidth - window.innerWidth;
+                horizTrack.style.transform = `translateX(-${progress * max}px)`;
+            }
+        });
+
+        // Split Mood
+        const split = document.getElementById('split-section');
+        document.getElementById('side-science').addEventListener('mouseenter', () => split.classList.add('show-science'));
+        document.getElementById('side-science').addEventListener('mouseleave', () => split.classList.remove('show-science'));
+        document.getElementById('side-art').addEventListener('mouseenter', () => split.classList.add('show-art'));
+        document.getElementById('side-art').addEventListener('mouseleave', () => split.classList.remove('show-art'));
+
+        // Magnetic CTA
+        const magWrap = document.getElementById('magnetic-wrap');
+        const magBtn = document.getElementById('magnetic-btn');
+        magWrap.addEventListener('mousemove', (e) => {
+            const rect = magWrap.getBoundingClientRect();
+            const x = (e.clientX - rect.left - rect.width / 2) * 0.4;
+            const y = (e.clientY - rect.top - rect.height / 2) * 0.4;
+            magBtn.style.transform = `translate(${x}px, ${y}px)`;
+        });
+        magWrap.addEventListener('mouseleave', () => {
+            magBtn.style.transform = `translate(0, 0)`;
+        });
+    </script>
+</body>
+</html>

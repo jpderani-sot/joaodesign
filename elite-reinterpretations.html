@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elite Reinterpretations | Portfolio V3</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&family=Bodoni+Moda:ital,wght@0,900;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505;
+            --accent: #c4a67a;
+            --text: #ffffff;
+            --font-sans: 'Inter', sans-serif;
+            --font-serif: 'Bodoni Moda', serif;
+            --zoom: 0.9;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        html { 
+            background: var(--bg); 
+            color: var(--text);
+            zoom: var(--zoom);
+        }
+
+        body {
+            font-family: var(--font-sans);
+            padding: 10vh 5vw;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            margin-bottom: 10rem;
+        }
+        header h1 {
+            font-family: var(--font-serif);
+            font-size: 8rem;
+            font-weight: 900;
+            line-height: 0.9;
+            text-transform: uppercase;
+        }
+        header p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin-top: 2rem;
+            opacity: 0.5;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .project-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15rem;
+        }
+
+        .project-card {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            align-items: center;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .project-card:nth-child(even) {
+            direction: rtl;
+        }
+        .project-card:nth-child(even) .project-info {
+            direction: ltr;
+        }
+
+        .project-image {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: #111;
+            overflow: hidden;
+            border-radius: 4px;
+            position: relative;
+        }
+        .project-image img {
+            width: 100%; height: 100%; object-fit: cover;
+            opacity: 0.7;
+            transition: transform 1s, opacity 0.5s;
+        }
+        .project-card:hover img {
+            transform: scale(1.05);
+            opacity: 1;
+        }
+
+        .project-info h2 {
+            font-family: var(--font-serif);
+            font-size: 5rem;
+            margin-bottom: 2rem;
+        }
+        .project-info .tag {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            display: block;
+        }
+        .project-info p {
+            font-size: 1.1rem;
+            opacity: 0.6;
+            line-height: 1.8;
+            margin-bottom: 3rem;
+            max-width: 500px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 3rem;
+            border: 1px solid var(--text);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 0.7rem;
+            transition: all 0.3s;
+        }
+        .project-card:hover .btn {
+            background: var(--text);
+            color: var(--bg);
+        }
+
+        .study-section {
+            margin-top: 20rem;
+            padding-top: 10rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .study-section h2 {
+            font-family: var(--font-serif);
+            font-size: 4rem;
+            margin-bottom: 5rem;
+        }
+        .principles {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 4rem;
+        }
+        .principle-card h3 {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+        }
+        .principle-card p {
+            font-size: 1.1rem;
+            opacity: 0.6;
+            line-height: 1.6;
+        }
+
+        footer {
+            margin-top: 15rem;
+            text-align: center;
+            opacity: 0.2;
+            padding-bottom: 5rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Design<br>Elite V3</h1>
+            <p>Releituras de Projetos com Foco em Diagramação World Class, Tipografia Editorial e Movimento Fluido.</p>
+        </header>
+
+        <section class="project-list">
+            <!-- PROJECT 1 -->
+            <a href="viegas-elite-v3.html" class="project-card">
+                <div class="project-image">
+                    <img src="viegas_hero_editorial.png" alt="Viegas Elite">
+                </div>
+                <div class="project-info">
+                    <span class="tag">EDITORIAL / CLINIC</span>
+                    <h2>Viegas<br>Elite V3</h2>
+                    <p>Uma transformação total da identidade visual, utilizando grids assimétricos e tipografia Bodoni massiva para criar uma experiência de revista digital.</p>
+                    <div class="btn">Visualizar Projeto</div>
+                </div>
+            </a>
+
+            <!-- PROJECT 2 -->
+            <a href="nomade-elite-v2.html" class="project-card">
+                <div class="project-image">
+                    <img src="nomade_elite_atmospheric.png" alt="Nômade Elite">
+                </div>
+                <div class="project-info">
+                    <span class="tag">ATMOSPHERIC / DINING</span>
+                    <h2>Nômade<br>Elite V2</h2>
+                    <p>A "Biblioteca do Sabor" redesenhada com foco em atmosfera, scroll horizontal cinematográfico e um tema Dark Wood profundo.</p>
+                    <div class="btn">Visualizar Projeto</div>
+                </div>
+            </a>
+        </section>
+
+        <section class="study-section">
+            <h2>Os Novos Princípios</h2>
+            <div class="principles">
+                <div class="principle-card">
+                    <h3>01 / Tensão Visual</h3>
+                    <p>Elementos que quebram o grid padrão para guiar o olhar do usuário e criar interesse contínuo.</p>
+                </div>
+                <div class="principle-card">
+                    <h3>02 / Tipografia como Estrutura</h3>
+                    <p>A fonte deixa de ser apenas texto e passa a ser o esqueleto visual do site, ditando o ritmo.</p>
+                </div>
+                <div class="principle-card">
+                    <h3>03 / Movimento Coreografado</h3>
+                    <p>Uso de GSAP e Lenis para garantir que cada transição seja suave, intencional e premium.</p>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            DIAGRAMAÇÃO WORLD CLASS - 2026
+        </footer>
+    </div>
+
+</body>
+</html>

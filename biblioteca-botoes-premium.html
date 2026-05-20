@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteca de Botões Premium | Design System</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <!-- Scripts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+
+    <style>
+        :root {
+            --rose-gold: #c4a265;
+            --deep-black: #0d0d0c;
+            --off-white: #f8f8f8;
+        }
+
+        body {
+            background-color: var(--deep-black);
+            color: white;
+            font-family: 'Outfit', sans-serif;
+            padding: 4rem 2rem;
+        }
+
+        .font-serif { font-family: 'Playfair Display', serif; }
+
+        .btn-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 5rem;
+        }
+
+        .btn-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 3rem;
+            border-radius: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-card:hover {
+            border-color: rgba(196, 162, 101, 0.3);
+            background: rgba(255,255,255,0.04);
+        }
+
+        /* --- ESTILOS DE BOTÕES --- */
+
+        /* 1. LUXURY SOLID */
+        .btn-luxury-solid {
+            background: var(--rose-gold);
+            color: black;
+            padding: 14px 32px;
+            border-radius: 100px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 13px;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn-luxury-solid:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(196, 162, 101, 0.3);
+        }
+
+        /* 2. GLASSMORPHISM */
+        .btn-glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 14px 32px;
+            border-radius: 100px;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 13px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-glass:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: var(--rose-gold);
+        }
+
+        /* 3. BORDER DRAW (GHOST) */
+        .btn-border-draw {
+            background: transparent;
+            color: white;
+            padding: 14px 32px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 100px;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 13px;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .btn-border-draw::after {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border: 1px solid var(--rose-gold);
+            border-radius: 100px;
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+            transform: scale(1.1);
+        }
+
+        .btn-border-draw:hover::after {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* 4. UNDERLINE ANIMATION */
+        .btn-link-anim {
+            color: var(--rose-gold);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 12px;
+            position: relative;
+            padding-bottom: 8px;
+        }
+
+        .btn-link-anim::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: var(--rose-gold);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .btn-link-anim:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        /* 5. MAGNETIC BUTTON WRAP */
+        .mag-wrap {
+            padding: 30px;
+        }
+
+        /* 6. GLOW PULSE CTA */
+        .btn-glow {
+            background: #fff;
+            color: #000;
+            padding: 14px 32px;
+            border-radius: 100px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 13px;
+            animation: btn-glow-pulse 2s infinite;
+        }
+
+        @keyframes btn-glow-pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4); }
+            70% { box-shadow: 0 0 0 20px rgba(255, 255, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+        }
+
+        /* 7. WHATSAPP PREMIUM */
+        .btn-wpp {
+            background: #25d366;
+            color: white;
+            padding: 14px 32px;
+            border-radius: 100px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+
+        .btn-wpp:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3);
+        }
+
+        /* 8. INSTAGRAM GRADIENT */
+        .btn-insta {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            color: white;
+            padding: 14px 32px;
+            border-radius: 100px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+
+        .btn-insta:hover {
+            transform: translateY(-3px);
+            filter: brightness(1.1);
+        }
+
+        /* 9. MESH GRADIENT BUTTON */
+        .btn-mesh {
+            background: linear-gradient(45deg, #c4a265, #4a3b32, #c4a265);
+            background-size: 200% 200%;
+            animation: mesh-move 5s ease infinite;
+            color: white;
+            padding: 14px 32px;
+            border-radius: 100px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 13px;
+        }
+
+        @keyframes mesh-move {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* 10. VIDEO/MOTION BUTTON */
+        .btn-video-bg {
+            position: relative;
+            padding: 14px 32px;
+            border-radius: 100px;
+            color: white;
+            overflow: hidden;
+            background: #000;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 13px;
+        }
+
+        .btn-video-bg video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            min-width: 100%;
+            min-height: 100%;
+            opacity: 0.4;
+            pointer-events: none;
+        }
+
+        /* 11. YOUTUBE PREMIUM */
+        .btn-yt {
+            background: #ff0000;
+            color: white;
+            padding: 14px 32px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .btn-yt:hover { transform: scale(1.05); box-shadow: 0 10px 20px rgba(255, 0, 0, 0.3); }
+
+        /* 12. TIKTOK LUXURY */
+        .btn-tt {
+            background: #000;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 14px 32px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-tt::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, #00f2ea, #ff0050);
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 0;
+        }
+        .btn-tt:hover::before { opacity: 0.2; }
+        .btn-tt iconify-icon, .btn-tt span { position: relative; z-index: 1; }
+
+        /* 13. WPP WITH DETAIL */
+        .btn-wpp-detail {
+            background: #25d366;
+            color: white;
+            padding: 12px 28px;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        .btn-wpp-detail .main-text { font-weight: 700; font-size: 16px; }
+        .btn-wpp-detail .sub-text { font-size: 10px; opacity: 0.8; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* 14. FLOATING WPP */
+        .wpp-floating {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            width: 60px;
+            height: 60px;
+            background: #25d366;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 30px;
+            box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4);
+            z-index: 9999;
+            transition: transform 0.3s ease;
+        }
+        .wpp-floating:hover { transform: scale(1.1) rotate(10deg); }
+        .wpp-floating::before {
+            content: '';
+            position: absolute;
+            inset: -5px;
+            border: 2px solid #25d366;
+            border-radius: 50%;
+            animation: wpp-pulse 2s infinite;
+        }
+        @keyframes wpp-pulse {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <header class="max-w-[1200px] mx-auto mb-20 text-center">
+        <h1 class="text-4xl md:text-6xl font-bold mb-6 font-serif italic">Buttons <span class="text-rose-gold">Library</span></h1>
+        <p class="text-white/40 max-w-2xl mx-auto">Uma coleção de alta performance de botões e CTAs otimizados para conversão e luxo.</p>
+    </header>
+
+    <main class="max-w-[1200px] mx-auto">
+
+        <!-- SEÇÃO: CORE BUTTONS -->
+        <h2 class="text-xl font-bold uppercase tracking-[4px] text-rose-gold mb-10 border-b border-white/5 pb-4">Essential Styles</h2>
+        <div class="btn-grid">
+            
+            <!-- Luxury Solid -->
+            <div class="btn-card">
+                <button class="btn-luxury-solid">Agendar Agora</button>
+                <span class="text-[10px] uppercase opacity-40">Luxury Solid</span>
+            </div>
+
+            <!-- Glassmorphism -->
+            <div class="btn-card">
+                <button class="btn-glass">Ver Tratamentos</button>
+                <span class="text-[10px] uppercase opacity-40">Glassmorphism</span>
+            </div>
+
+            <!-- Border Draw -->
+            <div class="btn-card">
+                <button class="btn-border-draw">Explorar Clínica</button>
+                <span class="text-[10px] uppercase opacity-40">Border Reveal</span>
+            </div>
+
+            <!-- Link Animation -->
+            <div class="btn-card">
+                <button class="btn-link-anim">Saiba Mais sobre nós</button>
+                <span class="text-[10px] uppercase opacity-40">Underline Flow</span>
+            </div>
+
+            <!-- Glow Pulse -->
+            <div class="btn-card">
+                <button class="btn-glow">Conversar no WhatsApp</button>
+                <span class="text-[10px] uppercase opacity-40">High Conversion Glow</span>
+            </div>
+
+            <!-- Mesh Gradient -->
+            <div class="btn-card">
+                <button class="btn-mesh">Inicie sua Jornada</button>
+                <span class="text-[10px] uppercase opacity-40">Animated Mesh</span>
+            </div>
+
+        </div>
+
+        <!-- SEÇÃO: INTERACTIVE & SOCIAL -->
+        <h2 class="text-xl font-bold uppercase tracking-[4px] text-white/60 mb-10 border-b border-white/5 pb-4">Social & Interaction</h2>
+        <div class="btn-grid">
+            
+            <!-- WhatsApp Premium -->
+            <div class="btn-card">
+                <button class="btn-wpp">
+                    <iconify-icon icon="ph:whatsapp-logo-bold" class="text-2xl"></iconify-icon>
+                    Falar com Consultora
+                </button>
+                <span class="text-[10px] uppercase opacity-40">WhatsApp Premium</span>
+            </div>
+
+            <!-- Instagram Luxury -->
+            <div class="btn-card">
+                <button class="btn-insta">
+                    <iconify-icon icon="ph:instagram-logo-bold" class="text-2xl"></iconify-icon>
+                    Siga nosso Instagram
+                </button>
+                <span class="text-[10px] uppercase opacity-40">Insta Gradient</span>
+            </div>
+
+            <!-- Magnetic CTA -->
+            <div class="btn-card">
+                <div class="mag-wrap" onmousemove="magneticBtn(event, this)">
+                    <button class="btn-luxury-solid mag-target">Botão Magnético</button>
+                </div>
+                <span class="text-[10px] uppercase opacity-40">Magnetic Force</span>
+            </div>
+
+            <!-- Icon Leading -->
+            <div class="btn-card group">
+                <button class="btn-glass flex items-center gap-4">
+                    <iconify-icon icon="ph:star-bold" class="text-xl text-rose-gold animate-pulse"></iconify-icon>
+                    Avaliações Google
+                </button>
+                <span class="text-[10px] uppercase opacity-40">Icon Leading</span>
+            </div>
+
+            <!-- YouTube Premium -->
+            <div class="btn-card">
+                <button class="btn-yt">
+                    <iconify-icon icon="ph:youtube-logo-bold" class="text-2xl"></iconify-icon>
+                    Assistir Procedimento
+                </button>
+                <span class="text-[10px] uppercase opacity-40">YouTube Premium</span>
+            </div>
+
+            <!-- TikTok Luxury -->
+            <div class="btn-card">
+                <button class="btn-tt">
+                    <iconify-icon icon="ph:tiktok-logo-bold" class="text-2xl"></iconify-icon>
+                    <span>Tendências 2024</span>
+                </button>
+                <span class="text-[10px] uppercase opacity-40">TikTok Style</span>
+            </div>
+
+            <!-- WhatsApp Detail -->
+            <div class="btn-card">
+                <button class="btn-wpp-detail">
+                    <span class="main-text">Falar com Consultora</span>
+                    <span class="sub-text">Tempo médio: 5 min</span>
+                </button>
+                <span class="text-[10px] uppercase opacity-40">WPP with Info</span>
+            </div>
+
+            <!-- Video Background -->
+            <div class="btn-card">
+                <button class="btn-video-bg">
+                    <!-- Placeholder de vídeo simulado com fundo escuro e movimento -->
+                    <div class="absolute inset-0 bg-gradient-to-r from-rose-900/20 to-gold-900/20 animate-pulse"></div>
+                    <span class="relative z-10">Luxury Motion CTA</span>
+                </button>
+                <span class="text-[10px] uppercase opacity-40">Video Background</span>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- FLOATING WHATSAPP DEMO -->
+    <a href="#" class="wpp-floating">
+        <iconify-icon icon="ph:whatsapp-logo-bold"></iconify-icon>
+    </a>
+
+    <footer class="mt-32 pt-10 border-t border-white/5 text-center">
+        <p class="text-white/20 text-xs uppercase tracking-widest font-bold">Botões de Alta Performance • Design System V1.0</p>
+    </footer>
+
+    <script>
+        function magneticBtn(e, el) {
+            const target = el.querySelector('.mag-target');
+            const rect = el.getBoundingClientRect();
+            const x = (e.clientX - rect.left - rect.width / 2) * 0.4;
+            const y = (e.clientY - rect.top - rect.height / 2) * 0.4;
+            
+            target.style.transform = `translate(${x}px, ${y}px)`;
+        }
+
+        document.querySelectorAll('.mag-wrap').forEach(wrap => {
+            wrap.addEventListener('mouseleave', () => {
+                wrap.querySelector('.mag-target').style.transform = 'translate(0, 0)';
+            });
+        });
+    </script>
+</body>
+</html>

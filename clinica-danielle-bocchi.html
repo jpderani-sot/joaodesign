@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="pt-br" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dra. Danielle Bocchi | Estética Avançada e Lipo Shape</title>
+
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        montserrat: ['Montserrat', 'sans-serif'],
+                        outfit: ['Outfit', 'sans-serif'],
+                        sans: ['DM Sans', 'sans-serif'],
+                        serif: ['Cormorant Garamond', 'serif'],
+                    },
+                    colors: {
+                        bordo: '#4a3b32', // Adapting to a warm, earthy tone for Dani Bocchi
+                        'bordo-dark': '#1a1614',
+                        rose: '#c4a265', // Gold accent
+                        'off-white': '#FDF9F6',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Iconify Icons (CDN) -->
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js" defer></script>
+
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Outfit:wght@100..900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --bordo: #4a3b32;
+            --bordo-dark: #1a1614;
+            --rose: #c4a265;
+            --off-white: #FDF9F6;
+            --scroll-progress: 0;
+            --transition-premium: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        html {
+            font-size: 90%;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bordo-dark);
+            color: var(--off-white);
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        /* --- IMMERSIVE SHARED PHOTOGRAPHY --- */
+        .sticky-photo-container {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .main-photography {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: calc(100% + (30% * var(--scroll-progress)));
+            height: 100%;
+            object-fit: cover;
+            object-position: 50% 0%;
+            filter: saturate(calc(0.8 + (0.2 * var(--scroll-progress)))) brightness(calc(0.7 - (0.1 * var(--scroll-progress))));
+            transform: translateX(calc(10% * var(--scroll-progress)));
+            transform-origin: right center;
+            will-change: transform, filter, width;
+        }
+
+        @media(min-width: 1024px) {
+            .main-photography {
+                width: calc(70% + (30% * var(--scroll-progress)));
+            }
+        }
+
+        .photo-mask {
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            background:
+                linear-gradient(to right, rgba(26, 22, 20, 0.95) 0%, rgba(26, 22, 20, 0.7) 30%, transparent 60%),
+                linear-gradient(to bottom left, rgba(26, 22, 20, 0.8) 0%, transparent 50%);
+        }
+
+        /* --- GLASS CARDS --- */
+        .glass-card-v6 {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 1.5rem;
+            transition: var(--transition-premium);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4), inset 0 0 20px rgba(255, 255, 255, 0.02);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-card-v6:hover {
+            transform: translateY(-5px);
+            border-color: rgba(196, 162, 101, 0.4);
+            background: linear-gradient(135deg, rgba(74, 59, 50, 0.6) 0%, rgba(26, 22, 20, 0.8) 100%);
+        }
+
+        /* --- ESP CARDS --- */
+        .esp-card {
+            border-radius: 24px;
+            padding: 2.5rem;
+            position: relative;
+            background: rgba(255, 255, 255, 0.03) !important;
+            backdrop-filter: blur(12px) !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            overflow: visible;
+            cursor: pointer;
+        }
+
+        .esp-card:hover {
+            background: linear-gradient(135deg, rgba(74, 59, 50, 0.5) 0%, rgba(26, 22, 20, 0.6) 100%) !important;
+            border-color: rgba(196, 162, 101, 0.4) !important;
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.6), 0 0 40px -10px rgba(196, 162, 101, 0.2);
+        }
+
+        .esp-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(196, 162, 101, 0.1), transparent 40%);
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .esp-card:hover::before {
+            opacity: 1;
+        }
+
+        /* --- Revealers --- */
+        .content-reveal-v7 {
+            opacity: 0;
+            transform: translateY(40px);
+            filter: blur(10px);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .content-reveal-v7.reveal-active {
+            opacity: 1;
+            transform: translateY(0);
+            filter: none;
+        }
+
+        @keyframes fadeInUpBlur {
+            0% {
+                opacity: 0;
+                transform: translateY(40px);
+                filter: blur(15px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+                filter: blur(0);
+            }
+        }
+
+        .animate-hero {
+            animation: fadeInUpBlur 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        /* --- WHATSAPP FLOATING BUTTON --- */
+        .whatsapp-float {
+            position: fixed;
+            top: 36px;
+            right: 25px;
+            width: 54px;
+            height: 54px;
+            background: var(--rose);
+            color: #1a1614;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.6);
+            border: 2px solid #fff;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1) rotate(5deg);
+            background: #fff;
+            color: var(--rose);
+            box-shadow: 0 15px 35px rgba(196, 162, 101, 0.5);
+        }
+
+        .whatsapp-float::after {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            border: 2px solid var(--rose);
+            opacity: 0;
+            animation: whatsapp-pulse 2.5s infinite;
+        }
+
+        @keyframes whatsapp-pulse {
+            0% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        .filter-fix img {
+            backface-visibility: hidden;
+            transform: translateZ(0);
+        }
+        .section-bg {
+            background: radial-gradient(ellipse at top, #2e241f 0%, #1a1614 70%);
+        }
+
+        /* --- GALLERY RESULT CARDS --- */
+        .result-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 16px;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s, background 0.4s, box-shadow 0.4s;
+            width: 480px; 
+            cursor: grab;
+        }
+
+        .result-card:active {
+            cursor: grabbing;
+        }
+
+        .result-card:hover {
+            border-color: var(--rose);
+            transform: translateY(-10px);
+            background: rgba(196, 162, 101, 0.05);
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.6);
+        }
+
+        .result-split {
+            display: flex;
+            gap: 12px;
+            height: 360px; /* Increased height */
+            width: 100%;
+        }
+
+        .result-half {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            background: #000;
+        }
+
+        .result-half img {
+            width: 100%;
+            height: 200%; /* To allow cropping half */
+            object-fit: cover;
+            position: absolute;
+            left: 0;
+        }
+
+        .result-half--before img { top: 0; }
+        .result-half--after img { bottom: 0; }
+
+        .result-tag {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            color: white;
+            font-size: 8px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            z-index: 10;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .result-tag--after { color: var(--rose); }
+
+        /* --- PREMIUM BEFORE/AFTER SLIDER --- */
+        .ba-container {
+            --progress: 50;
+            position: relative;
+            width: min(900px, 100%);
+            aspect-ratio: 16/9;
+            margin: 0 auto;
+            overflow: hidden;
+            border-radius: 24px;
+            border: 1px solid rgba(196, 162, 101, 0.2);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            cursor: ew-resize;
+            touch-action: none;
+            user-select: none;
+            background: #1a1614;
+        }
+
+        .ba-layer {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            pointer-events: none;
+        }
+
+        .ba-layer--after {
+            clip-path: inset(0 0 0 calc(var(--progress) * 1%));
+        }
+
+        .ba-line {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: calc(var(--progress) * 1%);
+            width: 2px;
+            background: var(--rose);
+            transform: translateX(-50%);
+            pointer-events: none;
+            z-index: 30;
+            box-shadow: 0 0 20px rgba(196, 162, 101, 0.4);
+        }
+
+        .ba-handle {
+            position: absolute;
+            top: 50%;
+            left: calc(var(--progress) * 1%);
+            width: 50px;
+            height: 50px;
+            background: rgba(26, 22, 20, 0.6);
+            backdrop-filter: blur(10px);
+            border: 2px solid var(--rose);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 40;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--rose);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+        }
+
+        .ba-container:hover .ba-handle {
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .ba-label {
+            position: absolute;
+            bottom: 24px;
+            padding: 8px 16px;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            border-radius: 100px;
+            font-size: 10px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 35;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .ba-container:hover .ba-label {
+            opacity: 1;
+        }
+
+        .ba-label--before { left: 24px; }
+        .ba-label--after { right: 24px; color: var(--rose); }
+
+        .ba-counter {
+            position: absolute;
+            top: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: var(--ff-body);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: var(--rose);
+            background: rgba(26, 22, 20, 0.8);
+            backdrop-filter: blur(4px);
+            padding: 4px 12px;
+            border-radius: 4px;
+            border: 1px solid rgba(196, 162, 101, 0.2);
+            z-index: 35;
+            pointer-events: none;
+        }
+
+        /* --- ICON ANIMATIONS --- */
+        .ani-float { animation: float 3s ease-in-out infinite; }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+        .ani-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+        @keyframes pulse-glow { 
+            0%, 100% { filter: drop-shadow(0 0 2px var(--rose)); transform: scale(1.1); } 
+            50% { filter: drop-shadow(0 0 15px var(--rose)); transform: scale(1.2); } 
+        }
+
+        .ani-draw {
+            mask-image: linear-gradient(to right, black var(--p, 0%), transparent var(--p, 0%));
+            -webkit-mask-image: linear-gradient(to right, black var(--p, 0%), transparent var(--p, 0%));
+            animation: draw 2s ease-out forwards;
+        }
+        @keyframes draw { from { --p: 0%; } to { --p: 100%; } }
+        @property --p { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
+
+        /* --- CONTACT SECTION --- */
+        .contact-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 32px;
+            transition: var(--transition-premium);
+        }
+        .contact-card:hover {
+            border-color: var(--rose);
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-5px);
+        }
+
+        .social-btn {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: var(--transition-premium);
+            color: white;
+        }
+        .social-btn:hover {
+            border-color: var(--rose);
+            background: rgba(196, 162, 101, 0.1);
+            transform: translateY(-8px);
+        }
+    </style>
+</head>
+
+<body class="antialiased selection:bg-rose/30 min-h-[200vh] isolate">
+
+    <!-- BOTÃO WHATSAPP -->
+    <a href="https://wa.me/5541997581018" target="_blank" class="whatsapp-float">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+            style="width: 28px; height: 28px;">
+            <path
+                d="M11.996 23.951c-2.016 0-3.955-.526-5.694-1.517l-6.262 1.642 1.674-6.104C.683 16.273.129 14.194.129 11.996c0-6.562 5.344-11.895 11.867-11.895 3.193.003 6.185 1.251 8.435 3.511 2.25 2.259 3.493 5.253 3.493 8.436-.002 6.556-5.341 11.903-11.928 11.903zm-5.711-3.666l.363.215c1.605.95 3.465 1.452 5.341 1.452 5.467 0 9.923-4.444 9.925-9.914.001-2.651-1.029-5.143-2.903-7.018A9.873 9.873 0 0 0 11.994 2.1c-5.467 0-9.924 4.446-9.926 9.916 0 1.831.42 3.612 1.216 5.244l.2.404-.985 3.593 3.684-.972zm11.238-5.305c-.073-.122-.271-.194-.567-.341-.296-.147-1.752-.864-2.023-.963-.271-.098-.469-.148-.667.147-.197.295-.765.964-.938 1.16-.172.197-.345.221-.642.073-.296-.148-1.251-.46-2.384-1.468-.88-.783-1.474-1.751-1.647-2.047-.173-.296-.018-.456.129-.603.133-.133.296-.345.445-.518.148-.172.197-.295.296-.492.099-.197.049-.37-.024-.518-.074-.148-.667-1.604-.913-2.196-.241-.577-.485-.499-.667-.508l-.568-.009c-.197 0-.518.073-.79.369s-1.036 1.011-1.036 2.467 1.061 2.862 1.209 3.059c.148.197 2.086 3.186 5.053 4.466.707.305 1.26.487 1.688.623.709.225 1.354.193 1.865.117.568-.085 1.752-.716 1.998-1.407.247-.691.247-1.284.173-1.407z" />
+        </svg>
+    </a>
+
+    <!-- SHARED PHOTOGRAPHY -->
+    <div class="sticky-photo-container">
+        <div class="photo-mask"></div>
+        <img src="fotofundo2.png" alt="Dra. Danielle Bocchi" class="main-photography">
+    </div>
+
+    <!-- NAVBAR -->
+    <nav
+        class="fixed top-0 left-0 w-full z-[200] px-6 lg:px-16 py-4 flex justify-between items-center lg:gap-24 bg-transparent backdrop-blur-sm border-b border-white/5">
+        <div class="flex items-center">
+            <img src="logobranca.svg" alt="Dra. Danielle Bocchi" class="h-8 lg:h-10 w-auto">
+        </div>
+        <div class="hidden lg:flex gap-12 items-center">
+            <a href="#home"
+                class="text-white/80 hover:text-white text-xs uppercase tracking-[4px] transition-colors">Início</a>
+            <a href="#especialista"
+                class="text-white/80 hover:text-white text-xs uppercase tracking-[4px] transition-colors">A
+                Especialista</a>
+            <a href="#procedimentos"
+                class="text-white/80 hover:text-white text-xs uppercase tracking-[4px] transition-colors">Procedimentos</a>
+            <a href="#resultados"
+                class="text-white/80 hover:text-white text-xs uppercase tracking-[4px] transition-colors">Resultados</a>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section id="home" class="relative z-10 min-h-screen flex flex-col justify-center px-6 lg:px-16 pt-24 pb-12"
+        id="hero-layer">
+        <div class="w-full max-w-[1400px]">
+            <div class="mb-6 animate-hero max-w-xl lg:max-w-3xl" style="animation-delay: 0.1s;">
+                <h1
+                    class="font-serif font-light text-white text-5xl lg:text-8xl mb-4 leading-[1.1] tracking-tight drop-shadow-2xl">
+                    Danielle Bocchi<br />
+                    <span
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-rose via-[#e8cfa1] to-rose italic">Harmonização
+                        Corporal e Facial</span>
+                </h1>
+                <p
+                    class="text-base lg:text-xl font-light tracking-[4px] lg:tracking-[6px] uppercase text-white/70 mb-8 drop-shadow-md">
+                    Especialista em lipo shape e harmonização
+                </p>
+                <button onclick="window.open('https://wa.me/5541997581018', '_blank')"
+                    class="bg-rose text-bordo-dark font-bold uppercase tracking-widest text-xs px-8 py-4 rounded-full hover:bg-white transition-all shadow-[0_0_30px_rgba(196,162,101,0.4)]">
+                    Agendar Avaliação
+                </button>
+            </div>
+
+            <div class="relative z-10 mt-12 grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 animate-hero"
+                style="animation-delay: 0.6s;">
+                <div class="glass-card-v6 flex flex-col gap-2">
+                    <iconify-icon icon="solar:star-rings-bold-duotone" class="text-rose text-3xl mb-2"></iconify-icon>
+                    <span class="text-base font-black uppercase tracking-widest text-white">Lipo Shape</span>
+                    <p class="text-xs text-white/50 uppercase tracking-widest leading-relaxed">Glúteos Firmes e
+                        Volumosos</p>
+                </div>
+                <div class="glass-card-v6 flex flex-col gap-2">
+                    <iconify-icon icon="solar:face-scan-circle-bold-duotone"
+                        class="text-rose text-3xl mb-2"></iconify-icon>
+                    <span class="text-base font-black uppercase tracking-widest text-white">Harmonização</span>
+                    <p class="text-xs text-white/50 uppercase tracking-widest leading-relaxed">Proporções Faciais Áureas
+                    </p>
+                </div>
+                <div class="glass-card-v6 flex flex-col gap-2">
+                    <iconify-icon icon="solar:syringe-bold-duotone" class="text-rose text-3xl mb-2"></iconify-icon>
+                    <span class="text-base font-black uppercase tracking-widest text-white">Botox Premium</span>
+                    <p class="text-xs text-white/50 uppercase tracking-widest leading-relaxed">Prevenção e Suavidade</p>
+                </div>
+                <div class="glass-card-v6 flex flex-col gap-2">
+                    <iconify-icon icon="solar:magic-stick-3-bold-duotone"
+                        class="text-rose text-3xl mb-2"></iconify-icon>
+                    <span class="text-base font-black uppercase tracking-widest text-white">Bioestimuladores</span>
+                    <p class="text-xs text-white/50 uppercase tracking-widest leading-relaxed">Renovação do Colágeno</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- A ESPECIALISTA -->
+    <section id="especialista" class="px-6 lg:px-16 py-24 relative z-20 w-full section-bg">
+        <div class="max-w-[1400px] mx-auto text-center lg:text-left mb-16 content-reveal-v7">
+            <span class="text-rose font-black text-xs uppercase tracking-[4px] mb-4 block">Direção Clínica</span>
+            <h2 class="font-serif font-light text-white leading-tight uppercase mb-6 text-4xl lg:text-5xl">
+                Dra. Danielle Bocchi
+            </h2>
+        </div>
+
+        <div class="flex flex-col lg:flex-row gap-16 max-w-[1400px] mx-auto content-reveal-v7">
+            <div class="lg:w-1/3 shrink-0 relative rounded-3xl overflow-hidden border border-white/10 shadow-2xl">
+                <div class="absolute inset-0 bg-gradient-to-t from-bordo-dark via-transparent to-transparent z-10">
+                </div>
+                <img src="bocchii.webp" alt="Dra. Danielle Bocchi"
+                    class="w-full h-[600px] object-cover filter contrast-125 saturate-110">
+                <div class="absolute bottom-8 left-8 z-20">
+                    <h3 class="font-outfit font-bold text-3xl text-white mb-2">Danielle Bocchi</h3>
+                    <p class="text-rose uppercase tracking-[3px] text-xs font-bold">Expertise em Lipo Shape</p>
+                </div>
+            </div>
+            <div class="lg:w-2/3 flex flex-col justify-center">
+                <p class="text-white/80 text-xl lg:text-2xl font-light leading-relaxed mb-10">
+                    Com foco total em <strong class="text-white font-semibold">harmonização corporal e facial</strong>,
+                    a Dra. Danielle já realizou <strong class="text-rose font-semibold">mais de 8.000
+                        transformações</strong>. Sua abordagem clínica é fundamentada em proporcionar curvas seguras,
+                    promovendo <strong class="text-white font-semibold">glúteos firmes, volumosos e naturais</strong>,
+                    além de esculpir traços faciais mantendo a identidade única de cada paciente.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-black/20 rounded-2xl p-6 border border-white/5">
+                        <iconify-icon icon="solar:shield-check-bold-duotone"
+                            class="text-rose text-4xl mb-4"></iconify-icon>
+                        <h4 class="font-bold text-white uppercase tracking-widest text-sm mb-2">Curvas com Segurança
+                        </h4>
+                        <p class="text-white/60 text-sm leading-relaxed">Protocolos estruturados para resultados
+                            eficazes sem abrir mão da saúde e segurança anatômica.</p>
+                    </div>
+                    <div class="bg-black/20 rounded-2xl p-6 border border-white/5">
+                        <iconify-icon icon="solar:users-group-two-rounded-bold-duotone"
+                            class="text-rose text-4xl mb-4"></iconify-icon>
+                        <h4 class="font-bold text-white uppercase tracking-widest text-sm mb-2">8.000+ Pacientes</h4>
+                        <p class="text-white/60 text-sm leading-relaxed">Ampla experiência prática que garante precisão
+                            na aplicação e previsibilidade absoluta de resultados.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROCEDIMENTOS (CARDS DESLIZANTES) -->
+    <section id="procedimentos"
+        class="px-6 lg:px-16 py-24 relative z-20 w-full overflow-hidden bg-bordo-dark border-y border-white/5">
+        <div class="max-w-[1400px] mx-auto text-center lg:text-left mb-16 content-reveal-v7">
+            <h2 class="font-serif font-light text-white leading-tight uppercase mb-6 text-4xl lg:text-5xl">
+                Nossos Procedimentos
+            </h2>
+            <div class="flex items-center gap-2 lg:justify-start justify-center opacity-80 mt-4">
+                <span class="text-white/50 text-[10px] tracking-widest uppercase font-bold">Deslize para explorar</span>
+                <iconify-icon icon="solar:arrow-right-line-duotone"
+                    class="text-rose text-lg animate-pulse"></iconify-icon>
+            </div>
+        </div>
+
+        <!-- Swiper Container for Cards -->
+        <div class="swiper procsSwiper w-full max-w-[1500px] mx-auto py-12 px-4 content-reveal-v7">
+            <div class="swiper-wrapper">
+
+                <!-- Lipo Shape -->
+                <div class="swiper-slide esp-card w-[85vw] md:w-[45vw] lg:w-[400px]">
+                    <div class="text-rose font-black text-xs uppercase tracking-[4px] mb-8">Harmonização Corporal</div>
+                    <h3 class="font-serif font-bold text-2xl text-white uppercase mb-4 leading-tight">Lipo Shape</h3>
+                    <p class="text-white/70 text-sm font-light leading-relaxed mb-6">
+                        Protocolo exclusivo focado na volumização e contorno dos glúteos. Utiliza bioestimuladores e
+                        preenchedores de alta performance para promover firmeza extrema e resultados visualmente
+                        naturais e harmoniosos.
+                    </p>
+                    <div class="w-full h-48 rounded-xl overflow-hidden filter-fix">
+                        <img src="liposhape.avif"
+                            alt="Lipo Shape" class="w-full h-full object-cover">
+                    </div>
+                </div>
+
+                <!-- Harmonização Facial -->
+                <div class="swiper-slide esp-card w-[85vw] md:w-[45vw] lg:w-[400px]">
+                    <div class="text-rose font-black text-xs uppercase tracking-[4px] mb-8">Estruturação Facial</div>
+                    <h3 class="font-serif font-bold text-2xl text-white uppercase mb-4 leading-tight">Harmonização 3D
+                    </h3>
+                    <p class="text-white/70 text-sm font-light leading-relaxed mb-6">
+                        Análise geométrica do rosto para aplicação estratégica de ácido hialurônico. Realçamos o
+                        contorno mandibular, maçãs do rosto e lábios, promovendo um efeito lifting imediato e sutil.
+                    </p>
+                    <div class="w-full h-48 rounded-xl overflow-hidden filter-fix">
+                        <img src="https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?auto=format&fit=crop&w=800&q=80"
+                            alt="Harmonização Facial" class="w-full h-full object-cover">
+                    </div>
+                </div>
+
+                <!-- Toxina Botulínica -->
+                <div class="swiper-slide esp-card w-[85vw] md:w-[45vw] lg:w-[400px]">
+                    <div class="text-rose font-black text-xs uppercase tracking-[4px] mb-8">Rejuvenescimento</div>
+                    <h3 class="font-serif font-bold text-2xl text-white uppercase mb-4 leading-tight">Toxina Botulínica
+                    </h3>
+                    <p class="text-white/70 text-sm font-light leading-relaxed mb-6">
+                        Aplicação precisa para relaxamento muscular, atenuando linhas de expressão na testa, glabela e
+                        ao redor dos olhos, mantendo a expressividade e vitalidade do rosto intactas.
+                    </p>
+                    <div class="w-full h-48 rounded-xl overflow-hidden filter-fix">
+                        <img src="./botox.jpg"
+                            alt="Toxina Botulínica" class="w-full h-full object-cover">
+                    </div>
+                </div>
+
+                <!-- Bioestimuladores -->
+                <div class="swiper-slide esp-card w-[85vw] md:w-[45vw] lg:w-[400px]">
+                    <div class="text-rose font-black text-xs uppercase tracking-[4px] mb-8">Qualidade Dérmica</div>
+                    <h3 class="font-serif font-bold text-2xl text-white uppercase mb-4 leading-tight">Bioestimuladores
+                    </h3>
+                    <p class="text-white/70 text-sm font-light leading-relaxed mb-6">
+                        Tratamentos com Radiesse e Sculptra para combater a flacidez facial e corporal de dentro para
+                        fora, estimulando a produção natural de colágeno para uma pele visivelmente mais firme.
+                    </p>
+                    <div class="w-full h-48 rounded-xl overflow-hidden filter-fix">
+                        <img src="./bioestimulador.webp"
+                            alt="Bioestimuladores" class="w-full h-full object-cover">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- A CLÍNICA / AMBIENTE -->
+    <section id="clinica" class="relative z-20 py-24 bg-[#0d0d0c] overflow-hidden">
+        <div class="max-w-[1400px] mx-auto px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-16">
+                <div class="reveal">
+                    <span class="text-rose font-black text-xs uppercase tracking-[4px] mb-4 block">Ambiente Exclusivo</span>
+                    <h2 class="font-serif font-light text-white leading-tight uppercase mb-6 text-4xl lg:text-5xl">
+                        Clínica
+                    </h2>
+                    <p class="text-white/70 text-lg font-light leading-relaxed max-w-5xl">
+                        Nossa estrutura foi cuidadosamente projetada para oferecer não apenas tratamentos de ponta, mas uma experiência sensorial completa. Da recepção acolhedora às salas de procedimento equipadas com a mais alta tecnologia, cada detalhe reflete o padrão de excelência da Dra. Danielle Bocchi.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Carousel Swiper -->
+            <div class="swiper clinicaSwiper w-full max-w-5xl mx-auto h-[350px] lg:h-[500px] rounded-[40px] overflow-hidden reveal" style="transition-delay: 0.4s;">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <img src="unnamed1.webp" alt="Clínica" class="w-full h-full object-cover">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="unnamed2.webp" alt="Recepção" class="w-full h-full object-cover">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="unnamed3.webp" alt="Sala de Procedimento" class="w-full h-full object-cover">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="unnamed4.webp" alt="Ambiente" class="w-full h-full object-cover">
+                    </div>
+                </div>
+                <!-- Pagination -->
+                <div class="swiper-pagination !bottom-10"></div>
+                <!-- Navigation -->
+                <div class="swiper-button-next !text-white !right-10 after:!text-2xl"></div>
+                <div class="swiper-button-prev !text-white !left-10 after:!text-2xl"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GALERIA DE RESULTADOS (CARROSSEL) -->
+    <section id="galeria-resultados" class="px-6 lg:px-16 py-32 relative z-20 w-full bg-bordo-dark/30">
+        <div class="max-w-[1400px] mx-auto text-center">
+            <div class="reveal mb-20">
+                <span class="text-rose font-black text-xs uppercase tracking-[4px] mb-4 block">Transformações Reais</span>
+                <h2 class="font-serif font-light text-white leading-tight uppercase mb-8 text-5xl lg:text-7xl">
+                    Galeria de <span class="italic text-rose">Resultados</span>
+                </h2>
+                <p class="text-white/70 text-lg font-light leading-relaxed max-w-5xl mx-auto">
+                    Nossa abordagem foca na naturalidade e no refinamento. Explore alguns de nossos casos de sucesso e veja como a harmonia corporal e facial pode ser elevada com precisão e arte.
+                </p>
+            </div>
+
+            <!-- Swiper Carousel Galeria (Resultados Divididos) -->
+            <div class="swiper galeriaSwiper w-full max-w-[1400px] mx-auto py-10 px-4 reveal" style="transition-delay: 0.4s;">
+                <div class="swiper-wrapper">
+                    
+                    <!-- Card 1 -->
+                    <div class="swiper-slide result-card">
+                        <div class="result-split">
+                            <div class="result-half result-half--before">
+                                <span class="result-tag">Antes</span>
+                                <img src="resultado1dani.png" alt="Antes">
+                            </div>
+                            <div class="result-half result-half--after">
+                                <span class="result-tag result-tag--after">Depois</span>
+                                <img src="resultado1dani.png" alt="Depois">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="swiper-slide result-card">
+                        <div class="result-split">
+                            <div class="result-half result-half--before">
+                                <span class="result-tag">Antes</span>
+                                <img src="resultado2dani.png" alt="Antes">
+                            </div>
+                            <div class="result-half result-half--after">
+                                <span class="result-tag result-tag--after">Depois</span>
+                                <img src="resultado2dani.png" alt="Depois">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="swiper-slide result-card">
+                        <div class="result-split">
+                            <div class="result-half result-half--before">
+                                <span class="result-tag">Antes</span>
+                                <img src="resultadodani3.png" alt="Antes">
+                            </div>
+                            <div class="result-half result-half--after">
+                                <span class="result-tag result-tag--after">Depois</span>
+                                <img src="resultadodani3.png" alt="Depois">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Clones para Loop Fluído -->
+                    <div class="swiper-slide result-card">
+                        <div class="result-split">
+                            <div class="result-half result-half--before">
+                                <span class="result-tag">Antes</span>
+                                <img src="resultado1dani.png" alt="Antes">
+                            </div>
+                            <div class="result-half result-half--after">
+                                <span class="result-tag result-tag--after">Depois</span>
+                                <img src="resultado1dani.png" alt="Depois">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide result-card">
+                        <div class="result-split">
+                            <div class="result-half result-half--before">
+                                <span class="result-tag">Antes</span>
+                                <img src="resultado2dani.png" alt="Antes">
+                            </div>
+                            <div class="result-half result-half--after">
+                                <span class="result-tag result-tag--after">Depois</span>
+                                <img src="resultado2dani.png" alt="Depois">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide result-card">
+                        <div class="result-split">
+                            <div class="result-half result-half--before">
+                                <span class="result-tag">Antes</span>
+                                <img src="resultadodani3.png" alt="Antes">
+                            </div>
+                            <div class="result-half result-half--after">
+                                <span class="result-tag result-tag--after">Depois</span>
+                                <img src="resultadodani3.png" alt="Depois">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- Pagination -->
+                <div class="swiper-pagination !-bottom-2"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- RESULTADOS SLIDER INTERATIVO PREMIUM -->
+    <section id="resultados" class="px-6 lg:px-16 py-24 relative z-20 w-full section-bg">
+        <div class="max-w-[1400px] mx-auto text-center content-reveal-v7">
+            <span class="text-rose font-black text-xs uppercase tracking-[4px] mb-4 block">Transformações Reais</span>
+            <h2 class="font-serif font-light text-white leading-tight uppercase mb-6 text-4xl lg:text-5xl">
+                O Impacto da Naturalidade
+            </h2>
+            <p class="text-white/70 text-lg font-light max-w-2xl mx-auto mb-16">
+                Explore os resultados da Dra. Danielle Bocchi através deste comparativo interativo de alta precisão.
+            </p>
+
+            <div class="ba-container" id="premium-slider">
+                <img src="fotoantes1.jpg" class="ba-layer ba-layer--before" alt="Antes">
+                <img src="fotodepois1.jpg" class="ba-layer ba-layer--after" alt="Depois">
+                
+                <div class="ba-line"></div>
+                <div class="ba-handle">
+                    <iconify-icon icon="solar:round-transfer-horizontal-bold-duotone" class="text-2xl"></iconify-icon>
+                </div>
+                
+                <div class="ba-counter">50%</div>
+                <div class="ba-label ba-label--before">Antes</div>
+                <div class="ba-label ba-label--after">Depois</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER MASSIVO -->
+
+    <!-- SEÇÃO CONTATO (ESTILO MONTANARI COMPACTO) -->
+    <section id="contato" class="relative z-20 py-20 bg-[#0d0d0c] overflow-hidden">
+        <div class="max-w-[1400px] mx-auto px-6 lg:px-16">
+            <div class="flex flex-col md:flex-row items-center gap-8 mb-12 reveal">
+                <h2 class="font-serif font-black text-rose text-5xl lg:text-7xl uppercase tracking-widest">
+                    Contato
+                </h2>
+                <div class="h-10 lg:h-14 w-px bg-white/20 hidden md:block"></div>
+                <img src="danielleboch/logobranca.svg" alt="Clínica Danielle Bocchi" class="h-12 lg:h-16 w-auto">
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+                
+                <!-- MAPA MASSIVO COMPACTO -->
+                <div class="reveal rounded-[40px] overflow-hidden border border-white/10 h-[400px] lg:h-[480px] relative group shadow-2xl">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3603.490059345716!2d-49.27096642398553!3d-25.42185207756627!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94dce411309325bd%3A0xc6c4f03c53051bc7!2sAv.%20C%C3%A2ndido%20de%20Abreu%2C%20140%20-%20Centro%20C%C3%ADvico%2C%20Curitiba%20-%20PR%2C%2080530-000!5e0!3m2!1sen!2sbr!4v1713000000000!5m2!1sen!2sbr"
+                        width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade" class="w-full h-full object-cover"></iframe>
+                    
+                    <div class="absolute inset-0 pointer-events-none border-[20px] border-[#0d0d0c] rounded-[40px]"></div>
+                </div>
+
+                <!-- INFO & ICONS -->
+                <div class="flex flex-col gap-10 pt-0">
+                    
+                    <!-- Social Icons Row -->
+                    <div class="flex flex-wrap gap-4 reveal">
+                        <a href="https://wa.me/5541997581018" target="_blank" class="social-btn group">
+                            <iconify-icon icon="ph:whatsapp-logo-bold" class="text-3xl group-hover:text-[#25d366] ani-pulse-glow"></iconify-icon>
+                        </a>
+                        <a href="tel:+5541997581018" class="social-btn group">
+                            <iconify-icon icon="ph:phone-bold" class="text-3xl group-hover:text-white ani-pulse-glow"></iconify-icon>
+                        </a>
+                        <a href="https://www.instagram.com/esteticadanibocchi" target="_blank" class="social-btn group">
+                            <iconify-icon icon="ph:instagram-logo-bold" class="text-3xl group-hover:text-[#e1306c] ani-float"></iconify-icon>
+                        </a>
+                        <a href="https://www.tiktok.com/@esteticadanibocchi" target="_blank" class="social-btn group">
+                            <iconify-icon icon="ph:tiktok-logo-bold" class="text-3xl group-hover:text-white hover:scale-110 transition-transform"></iconify-icon>
+                        </a>
+                        <a href="mailto:contato@daniellebocchi.com.br" class="social-btn group">
+                            <iconify-icon icon="ph:envelope-bold" class="text-3xl group-hover:text-white ani-draw"></iconify-icon>
+                        </a>
+                    </div>
+
+                    <!-- Info Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-6">
+                        
+                        <!-- Endereço -->
+                        <div class="contact-card reveal">
+                            <span class="text-rose font-black text-[10px] uppercase tracking-[4px] mb-4 block">Onde Estamos</span>
+                            <h4 class="text-white font-serif text-3xl mb-4">Endereço</h4>
+                            <p class="text-white/60 font-light text-lg leading-relaxed">
+                                Av. Cândido de Abreu, 140 • Sala 706<br>
+                                Centro Cívico, Curitiba - PR<br>
+                                CEP: 80530-000
+                            </p>
+                        </div>
+
+                        <!-- Horários -->
+                        <div class="contact-card reveal" style="transition-delay: 0.2s;">
+                            <span class="text-rose font-black text-[10px] uppercase tracking-[4px] mb-4 block">Atendimento</span>
+                            <h4 class="text-white font-serif text-3xl mb-4">Horários</h4>
+                            <ul class="text-white/60 font-light text-lg space-y-4">
+                                <li class="flex justify-between border-b border-white/5 pb-2">
+                                    <span>Segunda a Sexta</span>
+                                    <span class="text-white font-bold">09:00 — 19:00</span>
+                                </li>
+                                <li class="flex justify-between">
+                                    <span>Sábados</span>
+                                    <span class="text-white font-bold">09:00 — 13:00</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER MINIMALISTA -->
+    <footer class="bg-[#0d0d0c] pt-24 pb-12 border-t border-white/5 relative z-20">
+        <div class="max-w-[1400px] mx-auto px-6 lg:px-16 flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="text-white font-outfit font-bold text-2xl tracking-widest uppercase">
+                Danielle<br>Bocchi<span class="text-rose">.</span>
+            </div>
+            
+            <div class="flex flex-col items-center md:items-end gap-4 text-center md:text-right">
+                <span class="text-white/40 text-[10px] uppercase tracking-widest font-bold">© 2026 Clínica Danielle Bocchi</span>
+                <span class="text-white/40 text-[10px] uppercase tracking-widest font-bold flex items-center gap-2">
+                    Design de Alta Performance <iconify-icon icon="solar:crown-bold-duotone" class="text-rose"></iconify-icon>
+                </span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        // Efeito Parallax Background Photography
+        window.addEventListener('scroll', () => {
+            const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollProgress = window.scrollY / maxScroll;
+            document.documentElement.style.setProperty('--scroll-progress', scrollProgress);
+
+            // Hero layer translateY para efeito parallax adicional
+            const hero = document.getElementById('hero-layer');
+            if (window.scrollY < window.innerHeight) {
+                hero.style.transform = `translateY(${window.scrollY * 0.3}px)`;
+            }
+        });
+
+        // Swiper Especialidades (Cards Deslizantes)
+        new Swiper(".procsSwiper", {
+            slidesPerView: "auto",
+            spaceBetween: 24,
+            grabCursor: true,
+            freeMode: true,
+            breakpoints: {
+                320: { spaceBetween: 16 },
+                1024: { spaceBetween: 32 }
+            }
+        });
+
+        // Swiper Clínica (Carousel)
+        new Swiper('.clinicaSwiper', {
+            loop: true,
+            speed: 1000,
+            autoplay: { delay: 4000, disableOnInteraction: false },
+            pagination: { el: '.swiper-pagination', clickable: true },
+            navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+            effect: 'fade',
+            fadeEffect: { crossFade: true },
+        });
+
+        // Swiper Galeria (Resultados Divididos)
+        new Swiper('.galeriaSwiper', {
+            slidesPerView: "auto",
+            spaceBetween: 50,
+            centeredSlides: true,
+            initialSlide: 0,
+            loop: true,
+            loopedSlides: 6,
+            speed: 1200, 
+            autoplay: { 
+                delay: 3000, 
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true 
+            },
+            pagination: { el: '.swiper-pagination', clickable: true },
+            watchSlidesProgress: true,
+            grabCursor: true,
+            touchEventsTarget: 'container',
+            breakpoints: {
+                320: { spaceBetween: 20 },
+                1024: { spaceBetween: 50 }
+            }
+        });
+
+        // Premium Before/After Slider Logic
+        const premiumSlider = document.getElementById('premium-slider');
+        if (premiumSlider) {
+            const handle = premiumSlider.querySelector('.ba-handle');
+            const counter = premiumSlider.querySelector('.ba-counter');
+            let isDragging = false;
+
+            const setProgress = (x) => {
+                const rect = premiumSlider.getBoundingClientRect();
+                let percentage = ((x - rect.left) / rect.width) * 100;
+                percentage = Math.max(0, Math.min(100, percentage));
+                premiumSlider.style.setProperty('--progress', percentage);
+                counter.innerText = Math.round(percentage) + '%';
+            };
+
+            premiumSlider.addEventListener('pointerdown', (e) => {
+                isDragging = true;
+                premiumSlider.setPointerCapture(e.pointerId);
+                setProgress(e.clientX);
+            });
+
+            window.addEventListener('pointermove', (e) => {
+                if (isDragging) setProgress(e.clientX);
+            });
+
+            window.addEventListener('pointerup', () => {
+                isDragging = false;
+            });
+
+            // Auto-demo animation on scroll
+            const runDemo = async () => {
+                const tween = (from, to, duration) => {
+                    const start = performance.now();
+                    return new Promise(resolve => {
+                        requestAnimationFrame(function step(now) {
+                            const progress = Math.min(1, (now - start) / duration);
+                            const current = from + (to - from) * (0.5 - Math.cos(progress * Math.PI) / 2);
+                            premiumSlider.style.setProperty('--progress', current);
+                            counter.innerText = Math.round(current) + '%';
+                            if (progress < 1) requestAnimationFrame(step);
+                            else resolve();
+                        });
+                    });
+                };
+
+                await tween(50, 30, 800);
+                await tween(30, 70, 1000);
+                await tween(70, 50, 800);
+            };
+
+            const demoObserver = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting) {
+                    setTimeout(runDemo, 500);
+                    demoObserver.disconnect();
+                }
+            }, { threshold: 0.5 });
+            demoObserver.observe(premiumSlider);
+        }
+
+        // Intersection Observer Reveal (Content Animations)
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('reveal-active');
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+        document.querySelectorAll('.content-reveal-v7').forEach(el => observer.observe(el));
+
+        // Mouse Tracking para Brilho Dinâmico nos Cards
+        document.querySelectorAll('.esp-card').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+    </script>
+</body>
+
+</html>

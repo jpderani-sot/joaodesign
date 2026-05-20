@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VERTEX | High-Fidelity Audio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* ==========================================================================
+           VERTEX AUDIO - HIGH PERFORMANCE CINEMATIC EDITION
+           Zero Lag. 100% Hardware Accelerated (GPU) Animations.
+           ========================================================================== */
+        
+        :root {
+            --bg-dark: #070709;
+            --text-light: #f4f4f5;
+            --accent: #ff4500; /* Vibrant Deep Orange */
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            font-family: 'Outfit', sans-serif;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; text-transform: uppercase; }
+        .huge-text { font-size: clamp(4rem, 12vw, 15rem); line-height: 0.85; letter-spacing: -0.04em; }
+        .large-text { font-size: clamp(2rem, 6vw, 6rem); line-height: 1; letter-spacing: -0.02em; }
+        .subtitle { font-size: 0.9rem; letter-spacing: 0.3em; text-transform: uppercase; color: #888; margin-bottom: 1rem; display: block; }
+        .body-text { font-size: 1.2rem; line-height: 1.6; color: #aaa; max-width: 500px; }
+
+        nav {
+            position: fixed; top: 0; left: 0; width: 100%; padding: 2rem 4vw;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 100; mix-blend-mode: difference;
+        }
+        .logo { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.5rem; letter-spacing: 0.2em; }
+        
+        /* Utility */
+        .reveal-up { opacity: 0; transform: translateY(50px); transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-up.in-view { opacity: 1; transform: translateY(0); }
+
+        /* ==========================================================================
+           1. HERO (Cinematic Scale)
+           ========================================================================== */
+        .hero { position: relative; height: 150vh; }
+        .hero-sticky { position: sticky; top: 0; height: 100vh; overflow: hidden; display: flex; flex-direction: column; justify-content: center; padding: 4vw; }
+        
+        .hero-img-container {
+            position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1;
+            /* Using a high contrast sleek headphones image */
+            background: url('https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?auto=format&fit=crop&w=2500&q=80') center/cover;
+            will-change: transform, opacity;
+        }
+        .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to top, var(--bg-dark) 0%, rgba(7,7,9,0.3) 100%); z-index: 2; }
+        
+        .hero-content { position: relative; z-index: 3; text-align: center; }
+
+        /* ==========================================================================
+           2. THE STACKING CARDS (Pure CSS Performance)
+           ========================================================================== */
+        .stack-section { position: relative; padding-top: 10vh; background: var(--bg-dark); z-index: 10; }
+        
+        .card {
+            position: sticky; top: 0; height: 100vh; width: 100vw;
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden; box-shadow: 0 -20px 50px rgba(0,0,0,0.8);
+        }
+
+        .card-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; opacity: 0.6; }
+        .card-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.5); z-index: 2; }
+        .card-content { position: relative; z-index: 3; text-align: center; max-width: 800px; padding: 0 4vw; }
+
+        /* Different backgrounds for the stack */
+        .card-1 { background: #111; }
+        .card-1 .card-bg { background: url('https://images.unsplash.com/photo-1546435770-a3e426fa99f5?auto=format&fit=crop&w=2000&q=80') center/cover; }
+        
+        .card-2 { background: #000; }
+        .card-2 .card-bg { background: url('https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&w=2000&q=80') center/cover; opacity: 0.4; }
+        
+        .card-3 { background: #0a0a0c; }
+        .card-3 .card-bg { background: url('https://images.unsplash.com/photo-1511335513686-736e053da5f2?auto=format&fit=crop&w=2000&q=80') center/cover; opacity: 0.5; }
+
+        /* ==========================================================================
+           3. HORIZONTAL SHOWCASE
+           ========================================================================== */
+        .horizontal { height: 300vh; position: relative; background: var(--bg-dark); z-index: 11; }
+        .horizontal-sticky { position: sticky; top: 0; height: 100vh; overflow: hidden; display: flex; align-items: center; }
+        
+        .horizontal-track {
+            display: flex; gap: 5vw; padding: 0 10vw; height: 60vh;
+            will-change: transform; transform: translateZ(0); align-items: center;
+        }
+
+        .h-item {
+            flex: 0 0 auto; width: 60vw; height: 100%; position: relative;
+            border-radius: 4px; overflow: hidden; display: flex; align-items: flex-end;
+            padding: 3vw;
+        }
+        .h-item img {
+            position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .h-item:hover img { transform: scale(1.05); }
+        .h-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); z-index: 2; }
+        .h-text { position: relative; z-index: 3; }
+
+        /* ==========================================================================
+           4. MARQUEE & CTA
+           ========================================================================== */
+        .marquee-section { padding: 150px 0; background: var(--accent); color: var(--bg-dark); overflow: hidden; position: relative; z-index: 12; }
+        .marquee-track { display: flex; width: max-content; animation: scrollText 20s linear infinite; }
+        .marquee-track h1 { font-size: 10vw; white-space: nowrap; padding-right: 5vw; }
+        @keyframes scrollText { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+        .cta { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--bg-dark); position: relative; z-index: 12; }
+        .btn { display: inline-block; margin-top: 3rem; padding: 1.5rem 4rem; background: var(--text-light); color: var(--bg-dark); font-family: 'Space Grotesk', sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; text-decoration: none; border-radius: 100px; transition: transform 0.3s; }
+        .btn:hover { transform: translateY(-5px); }
+
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">VERTEX</div>
+        <div style="font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase;">Acoustic Perfection</div>
+    </nav>
+
+    <main>
+        <!-- 1. HERO -->
+        <section class="hero" id="hero-trigger">
+            <div class="hero-sticky">
+                <div class="hero-img-container" id="hero-img"></div>
+                <div class="hero-overlay"></div>
+                <div class="hero-content">
+                    <span class="subtitle reveal-up in-view">Reference Standard</span>
+                    <h1 class="huge-text reveal-up in-view" style="transition-delay: 0.1s;">SOUND<br>REBORN.</h1>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. STACKING CARDS (Ultra Performant Cinematic Layers) -->
+        <section class="stack-section">
+            
+            <div class="card card-1">
+                <div class="card-bg"></div>
+                <div class="card-overlay"></div>
+                <div class="card-content">
+                    <span class="subtitle reveal-up">The Architecture</span>
+                    <h2 class="large-text reveal-up" style="transition-delay: 0.1s;">Beryllium Drivers.</h2>
+                    <p class="body-text reveal-up" style="margin: 2rem auto 0; transition-delay: 0.2s;">
+                        Forged at absolute zero. Our acoustic drivers deliver transient response speeds previously thought impossible, revealing layers in your music you never knew existed.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card card-2">
+                <div class="card-bg"></div>
+                <div class="card-overlay"></div>
+                <div class="card-content">
+                    <span class="subtitle reveal-up">The Comfort</span>
+                    <h2 class="large-text reveal-up" style="transition-delay: 0.1s;">Memory Foam.</h2>
+                    <p class="body-text reveal-up" style="margin: 2rem auto 0; transition-delay: 0.2s;">
+                        Wrapped in sustainably sourced Alcantara. A thermal-reactive cushion maps the exact topography of your geometry. Zero clamping force. Infinite isolation.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card card-3">
+                <div class="card-bg"></div>
+                <div class="card-overlay"></div>
+                <div class="card-content">
+                    <span class="subtitle reveal-up">The Intelligence</span>
+                    <h2 class="large-text reveal-up" style="transition-delay: 0.1s;">Spatial AI.</h2>
+                    <p class="body-text reveal-up" style="margin: 2rem auto 0; transition-delay: 0.2s;">
+                        An onboard neural engine calculates room reflections 1,000 times per second, guaranteeing studio-perfect acoustics whether you're in a cathedral or a subway.
+                    </p>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- 3. HORIZONTAL SCROLL -->
+        <section class="horizontal" id="horiz-trigger">
+            <div class="horizontal-sticky">
+                <div class="horizontal-track" id="horiz-track">
+                    
+                    <div class="h-item">
+                        <img src="https://images.unsplash.com/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&w=1500&q=80" alt="Detail 1">
+                        <div class="h-overlay"></div>
+                        <div class="h-text">
+                            <h3 style="font-size: 2rem; margin-bottom: 0.5rem;">Machined Aluminum</h3>
+                            <p style="color: #aaa;">Aerospace-grade chassis.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="h-item">
+                        <img src="https://images.unsplash.com/photo-1612222869049-d8ec83637a3c?auto=format&fit=crop&w=1500&q=80" alt="Detail 2">
+                        <div class="h-overlay"></div>
+                        <div class="h-text">
+                            <h3 style="font-size: 2rem; margin-bottom: 0.5rem;">Acoustic Chamber</h3>
+                            <p style="color: #aaa;">Zero resonance internal geometry.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="h-item">
+                        <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1500&q=80" alt="Detail 3">
+                        <div class="h-overlay"></div>
+                        <div class="h-text">
+                            <h3 style="font-size: 2rem; margin-bottom: 0.5rem;">Pure Signal</h3>
+                            <p style="color: #aaa;">Lossless quantum transmission.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. MARQUEE -->
+        <section class="marquee-section">
+            <div class="marquee-track">
+                <!-- Duplicated for seamless loop -->
+                <h1>PURE FIDELITY. ZERO COMPROMISE. PURE FIDELITY. ZERO COMPROMISE.</h1>
+                <h1>PURE FIDELITY. ZERO COMPROMISE. PURE FIDELITY. ZERO COMPROMISE.</h1>
+            </div>
+        </section>
+
+        <!-- 5. CTA -->
+        <section class="cta">
+            <h1 class="huge-text">HEAR<br>EVERYTHING.</h1>
+            <a href="#" class="btn">Pre-Order Vertex</a>
+        </section>
+
+    </main>
+
+    <script>
+        // Standard Reveal Observer (Highly Performant)
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view');
+                    // Optional: stop observing once revealed
+                    // observer.unobserve(entry.target); 
+                }
+            });
+        }, { threshold: 0.2 });
+
+        document.querySelectorAll('.reveal-up').forEach(el => observer.observe(el));
+
+        // High-Performance Hardware Accelerated Scroll Math
+        const heroTrigger = document.getElementById('hero-trigger');
+        const heroImg = document.getElementById('hero-img');
+        
+        const horizTrigger = document.getElementById('horiz-trigger');
+        const horizTrack = document.getElementById('horiz-track');
+
+        let ticking = false;
+
+        function onScroll() {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    updateScroll();
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        }
+
+        window.addEventListener('scroll', onScroll, { passive: true });
+
+        function updateScroll() {
+            // 1. Hero Parallax (Opacity & Scale ONLY - GPU accelerated)
+            const heroRect = heroTrigger.getBoundingClientRect();
+            if (heroRect.top <= 0 && heroRect.bottom > 0) {
+                let p = -heroRect.top / (heroRect.height - window.innerHeight);
+                heroImg.style.transform = `scale(${1 + (p * 0.2)})`;
+                heroImg.style.opacity = 1 - p;
+            }
+
+            // 2. Horizontal Scroll Logic
+            const horizRect = horizTrigger.getBoundingClientRect();
+            if (horizRect.top < window.innerHeight && horizRect.bottom > 0) {
+                let p = -horizRect.top / (horizRect.height - window.innerHeight);
+                if (p < 0) p = 0; if (p > 1) p = 1;
+                // Track width calculation to move perfectly
+                let moveX = -(p * 150); // Move 150vw left
+                horizTrack.style.transform = `translate3d(${moveX}vw, 0, 0)`;
+            }
+        }
+        
+        // Init
+        updateScroll();
+    </script>
+</body>
+</html>

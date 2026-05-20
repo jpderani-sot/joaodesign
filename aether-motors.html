@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AETHER | The Future of Mobility</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ==========================================================================
+           AETHER MOTORS - THE CINEMATIC MASTERPIECE
+           ========================================================================== */
+        
+        :root {
+            --bg-black: #000000;
+            --bg-surface: #0a0a0c;
+            
+            --text-white: #ffffff;
+            --text-gray: #888888;
+            --text-muted: #444444;
+            
+            --accent-cyan: #00F0FF;
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-body: 'Outfit', sans-serif;
+        }
+
+        /* Hardware Acceleration & Reset */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        ::selection { background: var(--text-white); color: var(--bg-black); }
+        
+        html { scroll-behavior: smooth; font-size: 16px; background: var(--bg-black); }
+        body { font-family: var(--font-body); background-color: var(--bg-black); color: var(--text-white); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+
+        /* Typography */
+        .title-huge { font-family: var(--font-display); font-size: clamp(3.5rem, 12vw, 12rem); font-weight: 700; line-height: 0.85; letter-spacing: -0.05em; text-transform: uppercase; }
+        .title-lg { font-family: var(--font-display); font-size: clamp(2.5rem, 7vw, 6rem); font-weight: 600; line-height: 0.9; letter-spacing: -0.03em; text-transform: uppercase; }
+        .title-md { font-family: var(--font-display); font-size: clamp(1.5rem, 3vw, 2.5rem); font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; }
+        .subtitle { font-family: var(--font-display); font-size: 0.8rem; letter-spacing: 0.4em; color: var(--text-gray); font-weight: 500; text-transform: uppercase; display: block; margin-bottom: 1rem; }
+        .body-text { font-size: 1.1rem; line-height: 1.8; color: var(--text-gray); font-weight: 300; max-width: 600px; }
+
+        /* Navigation */
+        nav { position: fixed; top: 0; left: 0; width: 100%; padding: 2rem 4vw; z-index: 1000; display: flex; justify-content: space-between; mix-blend-mode: difference; }
+        .logo { font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; letter-spacing: 0.3em; color: var(--text-white); text-decoration: none; }
+
+        /* General Section Styling */
+        section { position: relative; width: 100vw; }
+
+        /* ==========================================================================
+           1. HERO (Cinematic Video Background)
+           ========================================================================== */
+        .hero { height: 150vh; }
+        .hero-sticky { position: sticky; top: 0; height: 100vh; overflow: hidden; display: flex; align-items: center; justify-content: center; background: #000; }
+        
+        .video-wrapper {
+            position: absolute; top: 50%; left: 50%; width: 100vw; height: 100vh;
+            transform: translate(-50%, -50%); pointer-events: none; z-index: 1;
+            /* Extra large to hide iframe borders */
+            width: 120vw; height: 120vh;
+        }
+        .video-wrapper iframe { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; }
+        .cinematic-bg { width: 100%; height: 100%; background: url('https://images.unsplash.com/photo-1614200179396-2bdb77ebf81b?auto=format&fit=crop&w=2500&q=80') center/cover; opacity: 0.5; filter: grayscale(30%); animation: slowPan 25s ease-in-out infinite alternate; will-change: transform; }
+        @keyframes slowPan { 0% { transform: scale(1) translate(0, 0); } 100% { transform: scale(1.15) translate(-2%, 2%); } }
+        
+        .hero-overlay { position: absolute; inset: 0; background: radial-gradient(circle, transparent 20%, #000 100%); z-index: 2; pointer-events: none; }
+        
+        .hero-content { position: relative; z-index: 3; text-align: center; }
+
+        /* Scanning Light Line Animation */
+        .scan-line {
+            position: absolute; left: 0; width: 100%; height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.8), transparent);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.5);
+            z-index: 4; animation: scan 4s ease-in-out infinite;
+        }
+        @keyframes scan { 0% { top: 10%; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { top: 90%; opacity: 0; } }
+
+        /* Animated Title Reveal */
+        .title-huge span { display: inline-block; opacity: 0; transform: translateY(50px) scale(0.9); animation: textReveal 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .title-huge span:nth-child(1) { animation-delay: 0.2s; }
+        .title-huge span:nth-child(2) { animation-delay: 0.4s; }
+        .title-huge span:nth-child(3) { animation-delay: 0.6s; }
+        .title-huge span:nth-child(4) { animation-delay: 0.8s; }
+        .title-huge span:nth-child(5) { animation-delay: 1.0s; }
+        .title-huge span:nth-child(6) { animation-delay: 1.2s; }
+        
+        @keyframes textReveal { to { opacity: 1; transform: translateY(0) scale(1); } }
+
+        /* ==========================================================================
+           2. VISION SECTION
+           ========================================================================== */
+        .vision { background: var(--bg-black); padding: 150px 4vw; position: relative; z-index: 10; margin-top: -50vh; box-shadow: 0 -50px 100px #000; }
+        .vision-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8vw; align-items: center; }
+        .vision-img-wrapper { position: relative; aspect-ratio: 4/5; overflow: hidden; border-radius: 4px; }
+        .vision-img { width: 100%; height: 100%; object-fit: cover; background: url('https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&w=1500&q=80') center/cover; transition: transform 1.5s cubic-bezier(0.16, 1, 0.3, 1); }
+        .vision-img-wrapper:hover .vision-img { transform: scale(1.05); }
+
+        /* ==========================================================================
+           3. AERODYNAMICS
+           ========================================================================== */
+        .aero { height: 100vh; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+        .aero-bg {
+            position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+            background: url('https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?auto=format&fit=crop&w=2500&q=80') center/cover fixed; opacity: 0.4;
+        }
+        .aero-content { position: relative; z-index: 2; text-align: center; padding: 0 4vw; }
+
+        /* ==========================================================================
+           4. ULTRA HIGH LEVEL HORIZONTAL SPECS
+           ========================================================================== */
+        .specs { height: 400vh; position: relative; background: var(--bg-black); }
+        .specs-sticky { position: sticky; top: 0; height: 100vh; overflow: hidden; display: flex; align-items: center; }
+        
+        .specs-glow { position: absolute; top: 50%; left: 50%; width: 100vw; height: 100vw; transform: translate(-50%, -50%); background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 60%); z-index: 0; pointer-events: none; }
+
+        .specs-track { display: flex; gap: 8vw; padding: 0 10vw; position: relative; z-index: 2; height: 75vh; align-items: center; will-change: transform; transform: translateZ(0); }
+
+        .spec-card {
+            flex: 0 0 auto; width: 80vw; height: 100%; display: flex; align-items: center; gap: 4vw;
+            background: rgba(20, 20, 22, 0.6); border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 24px; padding: 3vw; box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); overflow: hidden; position: relative;
+        }
+
+        .spec-img-wrapper { flex: 1.2; height: 100%; border-radius: 16px; overflow: hidden; position: relative; }
+        .spec-img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.2); will-change: transform; }
+        .spec-img-overlay { position: absolute; inset: 0; background: linear-gradient(to right, rgba(0,0,0,0.3), transparent); }
+
+        .spec-content { flex: 1; display: flex; flex-direction: column; justify-content: center; padding-right: 2vw; }
+        .spec-content .title-lg { margin-bottom: 1rem; color: var(--text-white); }
+        .spec-data { display: flex; gap: 3rem; margin-top: 3rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 2rem; }
+        .data-point h4 { font-family: var(--font-display); font-size: 2.5rem; font-weight: 600; color: var(--accent-cyan); line-height: 1; }
+        .data-point span { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-gray); }
+
+        /* ==========================================================================
+           5. SUSTAINABILITY (Now with Images!)
+           ========================================================================== */
+        .materials { padding: 150px 4vw; background: var(--bg-black); }
+        .materials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2vw; margin-top: 4rem; }
+        
+        .mat-card {
+            position: relative; border-radius: 16px; overflow: hidden; height: 60vh;
+            display: flex; flex-direction: column; justify-content: flex-end; padding: 3rem 2rem;
+            border: 1px solid rgba(255,255,255,0.05); transition: transform 0.4s;
+        }
+        .mat-card:hover { transform: translateY(-10px); }
+        
+        .mat-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; transition: transform 0.8s; opacity: 0.6; filter: grayscale(50%); }
+        .mat-card:hover .mat-img { transform: scale(1.05); filter: grayscale(0%); opacity: 0.8; }
+        
+        .mat-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.2) 60%); z-index: 2; }
+        
+        .mat-content { position: relative; z-index: 3; }
+        .mat-content h3 { font-family: var(--font-display); font-size: 2rem; margin-bottom: 1rem; color: var(--text-white); }
+
+        /* ==========================================================================
+           6. INTERIOR (Sticky Scroll Gallery)
+           ========================================================================== */
+        .interior { padding: 100px 4vw; background: var(--bg-black); position: relative; }
+        .interior-layout { display: flex; gap: 5vw; align-items: flex-start; }
+        
+        .interior-text-col { flex: 1; position: sticky; top: 30vh; }
+        .interior-img-col { flex: 1.5; display: flex; flex-direction: column; gap: 10vh; padding-bottom: 20vh; }
+        
+        .interior-img-card { position: relative; border-radius: 16px; overflow: hidden; background: #111; border: 1px solid rgba(255,255,255,0.05); }
+        .interior-img-card img { width: 100%; height: auto; display: block; object-fit: cover; aspect-ratio: 4/3; }
+        
+        .card-caption { position: absolute; bottom: 0; left: 0; width: 100%; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); padding: 4rem 2rem 2rem; }
+        .card-caption .title-md { font-size: 1.5rem; margin-bottom: 0.5rem; color: var(--text-white); }
+        .card-caption p { color: var(--text-gray); font-size: 0.9rem; }
+
+        /* ==========================================================================
+           7. FINAL CTA
+           ========================================================================== */
+        .cta { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; position: relative; overflow: hidden; border-top: 1px solid #111; }
+        .btn-reserve {
+            display: inline-block; margin-top: 3rem; padding: 1.2rem 4rem;
+            border: 1px solid var(--text-white); color: var(--bg-black); background: var(--text-white);
+            font-family: var(--font-display); font-size: 1rem; letter-spacing: 0.2em; text-transform: uppercase; text-decoration: none; border-radius: 100px;
+            transition: 0.3s;
+        }
+        .btn-reserve:hover { background: transparent; color: var(--text-white); }
+        footer { padding: 2rem 4vw; display: flex; justify-content: space-between; color: var(--text-gray); font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; border-top: 1px solid #111; }
+
+        /* Utility */
+        .fade-up { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .fade-up.in-view { opacity: 1; transform: translateY(0); }
+
+        @media (max-width: 1024px) {
+            .vision-grid { grid-template-columns: 1fr; gap: 4rem; }
+            .materials-grid { grid-template-columns: 1fr; }
+            .interior-layout { flex-direction: column; }
+            .interior-text-col { position: relative; top: 0; margin-bottom: 3rem; }
+            .interior-img-col { width: 100%; gap: 5vh; }
+            .spec-card { flex-direction: column; width: 85vw; padding: 4vw; gap: 2vw; }
+            .spec-content { padding-right: 0; padding-top: 1rem; }
+            .spec-data { margin-top: 1rem; padding-top: 1rem; gap: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="#" class="logo">AETHER</a>
+        <div style="font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-gray);">Cinematic Edition</div>
+    </nav>
+
+    <main>
+        <!-- 1. HERO (Now with Video & Scanning Animation) -->
+        <section class="hero" id="hero-trigger">
+            <div class="hero-sticky">
+                
+                <!-- Cinematic Image Pan Background (100% Reliable) -->
+                <div class="video-wrapper">
+                    <div class="cinematic-bg"></div>
+                </div>
+                
+                <div class="hero-overlay"></div>
+                <div class="scan-line"></div>
+                
+                <div class="hero-content" id="hero-content">
+                    <span class="subtitle fade-up in-view">Project Genesis</span>
+                    <h1 class="title-huge">
+                        <span>A</span><span>E</span><span>T</span><span>H</span><span>E</span><span>R</span>
+                    </h1>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. VISION -->
+        <section class="vision">
+            <div class="vision-grid">
+                <div class="vision-text">
+                    <span class="subtitle fade-up">The Vision</span>
+                    <h2 class="title-lg fade-up" style="transition-delay: 0.1s;">Rewriting<br>Physics.</h2>
+                    <p class="body-text fade-up" style="margin-top: 2rem; transition-delay: 0.2s;">
+                        We shattered every rule of aerodynamic design to craft a silhouette that cuts through air like light through glass. Pure energy. Zero resistance. The geometry of tomorrow.
+                    </p>
+                </div>
+                <div class="vision-img-wrapper fade-up" style="transition-delay: 0.3s;">
+                    <div class="vision-img"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. AERODYNAMICS -->
+        <section class="aero">
+            <div class="aero-bg"></div>
+            <div class="aero-content">
+                <span class="subtitle fade-up">Active Aero</span>
+                <h2 class="title-huge fade-up" style="transition-delay: 0.1s;">ZERO<br>DRAG.</h2>
+            </div>
+        </section>
+
+        <!-- 4. ULTRA HIGH LEVEL HORIZONTAL SPECS -->
+        <section class="specs" id="specs-trigger">
+            <div class="specs-sticky">
+                <div class="specs-glow"></div>
+                
+                <div class="specs-track" id="specs-track">
+                    
+                    <!-- Card 1: POWER -->
+                    <div class="spec-card">
+                        <div class="spec-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1619682817481-e994891cd1b5?auto=format&fit=crop&w=1500&q=80" class="spec-img" alt="Power">
+                            <div class="spec-img-overlay"></div>
+                        </div>
+                        <div class="spec-content">
+                            <span class="subtitle">01. Architecture</span>
+                            <h2 class="title-lg">POWER</h2>
+                            <p class="body-text">Four independent magnetic motors forged for instantaneous, violent torque delivery. Complete vector control at 1,000 times per second.</p>
+                            <div class="spec-data">
+                                <div class="data-point"><h4>1,200</h4><span>Horsepower</span></div>
+                                <div class="data-point"><h4>1.9s</h4><span>0-100 km/h</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 2: RANGE -->
+                    <div class="spec-card">
+                        <div class="spec-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=1500&q=80" class="spec-img" alt="Range">
+                            <div class="spec-img-overlay"></div>
+                        </div>
+                        <div class="spec-content">
+                            <span class="subtitle">02. Endurance</span>
+                            <h2 class="title-lg">RANGE</h2>
+                            <p class="body-text">Next-generation solid-state quantum batteries completely eliminate range anxiety. Higher energy density, zero degradation.</p>
+                            <div class="spec-data">
+                                <div class="data-point"><h4>850</h4><span>Kilometers</span></div>
+                                <div class="data-point"><h4>12m</h4><span>Charge to 80%</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 3: MIND -->
+                    <div class="spec-card">
+                        <div class="spec-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1500&q=80" class="spec-img" alt="Mind">
+                            <div class="spec-img-overlay"></div>
+                        </div>
+                        <div class="spec-content">
+                            <span class="subtitle">03. Intelligence</span>
+                            <h2 class="title-lg">MIND</h2>
+                            <p class="body-text">A fully autonomous neural core processing half a quadrillion operations per second. It doesn't just read the road, it predicts the future.</p>
+                            <div class="spec-data">
+                                <div class="data-point"><h4>Lvl.5</h4><span>Autonomy</span></div>
+                                <div class="data-point"><h4>500T</h4><span>Ops / Second</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. SUSTAINABILITY (Now with Image Backgrounds!) -->
+        <section class="materials">
+            <div class="fade-up" style="text-align: center; max-width: 600px; margin: 0 auto;">
+                <span class="subtitle">Craftsmanship</span>
+                <h2 class="title-lg">Ethical Luxury.</h2>
+                <p class="body-text" style="margin: 1rem auto 0;">Sourced responsibly. Built to outlast.</p>
+            </div>
+            <div class="materials-grid">
+                <div class="mat-card fade-up">
+                    <img src="https://images.unsplash.com/photo-1596541178229-373f76cfd38a?auto=format&fit=crop&w=1000&q=80" alt="Carbon" class="mat-img">
+                    <div class="mat-overlay"></div>
+                    <div class="mat-content">
+                        <h3>Carbon Chassis</h3>
+                        <p class="body-text" style="font-size: 0.9rem;">Recycled aerospace-grade carbon fiber for maximum rigidity and minimum weight.</p>
+                    </div>
+                </div>
+                <div class="mat-card fade-up" style="transition-delay: 0.1s;">
+                    <img src="https://images.unsplash.com/photo-1558459654-c430be5b0a44?auto=format&fit=crop&w=1000&q=80" alt="Tech" class="mat-img">
+                    <div class="mat-overlay"></div>
+                    <div class="mat-content">
+                        <h3>Cobalt-Free</h3>
+                        <p class="body-text" style="font-size: 0.9rem;">Advanced battery chemistry eliminating controversial mining practices.</p>
+                    </div>
+                </div>
+                <div class="mat-card fade-up" style="transition-delay: 0.2s;">
+                    <img src="https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?auto=format&fit=crop&w=1000&q=80" alt="Texture" class="mat-img">
+                    <div class="mat-overlay"></div>
+                    <div class="mat-content">
+                        <h3>Ocean Plastics</h3>
+                        <p class="body-text" style="font-size: 0.9rem;">Interior elements 3D printed from reclaimed ocean polymers.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. INTERIOR (Sticky Scroll Gallery) -->
+        <section class="interior" id="interior">
+            <div class="interior-layout">
+                <div class="interior-text-col">
+                    <div style="max-width: 400px;">
+                        <span class="subtitle fade-up">The Cabin</span>
+                        <h2 class="title-lg fade-up" style="transition-delay: 0.1s;">Sanctuary.</h2>
+                        <p class="body-text fade-up" style="margin-top: 2rem; transition-delay: 0.2s;">
+                            Step into an environment where technology disappears into materials. Hand-stitched vegan leather meets aerospace glass, creating a serene isolation chamber from the chaos of the outside world.
+                        </p>
+                    </div>
+                </div>
+                <div class="interior-img-col">
+                    <div class="interior-img-card fade-up">
+                        <img src="https://images.unsplash.com/photo-1563720225384-9878ceb1ce1f?auto=format&fit=crop&w=1500&q=80" alt="Cockpit" loading="lazy">
+                        <div class="card-caption">
+                            <h4 class="title-md">Neural Interface</h4>
+                            <p>Adaptive AI predicting your every need.</p>
+                        </div>
+                    </div>
+                    <div class="interior-img-card fade-up">
+                        <img src="https://images.unsplash.com/photo-1605810731770-4ee0362b6045?auto=format&fit=crop&w=1500&q=80" alt="Materials" loading="lazy">
+                        <div class="card-caption">
+                            <h4 class="title-md">Vegan Leather</h4>
+                            <p>Sustainable luxury crafted without compromise.</p>
+                        </div>
+                    </div>
+                    <div class="interior-img-card fade-up">
+                        <img src="https://images.unsplash.com/photo-1546614042-7df3c24c9e5d?auto=format&fit=crop&w=1500&q=80" alt="Dashboard" loading="lazy">
+                        <div class="card-caption">
+                            <h4 class="title-md">Astro Glass</h4>
+                            <p>Electrochromic roof that fades to stars.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. FINAL CTA -->
+        <section class="cta fade-up">
+            <div style="position: absolute; inset:0; background: url('https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&w=2500&q=80') center/cover; opacity: 0.2; filter: blur(5px);"></div>
+            <h2 class="title-huge" style="position: relative; z-index: 2;">THE FUTURE<br>AWAITS.</h2>
+            <a href="#" class="btn-reserve" style="position: relative; z-index: 2;">Reserve Now</a>
+        </section>
+
+    </main>
+
+    <footer>
+        <div>AETHER MOTORS INC.</div>
+        <div>LOS ANGELES, CA</div>
+    </footer>
+
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15, rootMargin: "0px 0px -50px 0px" });
+
+        document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+        // Highly Optimized Scroll Animations
+        const heroTrigger = document.getElementById('hero-trigger');
+        const heroContent = document.getElementById('hero-content');
+        
+        const specsTrigger = document.getElementById('specs-trigger');
+        const specsTrack = document.getElementById('specs-track');
+        const specImages = document.querySelectorAll('.spec-img');
+
+        let ticking = false;
+
+        function onScroll() {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    updateFastScroll();
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        }
+
+        window.addEventListener('scroll', onScroll, { passive: true });
+
+        function updateFastScroll() {
+            // 1. Hero Parallax
+            const heroRect = heroTrigger.getBoundingClientRect();
+            if (heroRect.top <= 0 && heroRect.bottom > 0) {
+                let p = -heroRect.top / (heroRect.height - window.innerHeight);
+                // Video background doesn't need to be manipulated directly, just move the content
+                heroContent.style.opacity = 1 - (p * 2.5);
+                heroContent.style.transform = `translate3d(0, ${p * 100}px, 0)`;
+            }
+
+            // 2. Ultra High-Level Horizontal Scroll
+            const specsRect = specsTrigger.getBoundingClientRect();
+            if (specsRect.top < window.innerHeight && specsRect.bottom > 0) {
+                let p = -specsRect.top / (specsRect.height - window.innerHeight);
+                if (p < 0) p = 0; if (p > 1) p = 1;
+
+                let moveX = -(p * 180);
+                specsTrack.style.transform = `translate3d(${moveX}vw, 0, 0)`;
+
+                specImages.forEach((img, index) => {
+                    let panX = (p * 30) - (index * 10);
+                    img.style.transform = `scale(1.2) translate3d(${panX}%, 0, 0)`;
+                });
+            }
+        }
+        
+        updateFastScroll();
+    </script>
+</body>
+</html>

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clínica Montanari | Social Media Pack</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&family=Outfit:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bordo: #800339;
+            --bordo-dark: #2a0112;
+            --rose: #FC5185;
+            --off-white: #FDF9F6;
+            --text-light: #FDF9F6;
+            
+            --font-title: 'Montserrat', sans-serif;
+            --font-outfit: 'Outfit', sans-serif;
+            --font-serif: 'Playfair Display', serif;
+            
+            --zoom: 0.9;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        html { 
+            background-color: var(--bordo-dark); 
+            zoom: var(--zoom);
+        }
+
+        body {
+            font-family: var(--font-outfit);
+            color: var(--off-white);
+            padding: 5rem 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header-section {
+            text-align: center;
+            margin-bottom: 6rem;
+        }
+        .header-section h1 {
+            font-family: var(--font-title);
+            font-weight: 900;
+            font-size: 3.5rem;
+            text-transform: uppercase;
+            letter-spacing: 10px;
+            background: linear-gradient(to right, #fff, var(--rose), #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .header-section p {
+            letter-spacing: 5px;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            opacity: 0.6;
+        }
+
+        .post-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3rem;
+            width: 100%;
+            max-width: 1300px;
+            padding: 0 2rem;
+        }
+
+        .post {
+            width: 100%;
+            aspect-ratio: 1/1;
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+            background: #111;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* POST 1: INSTITUTIONAL */
+        .post-inst {
+            background: url('montanari_interior.png');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 3rem;
+        }
+        .post-inst::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(42, 1, 18, 0.4), rgba(42, 1, 18, 0.9));
+            z-index: 1;
+        }
+        .post-content {
+            position: relative;
+            z-index: 2;
+        }
+        .post-inst .tag {
+            font-family: var(--font-title);
+            font-weight: 700;
+            font-size: 0.8rem;
+            letter-spacing: 4px;
+            color: var(--rose);
+            margin-bottom: 1rem;
+            display: block;
+        }
+        .post-inst h2 {
+            font-family: var(--font-title);
+            font-weight: 900;
+            font-size: 2.2rem;
+            line-height: 1.1;
+            text-transform: uppercase;
+        }
+        .logo-montanari {
+            position: relative;
+            z-index: 2;
+            font-family: var(--font-title);
+            font-weight: 900;
+            font-size: 1.4rem;
+            letter-spacing: 2px;
+        }
+
+        /* POST 2: DR PROFILE */
+        .post-dr {
+            background: url('montanari_doctor.png');
+            background-size: cover;
+            background-position: center;
+        }
+        .dr-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 40%;
+            background: linear-gradient(to top, var(--bordo-dark), transparent);
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+        .dr-overlay h3 {
+            font-family: var(--font-serif);
+            font-style: italic;
+            font-size: 2rem;
+            margin-bottom: 0.2rem;
+        }
+        .dr-overlay p {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            opacity: 0.7;
+        }
+
+        /* POST 3: PROCEDURE (Simulated) */
+        .post-proc {
+            background-color: var(--bordo);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 4rem;
+        }
+        .proc-circle {
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            background: radial-gradient(circle, rgba(252, 81, 133, 0.1) 0%, transparent 70%);
+            animation: pulse 4s infinite;
+        }
+        .proc-card {
+            position: relative;
+            z-index: 2;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 3rem;
+            border-radius: 24px;
+        }
+        .proc-card h4 {
+            font-family: var(--font-title);
+            font-weight: 900;
+            font-size: 1.8rem;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+        .proc-btn {
+            background: var(--rose);
+            color: #fff;
+            padding: 1rem 2rem;
+            border-radius: 99px;
+            text-transform: uppercase;
+            font-weight: 700;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            display: inline-block;
+            margin-top: 1rem;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .footer-info {
+            margin-top: 5rem;
+            text-align: center;
+            opacity: 0.5;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-section">
+        <h1>MONTANARI</h1>
+        <p>BRANDING & SOCIAL MEDIA PACK</p>
+    </div>
+
+    <div class="post-grid">
+        
+        <!-- POST 1: INSTITUTIONAL -->
+        <div class="post post-inst">
+            <div class="post-content">
+                <span class="tag">EXCELÊNCIA</span>
+                <h2>Onde a arte encontra a precisão.</h2>
+            </div>
+            <div class="logo-montanari">MONTANARI</div>
+        </div>
+
+        <!-- POST 2: DR PROFILE -->
+        <div class="post post-dr">
+            <div class="dr-overlay">
+                <h3>Dra. Montanari</h3>
+                <p>Estética Avançada</p>
+            </div>
+        </div>
+
+        <!-- POST 3: PROCEDURE -->
+        <div class="post post-proc">
+            <div class="proc-circle"></div>
+            <div class="proc-card">
+                <h4>Harmonização Facial Elite</h4>
+                <p style="font-size: 0.9rem; opacity: 0.7; margin-bottom: 2rem;">Protocolos exclusivos para um rejuvenescimento natural e sofisticado.</p>
+                <div class="proc-btn">Agendar Agora</div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="footer-info">
+        ESTRATÉGIA VISUAL V2 - WORLD CLASS QUALITY
+    </div>
+
+</body>
+</html>

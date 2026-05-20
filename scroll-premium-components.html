@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smooth Motion — Scroll Lab | João Pedro Derani</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root { --gold: #d4af37; --bg: #080808; --text: #f0f0f0; }
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { width: 100%; overflow-x: hidden; }
+        body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-serif; }
+
+        /* PROGRESS */
+        #prog { position: fixed; top: 0; left: 0; height: 2px; width: 0%; background: var(--gold); z-index: 999; pointer-events: none; }
+
+        /* NAV */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            padding: 1.5rem 5vw; display: flex; justify-content: space-between; align-items: center;
+        }
+        nav a { color: #fff; text-decoration: none; font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; opacity: 0.6; transition: opacity .3s; }
+        nav a:hover { opacity: 1; }
+        .nl { font-weight: 700; font-size: 1rem; opacity: 1 !important; }
+
+        /* HERO */
+        .hero {
+            height: 100vh; display: flex; flex-direction: column;
+            justify-content: flex-end; padding: 8vw 5vw; overflow: hidden; position: relative;
+        }
+        .eyebrow { font-size: 0.72rem; letter-spacing: 4px; color: var(--gold); text-transform: uppercase; margin-bottom: 2rem; opacity: 0; transform: translateY(20px); transition: all 0.8s ease 0.1s; }
+        .hero-title { font-size: clamp(3.5rem, 10vw, 11rem); font-weight: 900; line-height: 0.9; text-transform: uppercase; }
+        .hl { display: block; overflow: hidden; }
+        .hl-inner { display: block; transform: translateY(110%); transition: transform 1.1s cubic-bezier(.16,1,.3,1); }
+        .hero-sub { margin-top: 3rem; font-size: clamp(.9rem, 1.5vw, 1.2rem); color: #777; max-width: 460px; font-weight: 300; line-height: 1.7; opacity: 0; transform: translateY(30px); transition: all 0.9s ease 0.7s; }
+        .scroll-hint { position: absolute; bottom: 2.5rem; right: 5vw; font-size: .65rem; letter-spacing: 3px; text-transform: uppercase; color: #444; writing-mode: vertical-rl; display: flex; align-items: center; gap: .8rem; }
+        .scroll-hint::before { content: ''; display: block; width: 1px; height: 50px; background: var(--gold); animation: ln 1.8s ease-in-out infinite; }
+        @keyframes ln { 0%,100% { transform: scaleY(0); transform-origin: top; } 50% { transform: scaleY(1); transform-origin: top; } }
+        .hero.visible .eyebrow { opacity: 1; transform: translateY(0); }
+        .hero.visible .hl-inner { transform: translateY(0%); }
+        .hero.visible .hero-sub { opacity: 1; transform: translateY(0); }
+
+        /* MARQUEE */
+        .marquee-wrap { padding: 5vw 0; overflow: hidden; background: var(--gold); transform: rotate(-2deg) scaleX(1.06); margin: 10vh 0; }
+        .marquee-track { display: flex; gap: 2rem; white-space: nowrap; }
+        .marquee-item { font-size: clamp(2.5rem, 6vw, 6rem); font-weight: 900; text-transform: uppercase; color: #080808; flex-shrink: 0; }
+        .muted { color: rgba(8,8,8,.3); }
+
+        /* STATS */
+        .stats { padding: 15vh 5vw; display: grid; grid-template-columns: repeat(3,1fr); gap: 4rem; text-align: center; }
+        .sn { font-size: clamp(3.5rem,7vw,8rem); font-weight: 900; color: var(--gold); line-height: 1; display: block; }
+        .sl { font-size: .72rem; letter-spacing: 3px; text-transform: uppercase; color: #444; margin-top: .8rem; }
+
+        /* PARALLAX */
+        .para-sec { padding: 10vh 5vw; display: grid; grid-template-columns: 1fr 1.2fr 0.8fr; gap: 1.5rem; align-items: end; }
+        .pc { overflow: hidden; position: relative; }
+        .pc:nth-child(2) { margin-top: -12vh; }
+        .pc:nth-child(3) { margin-top: 8vh; }
+        .pi { width: 100%; height: 55vh; object-fit: cover; display: block; will-change: transform; }
+        .pc-cap { margin-top: 1rem; font-size: .7rem; letter-spacing: 3px; color: #444; text-transform: uppercase; }
+
+        /* CLIP REVEAL */
+        .clip-sec { padding: 18vh 5vw; max-width: 1100px; margin: 0 auto; }
+        .cl-wrap { overflow: hidden; margin-bottom: .3rem; }
+        .cl { display: block; font-size: clamp(2rem,5vw,5rem); font-weight: 700; line-height: 1.1; transform: translateY(110%); transition: transform 1s cubic-bezier(.16,1,.3,1); }
+        .cl span { color: var(--gold); }
+        .cl-body { margin-top: 3.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; }
+        .cl-p { font-size: 1rem; color: #777; line-height: 1.8; font-weight: 300; opacity: 0; transform: translateY(30px); transition: opacity .8s ease, transform .8s ease; }
+        .cl-wrap.inview .cl { transform: translateY(0); }
+        .cl-p.inview { opacity: 1; transform: translateY(0); }
+
+        /* ─────────────────────────────────────────
+           HORIZONTAL SCROLL (sticky pinned)
+           The outer .h-outer has a tall height.
+           The .h-sticky is position:sticky so it
+           stays at top while user scrolls down.
+           We read how far into .h-outer we are and
+           translate .h-track horizontally.
+        ───────────────────────────────────────── */
+        .h-label {
+            text-align: center;
+            padding: 10vh 5vw 4vh;
+            font-size: .72rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--gold);
+        }
+        .h-outer {
+            /* height set by JS after layout */
+            position: relative;
+        }
+        .h-sticky {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+        .h-track {
+            display: flex;
+            gap: 3vw;
+            padding: 0 5vw;
+            will-change: transform;
+            /* translate set by JS */
+        }
+        .h-card {
+            flex-shrink: 0;
+            width: min(55vw, 680px);
+            background: #101010;
+            border: 1px solid #1c1c1c;
+            padding: 3.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .h-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 80% 10%, rgba(212,175,55,.07), transparent 60%);
+            pointer-events: none;
+        }
+        .h-num { font-size: .65rem; letter-spacing: 4px; color: var(--gold); text-transform: uppercase; margin-bottom: 2rem; }
+        .h-card h2 { font-size: clamp(1.8rem,3.5vw,3rem); font-weight: 700; line-height: 1.1; margin-bottom: 1.5rem; }
+        .h-card p { font-size: .95rem; color: #666; line-height: 1.8; font-weight: 300; }
+        .h-bar { position: absolute; bottom: 0; left: 0; height: 2px; background: var(--gold); width: 0%; transition: width .05s linear; }
+        /* progress indicator */
+        .h-dots {
+            position: sticky;
+            bottom: 2rem;
+            display: flex;
+            justify-content: center;
+            gap: .6rem;
+            padding-bottom: 2rem;
+            pointer-events: none;
+        }
+        .h-dot { width: 6px; height: 6px; border-radius: 50%; background: #333; transition: background .3s, transform .3s; }
+        .h-dot.active { background: var(--gold); transform: scale(1.4); }
+
+        /* FOOTER */
+        .foot { padding: 20vh 5vw 10vh; text-align: center; border-top: 1px solid #111; }
+        .foot-cta { font-size: clamp(2.5rem,7vw,9rem); font-weight: 900; text-transform: uppercase; color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,.12); line-height: 1; display: block; transition: color .4s, -webkit-text-stroke .4s; cursor: default; }
+        .foot-cta:hover { color: var(--text); -webkit-text-stroke: 0px transparent; }
+        .back { display: inline-block; margin-top: 3rem; font-size: .75rem; letter-spacing: 3px; text-transform: uppercase; color: #444; text-decoration: none; transition: color .3s; }
+        .back:hover { color: var(--gold); }
+    </style>
+</head>
+<body>
+<div id="prog"></div>
+
+<nav>
+    <a href="index.html" class="nl">JD</a>
+    <div style="display:flex;gap:2.5rem">
+        <a href="index.html">← Voltar</a>
+        <a style="opacity:1;color:var(--gold)">Smooth Motion</a>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+    <p class="eyebrow">03 / Smooth Motion — Scroll Lab</p>
+    <h1 class="hero-title">
+        <span class="hl"><span class="hl-inner">SCROLL</span></span>
+        <span class="hl" style="padding-left:10vw"><span class="hl-inner" style="color:var(--gold);transition-delay:.13s">CINEMA</span></span>
+        <span class="hl"><span class="hl-inner" style="transition-delay:.26s">PHYSICS.</span></span>
+    </h1>
+    <p class="hero-sub">Física de interface: inércia, parallax multi-nível, clip-path reveals e horizontal scroll pinado.</p>
+    <div class="scroll-hint">Scroll</div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+    <div class="marquee-track" id="mtrack">
+        <span class="marquee-item">Smooth Motion <span class="muted">✦</span></span>
+        <span class="marquee-item">60fps Physics <span class="muted">✦</span></span>
+        <span class="marquee-item">World Class <span class="muted">✦</span></span>
+        <span class="marquee-item">Scroll Driven <span class="muted">✦</span></span>
+        <span class="marquee-item">Smooth Motion <span class="muted">✦</span></span>
+        <span class="marquee-item">60fps Physics <span class="muted">✦</span></span>
+        <span class="marquee-item">World Class <span class="muted">✦</span></span>
+        <span class="marquee-item">Scroll Driven <span class="muted">✦</span></span>
+    </div>
+</div>
+
+<!-- STATS -->
+<section class="stats">
+    <div><span class="sn" data-target="60">0</span><span class="sl">FPS Garantidos</span></div>
+    <div><span class="sn" data-target="12">0</span><span class="sl">Técnicas Aplicadas</span></div>
+    <div><span class="sn" data-target="100">0</span><span class="sl">GPU Accelerated</span></div>
+</section>
+
+<!-- PARALLAX IMAGES -->
+<section class="para-sec">
+    <div class="pc"><img class="pi" data-speed="0.10" src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=800&q=80" alt="Interior"><p class="pc-cap">Eixo Y Independente</p></div>
+    <div class="pc"><img class="pi" data-speed="0.22" src="https://images.unsplash.com/photo-1600607688969-a5bfcd646154?w=800&q=80" alt="Architecture"><p class="pc-cap">Profundidade 3D</p></div>
+    <div class="pc"><img class="pi" data-speed="0.06" src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80" alt="Studio"><p class="pc-cap">Camadas Assimétricas</p></div>
+</section>
+
+<!-- CLIP REVEAL -->
+<section class="clip-sec">
+    <div class="cl-wrap"><span class="cl">Interfaces são</span></div>
+    <div class="cl-wrap"><span class="cl" style="transition-delay:.1s">mais do que</span></div>
+    <div class="cl-wrap"><span class="cl" style="transition-delay:.2s"><span>estética.</span></span></div>
+    <div class="cl-body">
+        <p class="cl-p">Cada detalhe de timing, inércia e coreografia cria a sensação de que o site "respira". Isso é o que separa um portfólio médio de um que fica na memória.</p>
+        <p class="cl-p" style="transition-delay:.15s">As técnicas aqui demonstradas são as mesmas usadas pelas maiores agências criativas do mundo: Locomotive, Active Theory, Dogstudio e Resn.</p>
+    </div>
+</section>
+
+<!-- HORIZONTAL PIN -->
+<p class="h-label">─── Deslize para explorar ───</p>
+<div class="h-outer" id="hOuter">
+    <div class="h-sticky" id="hSticky">
+        <div class="h-track" id="hTrack">
+            <div class="h-card">
+                <div class="h-num">01 / Clip-Path Reveal</div>
+                <h2>Cortinas de<br>Texto Fluidas</h2>
+                <p>Cada linha de texto sobe suavemente de baixo para cima como uma cortina de teatro. O efeito usa overflow: hidden + translateY para revelações cinematográficas precisas a cada scroll.</p>
+                <div class="h-bar"></div>
+            </div>
+            <div class="h-card">
+                <div class="h-num">02 / Parallax Assimétrico</div>
+                <h2>Três Imagens,<br>Três Velocidades</h2>
+                <p>Cada coluna de imagem se move em velocidade ligeiramente diferente, criando percepção de profundidade tridimensional real durante o scroll. Puro transform no eixo Y.</p>
+                <div class="h-bar"></div>
+            </div>
+            <div class="h-card">
+                <div class="h-num">03 / Contadores Animados</div>
+                <h2>Números que<br>Ganham Vida</h2>
+                <p>Os números contam do zero ao valor final no momento exato em que entram na viewport. Implementado com IntersectionObserver nativo para performance máxima sem bibliotecas.</p>
+                <div class="h-bar"></div>
+            </div>
+            <div class="h-card">
+                <div class="h-num">04 / Horizontal Pin Scroll</div>
+                <h2>Narrativa em<br>Trilho Lateral</h2>
+                <p>A seção que você está lendo agora pina a tela enquanto o conteúdo desliza horizontalmente, criando uma narrativa cinematográfica fluída. Calculado em tempo real via scroll listener.</p>
+                <div class="h-bar"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="h-dots" id="hDots">
+    <div class="h-dot active"></div>
+    <div class="h-dot"></div>
+    <div class="h-dot"></div>
+    <div class="h-dot"></div>
+</div>
+
+<!-- FOOTER -->
+<footer class="foot">
+    <span class="foot-cta">Let's Build</span>
+    <br>
+    <a href="index.html" class="back">← Voltar ao Portfólio</a>
+</footer>
+
+<script>
+(function() {
+
+/* ── PROGRESS BAR ── */
+const prog = document.getElementById('prog');
+function updateProg() {
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    prog.style.width = (window.scrollY / max * 100) + '%';
+}
+
+/* ── HERO ANIMATE IN ── */
+const hero = document.getElementById('hero');
+setTimeout(() => hero.classList.add('visible'), 80);
+
+/* ── MARQUEE ── */
+const mtrack = document.getElementById('mtrack');
+let mx = 0;
+const MSPEED = 0.7;
+function marqueeLoop() {
+    mx -= MSPEED;
+    // reset when half-way through duplicated content
+    const half = mtrack.scrollWidth / 2;
+    if (Math.abs(mx) >= half) mx = 0;
+    mtrack.style.transform = 'translateX(' + mx + 'px)';
+    requestAnimationFrame(marqueeLoop);
+}
+marqueeLoop();
+
+/* ── INTERSECTION OBSERVER ── */
+const observed = new Map();
+const io = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting && observed.has(entry.target)) {
+            observed.get(entry.target)();
+            io.unobserve(entry.target);
+            observed.delete(entry.target);
+        }
+    });
+}, { threshold: 0.18 });
+function onView(el, fn) { observed.set(el, fn); io.observe(el); }
+
+/* ── COUNTERS ── */
+document.querySelectorAll('.sn').forEach(el => {
+    onView(el, () => {
+        const end = +el.dataset.target;
+        const suf = end === 100 ? '%' : '+';
+        let v = 0, step = end / 55;
+        const t = setInterval(() => {
+            v = Math.min(v + step, end);
+            el.textContent = Math.round(v) + suf;
+            if (v >= end) clearInterval(t);
+        }, 16);
+    });
+});
+
+/* ── CLIP REVEALS ── */
+document.querySelectorAll('.cl-wrap').forEach((wrap, i) => {
+    onView(wrap, () => wrap.classList.add('inview'));
+});
+document.querySelectorAll('.cl-p').forEach((p) => {
+    onView(p, () => p.classList.add('inview'));
+});
+
+/* ── PARALLAX IMAGES ── */
+const paraImgs = [...document.querySelectorAll('.pi')].map(img => ({
+    el: img,
+    speed: parseFloat(img.dataset.speed) || 0.1
+}));
+function doParallax() {
+    paraImgs.forEach(({ el, speed }) => {
+        const rect = el.closest('.pc').getBoundingClientRect();
+        const center = rect.top + rect.height / 2 - window.innerHeight / 2;
+        el.style.transform = 'translateY(' + (-center * speed) + 'px)';
+    });
+}
+
+/* ── HORIZONTAL SCROLL ── */
+const hOuter  = document.getElementById('hOuter');
+const hTrack  = document.getElementById('hTrack');
+const hDots   = document.getElementById('hDots').querySelectorAll('.h-dot');
+const hBars   = document.querySelectorAll('.h-bar');
+const hCards  = document.querySelectorAll('.h-card');
+
+let maxSlide = 0;   // total px to slide horizontally
+let cardCount = hCards.length;
+
+function initPin() {
+    // Total horizontal distance = track full width minus one viewport width
+    maxSlide = hTrack.scrollWidth - window.innerWidth;
+    // Make outer tall enough so sticky pinning lasts for the full horizontal travel
+    hOuter.style.height = (maxSlide + window.innerHeight) + 'px';
+}
+
+function updatePin() {
+    const rect = hOuter.getBoundingClientRect();
+    // progress 0→1 while sticky section is active
+    const progress = Math.min(1, Math.max(0, -rect.top / maxSlide));
+    hTrack.style.transform = 'translateX(-' + (progress * maxSlide) + 'px)';
+
+    // per-card progress for bars + dots
+    hCards.forEach((card, i) => {
+        const cp = Math.min(1, Math.max(0, progress * cardCount - i));
+        hBars[i].style.width = (cp * 100) + '%';
+    });
+
+    const activeIdx = Math.min(cardCount - 1, Math.floor(progress * cardCount));
+    hDots.forEach((d, i) => d.classList.toggle('active', i === activeIdx));
+}
+
+/* ── SCROLL HANDLER ── */
+function onScroll() {
+    updateProg();
+    doParallax();
+    if (maxSlide > 0) updatePin();
+}
+
+window.addEventListener('scroll', onScroll, { passive: true });
+window.addEventListener('resize', () => { initPin(); onScroll(); });
+
+// Init after fonts/images have a chance to load
+window.addEventListener('load', () => {
+    initPin();
+    onScroll();
+});
+// Also call right away in case load already fired
+initPin();
+
+})();
+</script>
+</body>
+</html>

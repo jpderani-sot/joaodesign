@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="lenis lenis-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clínica Viegas | High-End Aesthetics</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,600;1,6..96,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.39/dist/lenis.min.js"></script>
+
+    <style>
+        :root {
+            --bg-base: #070709; 
+            --bg-surface: #101115; 
+            --text-primary: #EAE6DF; 
+            --text-secondary: rgba(234, 230, 223, 0.5);
+            --accent-gold: #C5A059; 
+            --accent-glow: rgba(197, 160, 89, 0.15);
+            --border-light: rgba(234, 230, 223, 0.08);
+
+            --font-display: 'Bodoni Moda', serif;
+            --font-body: 'Inter', sans-serif;
+            
+            --fs-display: clamp(4rem, 12vw, 14rem);
+            --fs-h1: clamp(3rem, 7vw, 7rem);
+            --fs-h2: clamp(2.5rem, 5vw, 4.5rem);
+            --fs-h3: clamp(1.5rem, 2.5vw, 2.5rem);
+            --fs-p: clamp(1.1rem, 1.5vw, 1.5rem);
+            --fs-caption: 0.8rem;
+            
+            --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+            --space-xl: clamp(6rem, 15vh, 10rem);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg-base); color: var(--text-primary); font-family: var(--font-body); overflow-x: hidden; cursor: none; -webkit-font-smoothing: antialiased; }
+        a { color: inherit; text-decoration: none; }
+
+        .noise-overlay { position: fixed; inset: 0; pointer-events: none; z-index: 9999; opacity: 0.04; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E"); }
+        
+        .noise-overlay { position: fixed; inset: 0; pointer-events: none; z-index: 9999; opacity: 0.04; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E"); }
+        
+
+        /* Cursor */
+        .cursor-dot { position: fixed; top: 0; left: 0; width: 6px; height: 6px; background: var(--accent-gold); border-radius: 50%; pointer-events: none; z-index: 10000; transform: translate(-50%, -50%); }
+        .cursor-follower { position: fixed; top: 0; left: 0; width: 40px; height: 40px; border: 1px solid rgba(197, 160, 89, 0.5); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); transition: width 0.4s var(--ease-out-expo), height 0.4s var(--ease-out-expo), background 0.4s; display: flex; align-items: center; justify-content: center; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--bg-base); font-weight: 600; }
+        .cursor-follower.active { width: 90px; height: 90px; background: var(--accent-gold); backdrop-filter: blur(4px); border-color: transparent; }
+        .cursor-follower span { opacity: 0; transition: opacity 0.3s; }
+        .cursor-follower.active span { opacity: 1; }
+
+        h1, h2, h3 { font-family: var(--font-display); font-weight: 400; line-height: 1; }
+        .text-italic { font-style: italic; color: var(--accent-gold); }
+        .eyebrow { font-size: var(--fs-caption); text-transform: uppercase; letter-spacing: 0.3em; color: var(--accent-gold); display: block; margin-bottom: 1.5rem; }
+        .text-reveal { overflow: hidden; display: inline-block; vertical-align: bottom; }
+        .text-reveal-inner { display: inline-block; transform: translateY(110%); }
+
+        /* Preloader */
+        .preloader { position: fixed; inset: 0; background: var(--bg-base); z-index: 9000; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        .preloader-text { font-family: var(--font-display); font-size: 4rem; font-style: italic; color: var(--accent-gold); overflow: hidden; }
+        .preloader-text span { display: block; transform: translateY(100%); }
+        .preloader-counter { margin-top: 2rem; font-family: var(--font-body); letter-spacing: 0.2em; font-size: 0.8rem; }
+        .preloader-bar { width: 0%; height: 1px; background: var(--accent-gold); position: absolute; bottom: 20%; left: 50%; transform: translateX(-50%); max-width: 300px; }
+
+        nav { position: fixed; top: 0; width: 100%; padding: 2.5rem 5vw; display: flex; justify-content: space-between; align-items: center; z-index: 100; mix-blend-mode: difference; }
+        .logo { font-family: var(--font-display); font-size: 1.8rem; font-style: italic; }
+        .menu-btn { font-size: var(--fs-caption); text-transform: uppercase; letter-spacing: 0.2em; position: relative; overflow: hidden; cursor: none; }
+        .menu-btn::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 100%; height: 1px; background: currentColor; transform: scaleX(0); transform-origin: right; transition: transform 0.4s var(--ease-out-expo); }
+        .menu-btn:hover::after { transform: scaleX(1); transform-origin: left; }
+
+        .hero { position: relative; height: 100vh; width: 100vw; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .hero-video-wrap { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; transform: scale(1.1); }
+        .hero-video-wrap::after { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 50% 50%, transparent 0%, rgba(0,0,0,0.4) 100%), linear-gradient(to top, var(--bg-base) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.7) 100%); }
+        .hero-video { width: 100%; height: 100%; object-fit: cover; opacity: 0.55; }
+        .hero-content { position: relative; z-index: 1; text-align: center; margin-top: 8vh; text-shadow: 0 4px 30px rgba(0,0,0,0.5); }
+
+        .marquee-container { padding: 3rem 0; background: var(--accent-gold); color: var(--bg-base); overflow: hidden; white-space: nowrap; display: flex; align-items: center; }
+        .marquee-track { display: inline-flex; animation: marquee 25s linear infinite; }
+        .marquee-item { font-family: var(--font-display); font-size: 2.5rem; font-style: italic; padding: 0 4rem; display: inline-flex; align-items: center; gap: 4rem; }
+        .marquee-item::after { content: '✦'; font-style: normal; font-size: 1rem; }
+        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+        /* Philosophy (Short & Dynamic) */
+        .philosophy { min-height: 80vh; padding: 10vh 5vw; display: flex; align-items: center; justify-content: center; text-align: center; }
+        .scrub-text { font-size: clamp(2rem, 4vw, 4rem); line-height: 1.3; max-width: 1000px; font-family: var(--font-display); }
+        .scrub-text .word { display: inline-block; overflow: hidden; vertical-align: top; margin-right: 0.2em; }
+        .scrub-text .word span { display: inline-block; transform: translateY(110%); opacity: 0; color: var(--accent-gold); }
+
+        /* Bento Grid */
+        .bento-grid { padding: 5vh 5vw var(--space-xl); display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 250px; gap: 1rem; }
+        .bento-item { position: relative; border-radius: 8px; overflow: hidden; border: 1px solid var(--border-light); }
+        .bento-item img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(50%); transition: 0.8s var(--ease-out-expo); }
+        .bento-item:hover img { filter: grayscale(0%); transform: scale(1.05); }
+        .bento-item.large { grid-column: span 2; grid-row: span 2; }
+        .bento-item.tall { grid-row: span 2; }
+        .bento-overlay { position: absolute; bottom: 0; left: 0; width: 100%; padding: 2rem; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); }
+        .bento-overlay h3 { font-size: 1.5rem; color: #fff; }
+
+        /* Doctor Profile */
+        .doctor-section { padding: var(--space-xl) 5vw; display: grid; grid-template-columns: 1fr 1fr; gap: 8vw; align-items: center; }
+        .doc-img-wrapper { position: relative; width: 100%; aspect-ratio: 3/4; overflow: hidden; border-radius: 4px; }
+        .doc-img { width: 100%; height: 120%; object-fit: cover; filter: grayscale(100%); position: absolute; top: -10%; }
+        .doc-content h2 { margin-bottom: 2rem; }
+        .doc-content p { color: var(--text-secondary); margin-bottom: 1.5rem; }
+        .signature { font-family: var(--font-display); font-size: 3rem; font-style: italic; color: var(--accent-gold); margin-top: 3rem; }
+
+        /* Horizontal Scroll Expanded & Fixed */
+        .horizontal-wrapper { overflow: hidden; background: var(--bg-surface); border-top: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light); }
+        .horizontal-scroll { display: flex; width: max-content; height: 100vh; padding-top: 15vh; padding-right: 5vw; }
+        .horizontal-intro { width: 100vw; padding: 0 10vw; display: flex; flex-direction: column; justify-content: center; }
+        .panel { width: 60vw; height: 70vh; margin-right: 5vw; position: relative; border-radius: 12px; overflow: hidden; flex-shrink: 0; border: 1px solid var(--border-light); }
+        .panel-img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(80%) brightness(0.7); transition: all 1.2s var(--ease-out-expo); }
+        .panel:hover .panel-img { filter: grayscale(0%) brightness(1); transform: scale(1.05); }
+        .panel-content { position: absolute; bottom: 0; left: 0; width: 100%; padding: 4rem; background: linear-gradient(to top, rgba(0,0,0,0.95), transparent); transform: translateY(30px); transition: transform 0.8s var(--ease-out-expo); }
+        .panel:hover .panel-content { transform: translateY(0); }
+        .panel-number { font-family: var(--font-display); font-size: 5rem; color: var(--accent-gold); opacity: 0.3; position: absolute; top: 2rem; right: 3rem; }
+
+        /* NEW Cinematic Technology Section */
+        .technology { padding: var(--space-xl) 5vw; background: #040405; position: relative; border-top: 1px solid var(--border-light); overflow: hidden; }
+        .tech-header { text-align: center; margin-bottom: 15vh; }
+        .tech-showcase { display: flex; flex-direction: column; gap: 20vh; }
+        
+        .tech-block { display: flex; align-items: center; justify-content: space-between; gap: 8vw; position: relative; }
+        .tech-block.reverse { flex-direction: row-reverse; }
+        
+        .tech-image-wrap { width: 55%; aspect-ratio: 16/10; overflow: hidden; border-radius: 4px; position: relative; border: 1px solid rgba(255,255,255,0.05); }
+        .tech-img { width: 100%; height: 130%; object-fit: cover; position: absolute; top: -15%; filter: grayscale(20%) contrast(1.1); }
+        
+        .tech-content { width: 45%; position: relative; padding: 2rem; }
+        .tech-num { font-family: var(--font-display); font-size: clamp(6rem, 12vw, 12rem); color: rgba(197, 160, 89, 0.05); position: absolute; top: -3rem; left: -1rem; line-height: 1; z-index: 0; pointer-events: none; }
+        .tech-content h3 { font-size: var(--fs-h2); color: var(--text-primary); margin-bottom: 1.5rem; position: relative; z-index: 1; }
+        .tech-content p { color: var(--text-secondary); font-size: 1.2rem; line-height: 1.6; position: relative; z-index: 1; }
+
+        /* Before / After */
+        .results-section { padding: var(--space-xl) 5vw; display: flex; flex-direction: column; align-items: center; }
+        .ba-slider { position: relative; width: 100%; max-width: 1000px; aspect-ratio: 16/9; margin-top: 4rem; border-radius: 4px; overflow: hidden; cursor: none; border: 1px solid var(--border-light); }
+        .ba-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+        .img-after { z-index: 1; }
+        .img-before-wrapper { position: absolute; inset: 0; width: 50%; z-index: 2; overflow: hidden; border-right: 1px solid var(--accent-gold); }
+        .img-before { width: 200%; height: 100%; object-fit: cover; }
+        .ba-label {
+            position: absolute; bottom: 2rem; z-index: 5;
+            padding: 0.6rem 1.4rem; background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 100px; font-size: 0.65rem; text-transform: uppercase;
+            letter-spacing: 0.25em; color: white; pointer-events: none;
+            opacity: 0; transition: all 0.6s var(--ease-out-expo);
+            transform: translateY(10px);
+        }
+        .ba-slider:hover .ba-label { opacity: 1; transform: translateY(0); }
+        .label-before { left: 2rem; }
+        .label-after { right: 2rem; }
+        .slider-line { position: absolute; top: 0; left: 50%; height: 100%; width: 1px; background: var(--accent-gold); z-index: 3; pointer-events: none; }
+        .slider-handle { 
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+            width: 55px; height: 55px; background: rgba(197, 160, 89, 0.1); 
+            border: 1px solid var(--accent-gold); backdrop-filter: blur(12px); 
+            border-radius: 50%; z-index: 4; display: flex; align-items: center; 
+            justify-content: center; pointer-events: none; color: var(--accent-gold); 
+            font-size: 1.1rem; transition: transform 0.3s var(--ease-out-expo), background 0.3s; 
+        }
+        .ba-slider:hover .slider-handle { transform: translate(-50%, -50%) scale(1.15); background: rgba(197, 160, 89, 0.2); }
+
+        /* Reveal Footer Effect */
+        .main-wrapper { position: relative; z-index: 2; background: var(--bg-base); margin-bottom: 100vh; }
+        .footer {
+            position: fixed; bottom: 0; left: 0; width: 100%; height: 100vh; z-index: 1;
+            padding: 10vh 5vw 5vh; display: flex; flex-direction: column; justify-content: space-between;
+            background: #040405; border-top: 1px solid var(--border-light); overflow: hidden;
+        }
+        
+        .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5vw; flex: 1; align-items: stretch; position: relative; z-index: 2; margin-bottom: 2rem; }
+        .contact-info { display: flex; flex-direction: column; justify-content: flex-start; }
+        .contact-info h2 { font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3.5rem); margin-bottom: 1rem; color: var(--text-primary); }
+        
+        /* New World-Class Footer Links */
+        .contact-list { display: flex; flex-direction: column; width: 100%; border-top: 1px solid rgba(255,255,255,0.1); }
+        .contact-row {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 1.2rem 0; border-bottom: 1px solid rgba(255,255,255,0.1);
+            transition: padding 0.4s var(--ease-out-expo), border-color 0.4s;
+            cursor: none; position: relative; overflow: hidden;
+        }
+        .contact-row::before {
+            content: ''; position: absolute; left: 0; bottom: 0; width: 100%; height: 0%;
+            background: linear-gradient(to top, rgba(197, 160, 89, 0.08), transparent);
+            transition: height 0.4s var(--ease-out-expo); z-index: -1;
+        }
+        .contact-row:hover::before { height: 100%; }
+        .contact-row:hover { padding-left: 1rem; padding-right: 1rem; border-color: var(--accent-gold); }
+        .row-icon { width: 45px; height: 45px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; color: var(--accent-gold); transition: all 0.4s var(--ease-out-expo); flex-shrink: 0; }
+        .row-icon svg { width: 20px; height: 20px; }
+        .contact-row:hover .row-icon { background: var(--accent-gold); color: var(--bg-base); transform: scale(1.1); }
+        .row-text { flex: 1; display: flex; flex-direction: column; margin-left: 1rem; }
+        .row-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-secondary); margin-bottom: 0.2rem; font-family: var(--font-body); }
+        .row-value { font-family: var(--font-display); font-size: 1.3rem; color: var(--text-primary); transition: color 0.4s; }
+        .contact-row:hover .row-value { color: var(--accent-gold); }
+        .row-arrow { font-size: 1.5rem; opacity: 0; transform: translateX(-20px); transition: all 0.4s var(--ease-out-expo); color: var(--accent-gold); font-family: var(--font-body); }
+        .contact-row:hover .row-arrow { opacity: 1; transform: translateX(0); }
+        
+        .contact-map { width: 100%; height: 100%; border-radius: 12px; overflow: hidden; border: 1px solid var(--border-light); filter: grayscale(100%) invert(90%) contrast(1.2); opacity: 0.8; transition: opacity 0.3s; min-height: 40vh; }
+        .contact-map:hover { opacity: 1; filter: grayscale(80%) invert(90%) contrast(1.2); }
+        
+        .footer-bottom-grid { display: flex; justify-content: flex-end; align-items: center; position: relative; z-index: 2; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 1rem; }
+        
+        /* Watermark Huge Text */
+        .footer-huge { 
+            font-family: var(--font-display); font-size: clamp(8rem, 20vw, 20rem); line-height: 0.7; 
+            position: absolute; bottom: 0; left: -2vw; color: var(--text-primary); opacity: 0.02; 
+            pointer-events: none; z-index: 0; white-space: nowrap; font-style: italic;
+        }
+        
+        .magnetic-btn {
+            width: 150px; height: 150px; border-radius: 50%; border: 1px solid var(--accent-gold);
+            display: flex; align-items: center; justify-content: center; text-transform: uppercase;
+            font-size: var(--fs-caption); letter-spacing: 0.1em; cursor: none; position: relative; overflow: hidden;
+            color: var(--text-primary);
+        }
+        .magnetic-btn::before {
+            content: ''; position: absolute; top: 100%; left: 0; width: 100%; height: 100%;
+            background: var(--accent-gold); border-radius: 50%; transition: transform 0.6s var(--ease-out-expo); z-index: -1;
+        }
+        .magnetic-btn:hover::before { transform: translateY(-100%); border-radius: 0; }
+        .magnetic-btn:hover { color: var(--bg-base); font-weight: 600; }
+
+        .footer-credits { display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.1em; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 1.5rem; margin-top: 2rem; font-family: var(--font-body); }
+    </style>
+</head>
+<body>
+
+
+
+    <div class="noise-overlay"></div>
+    <div class="cursor-dot"></div>
+    <div class="cursor-follower"><span id="cursor-text"></span></div>
+
+    <div class="preloader">
+        <div class="preloader-text"><span class="text-reveal-inner" id="loader-brand">Viegas</span></div>
+        <div class="preloader-counter" id="loader-count">0%</div>
+        <div class="preloader-bar" id="loader-bar"></div>
+    </div>
+
+    <div class="main-wrapper">
+        
+        <nav>
+            <div class="logo">Viegas</div>
+            <div class="menu-btn">Menu</div>
+        </nav>
+
+        <section class="hero">
+            <div class="hero-video-wrap">
+                <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=2000&auto=format&fit=crop" alt="Clinic Interior" class="hero-video" id="hero-img">
+            </div>
+            <div class="hero-content">
+                <span class="eyebrow text-reveal"><span class="text-reveal-inner">Aesthetic Architecture</span></span>
+                <h1 class="title-display">
+                    <div class="text-reveal"><span class="text-reveal-inner">Refining</span></div><br>
+                    <div class="text-reveal"><span class="text-reveal-inner"><i class="text-italic">Human</i> Canvas.</span></div>
+                </h1>
+            </div>
+        </section>
+
+        <section class="philosophy">
+            <h2 class="scrub-text" id="split-text">
+                A perfeição não grita. Ela impressiona em absoluto silêncio.
+            </h2>
+        </section>
+
+        <section class="bento-grid">
+            <div class="bento-item large">
+                <img src="https://images.unsplash.com/photo-1618498082410-b4aa22193b38?q=80&w=1000&auto=format&fit=crop" alt="Toxina Botulínica">
+                <div class="bento-overlay"><h3>Toxina Botulínica</h3><p style="color:var(--text-secondary);font-size:0.9rem;">Prevenção e suavização</p></div>
+            </div>
+            <div class="bento-item">
+                <img src="https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=1000&auto=format&fit=crop" alt="Preenchimento Labial">
+                <div class="bento-overlay"><h3>Preenchimento Labial</h3></div>
+            </div>
+            <div class="bento-item tall">
+                <img src="https://images.unsplash.com/photo-1581594693702-fbdc51b2763b?q=80&w=1000&auto=format&fit=crop" alt="Laser Fotona">
+                <div class="bento-overlay"><h3>Laser Fotona</h3><p style="color:var(--text-secondary);font-size:0.9rem;">Rejuvenescimento 4D</p></div>
+            </div>
+            <div class="bento-item">
+                <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?q=80&w=1000&auto=format&fit=crop" alt="Fios de Sustentação">
+                <div class="bento-overlay"><h3>Fios de PDO</h3></div>
+            </div>
+            <div class="bento-item">
+                <img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?q=80&w=1000&auto=format&fit=crop" alt="Bioestimuladores">
+                <div class="bento-overlay"><h3>Bioestimuladores</h3></div>
+            </div>
+        </section>
+
+        <section class="doctor-section">
+            <div class="doc-img-wrapper" id="doc-wrapper">
+                <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=1000&auto=format&fit=crop" alt="Dra. Viegas" class="doc-img" id="doc-img">
+            </div>
+            <div class="doc-content">
+                <span class="eyebrow">Direção Clínica</span>
+                <h2 class="title-h2">A visão por trás <br>da <i class="text-italic">excelência</i>.</h2>
+                <p>Com mais de uma década de experiência internacional, Dra. Viegas desenvolveu uma metodologia própria que une o profundo conhecimento anatômico com o refinamento estético da arte clássica.</p>
+                <div class="signature">Isabella Viegas</div>
+            </div>
+        </section>
+
+        <!-- Horizontal Scroll Expanded & Fixed -->
+        <section class="horizontal-wrapper">
+            <div class="horizontal-scroll">
+                <div class="horizontal-intro">
+                    <span class="eyebrow" style="font-size: 1.2rem; margin-bottom: 2rem;">Tratamentos</span>
+                    <!-- MODERNIZED FONT FOR THE TITLE AS REQUESTED -->
+                    <h2 class="title-h1" style="font-family: var(--font-body); font-weight: 300; font-size: clamp(3rem, 8vw, 10rem); line-height: 0.9; margin-left: -0.5vw; letter-spacing: -0.04em;">
+                        Precisão da <br><i class="text-italic" style="font-family: var(--font-display); font-weight: 400;">Ciência</i> e Arte.
+                    </h2>
+                </div>
+                
+                <div class="panel">
+                    <span class="panel-number">01</span>
+                    <img src="https://images.unsplash.com/photo-1616683693504-3ea7e9ad6fec?q=80&w=1000&auto=format&fit=crop" class="panel-img" alt="Facial Architecture">
+                    <div class="panel-content">
+                        <h3 class="title-h2">Facial Architecture</h3>
+                        <p>Reestruturação com MD Codes para proporções áureas.</p>
+                    </div>
+                </div>
+                
+                <div class="panel">
+                    <span class="panel-number">02</span>
+                    <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?q=80&w=1000&auto=format&fit=crop" class="panel-img" alt="Cellular Laser">
+                    <div class="panel-content">
+                        <h3 class="title-h2">Cellular Laser</h3>
+                        <p>Plataformas padrão-ouro para qualidade dérmica.</p>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <span class="panel-number">03</span>
+                    <img src="https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=1000&auto=format&fit=crop" class="panel-img" alt="Bio-Infusion">
+                    <div class="panel-content">
+                        <h3 class="title-h2">Bio-Infusion</h3>
+                        <p>Estimuladores de colágeno para resgatar o viço natural.</p>
+                    </div>
+                </div>
+                
+                <div class="panel">
+                    <span class="panel-number">04</span>
+                    <img src="https://images.unsplash.com/photo-1618498082410-b4aa22193b38?q=80&w=1000&auto=format&fit=crop" class="panel-img" alt="Botulinum">
+                    <div class="panel-content">
+                        <h3 class="title-h2">Botulinum</h3>
+                        <p>Suavização estratégica de rugas sem perda de expressão.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- NEW: TECHNOLOGY SECTION -->
+        <section class="technology">
+            <div class="tech-header">
+                <span class="eyebrow">Arsenal Clínico</span>
+                <h2 class="title-h1" style="font-family: var(--font-body); font-weight: 300; letter-spacing: -0.04em;">Avanço <i class="text-italic" style="font-family: var(--font-display);">Tecnológico</i>.</h2>
+                <p style="max-width: 600px; margin: 2rem auto 0; color: var(--text-secondary); font-size: 1.2rem;">Plataformas padrão-ouro de aprovação global para resultados de excelência absoluta.</p>
+            </div>
+            
+            <div class="tech-showcase">
+                <div class="tech-block">
+                    <div class="tech-image-wrap">
+                        <img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?q=80&w=2000" alt="Laser Machine" class="tech-img">
+                    </div>
+                    <div class="tech-content">
+                        <span class="tech-num">01</span>
+                        <h3 class="title-h2">Plataforma Fotona 4D®</h3>
+                        <p>A combinação sinérgica de dois comprimentos de onda a laser (Er:YAG e Nd:YAG) para atuar nas 4 dimensões do envelhecimento facial. Resultados de lifting robótico sem tempo de recuperação.</p>
+                    </div>
+                </div>
+
+                <div class="tech-block reverse">
+                    <div class="tech-image-wrap">
+                        <img src="https://images.unsplash.com/photo-1629909615184-74f495363b67?q=80&w=2000" alt="Ultrasound Machine" class="tech-img">
+                    </div>
+                    <div class="tech-content">
+                        <span class="tech-num">02</span>
+                        <h3 class="title-h2">Ultraformer MPT®</h3>
+                        <p>A evolução do ultrassom micro e macrofocado. Tecnologia de pulso micropulsado que maximiza a contração muscular profunda e a quebra de gordura localizada com conforto sem precedentes.</p>
+                    </div>
+                </div>
+
+                <div class="tech-block">
+                    <div class="tech-image-wrap">
+                        <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?q=80&w=2000" alt="Body Scanner" class="tech-img">
+                    </div>
+                    <div class="tech-content">
+                        <span class="tech-num">03</span>
+                        <h3 class="title-h2">Mapeamento Vectra 3D</h3>
+                        <p>Análise digital milimétrica da topografia facial. Permite o planejamento matemático e tridimensional dos procedimentos, garantindo simetria e previsibilidade impecável para o paciente.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="results-section">
+            <span class="eyebrow">Evidências Clínicas</span>
+            <h2 class="title-h2">A sutileza do <i class="text-italic">impacto</i>.</h2>
+            
+            <div class="ba-slider" id="ba-slider" data-cursor-text="Slide">
+                <img src="fotodepois1.jpg" class="ba-img img-after" alt="Depois">
+                <div class="img-before-wrapper" id="ba-wrapper">
+                    <img src="fotoantes1.jpg" class="ba-img img-before" alt="Antes" id="ba-before-img">
+                </div>
+                <div class="ba-label label-before">Antes</div>
+                <div class="ba-label label-after">Depois</div>
+                <div class="slider-line" id="ba-line"></div>
+                <div class="slider-handle" id="ba-handle">↔</div>
+            </div>
+        </section>
+        
+    </div>
+
+    <!-- REVEAL FOOTER (Modern Contact Buttons) -->
+    <footer class="footer">
+        <div class="contact-grid">
+            <div class="contact-info">
+                <h2>Experiência<br>Viegas.</h2>
+                <div class="contact-list">
+                    <a href="#" class="contact-row" data-cursor-text="Ligar">
+                        <div class="row-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg></div>
+                        <div class="row-text"><span class="row-label">Telefone</span><span class="row-value">(11) 99999-9999</span></div>
+                        <div class="row-arrow">↗</div>
+                    </a>
+                    <a href="#" class="contact-row" data-cursor-text="Mensagem">
+                        <div class="row-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg></div>
+                        <div class="row-text"><span class="row-label">WhatsApp</span><span class="row-value">Fale Conosco</span></div>
+                        <div class="row-arrow">↗</div>
+                    </a>
+                    <a href="#" class="contact-row" data-cursor-text="Seguir">
+                        <div class="row-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></div>
+                        <div class="row-text"><span class="row-label">Instagram</span><span class="row-value">@clinicaviegas</span></div>
+                        <div class="row-arrow">↗</div>
+                    </a>
+                    <a href="#" class="contact-row" data-cursor-text="Mapa">
+                        <div class="row-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg></div>
+                        <div class="row-text"><span class="row-label">Endereço</span><span class="row-value" style="font-size: 1.2rem;">Av. Faria Lima, 3400 - SP</span></div>
+                        <div class="row-arrow">↗</div>
+                    </a>
+                </div>
+            </div>
+            <div class="contact-map">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3656.7648347898863!2d-46.6888426!3d-23.576856!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce57715fbc5db1%3A0x1d36a56ab7140dd!2sAv.%20Brg.%20Faria%20Lima%2C%203400%20-%20Itaim%20Bibi%2C%20S%C3%A3o%20Paulo%20-%20SP%2C%2004538-132!5e0!3m2!1spt-BR!2sbr!4v1713000000000!5m2!1spt-BR!2sbr" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+        
+        <div class="footer-huge">Viegas.</div>
+        
+        <div class="footer-bottom-grid">
+            <a href="#" class="magnetic-btn" data-magnetic style="width: 120px; height: 120px; font-size: 0.8rem;">Agendar</a>
+        </div>
+        
+        <div class="footer-credits" style="border: none; padding-top: 0; margin-top: 1rem; z-index: 2; position: relative;">
+            <span>© 2026 Clínica Viegas</span>
+            <span>Design World-Class by HiveMind</span>
+            <span>CRM/SP 000000</span>
+        </div>
+    </footer>
+
+    <script>
+        const lenis = new Lenis({ duration: 1.5, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+        requestAnimationFrame(raf);
+
+        gsap.registerPlugin(ScrollTrigger);
+        lenis.on('scroll', ScrollTrigger.update);
+        gsap.ticker.add((time) => { lenis.raf(time * 1000) });
+        gsap.ticker.lagSmoothing(0);
+
+        const dot = document.querySelector('.cursor-dot');
+        const follower = document.querySelector('.cursor-follower');
+        const cursorText = document.getElementById('cursor-text');
+        let mouseX = 0, mouseY = 0, dotX = 0, dotY = 0, folX = 0, folY = 0;
+        
+        window.addEventListener('mousemove', (e) => { mouseX = e.clientX; mouseY = e.clientY; });
+
+        function cursorRender() {
+            dotX += (mouseX - dotX) * 1; folX += (mouseX - folX) * 0.15;
+            dotY += (mouseY - dotY) * 1; folY += (mouseY - folY) * 0.15;
+            dot.style.transform = `translate(calc(${dotX}px - 50%), calc(${dotY}px - 50%))`;
+            follower.style.transform = `translate(calc(${folX}px - 50%), calc(${folY}px - 50%))`;
+            requestAnimationFrame(cursorRender);
+        }
+        requestAnimationFrame(cursorRender);
+
+        document.querySelectorAll('a, .menu-btn, .magnetic-btn, .btn-pill').forEach(el => {
+            el.addEventListener('mouseenter', () => { follower.classList.add('active'); cursorText.innerText = ''; });
+            el.addEventListener('mouseleave', () => follower.classList.remove('active'));
+        });
+        
+        document.querySelectorAll('[data-cursor-text]').forEach(el => {
+            el.addEventListener('mouseenter', () => { follower.classList.add('active'); cursorText.innerText = el.getAttribute('data-cursor-text'); });
+            el.addEventListener('mouseleave', () => { follower.classList.remove('active'); cursorText.innerText = ''; });
+        });
+
+        // Intro
+        const tlIntro = gsap.timeline();
+        let progress = 0;
+        const countEl = document.getElementById('loader-count');
+        const barEl = document.getElementById('loader-bar');
+
+        const interval = setInterval(() => {
+            progress += Math.floor(Math.random() * 15) + 1;
+            if (progress >= 100) { progress = 100; clearInterval(interval); playIntro(); }
+            countEl.innerText = progress + '%'; barEl.style.width = progress + '%';
+        }, 30);
+
+        function playIntro() {
+            tlIntro.to('.preloader-text .text-reveal-inner', { y: '0%', duration: 1, ease: 'power4.out' })
+                   .to('.preloader', { yPercent: -100, duration: 1.2, ease: 'power4.inOut', delay: 0.3 })
+                   .from('#hero-img', { scale: 1.2, duration: 2, ease: 'power3.out' }, '-=1')
+                   .to('.hero-content .text-reveal-inner', { y: '0%', duration: 1.2, stagger: 0.1, ease: 'power4.out' }, '-=1.5');
+        }
+
+        // Philosophy Text Split & Reveal
+        const scrubEl = document.getElementById('split-text');
+        const text = scrubEl.innerText;
+        scrubEl.innerHTML = '';
+        text.split(' ').forEach(word => {
+            if(word.trim() === '') return;
+            const wordDiv = document.createElement('div');
+            wordDiv.className = 'word';
+            word.split('').forEach(char => {
+                const span = document.createElement('span');
+                span.innerText = char;
+                wordDiv.appendChild(span);
+            });
+            scrubEl.appendChild(wordDiv);
+            scrubEl.appendChild(document.createTextNode(' '));
+        });
+
+        gsap.to('#split-text .word span', {
+            scrollTrigger: { trigger: '.philosophy', start: 'top 80%', end: 'bottom 60%', scrub: 1 },
+            y: '0%', opacity: 1, stagger: 0.05, ease: 'power2.out'
+        });
+
+        // Parallax
+        gsap.to('#doc-img', { yPercent: 20, ease: "none", scrollTrigger: { trigger: '#doc-wrapper', start: "top bottom", end: "bottom top", scrub: true }});
+
+        // 1. HORIZONTAL SCROLL MUST BE DECLARED FIRST FOR PIN SPACING
+        const horizontalScroll = document.querySelector('.horizontal-scroll');
+        gsap.to(horizontalScroll, {
+            x: () => -(horizontalScroll.scrollWidth - window.innerWidth),
+            ease: "none",
+            scrollTrigger: { trigger: ".horizontal-wrapper", pin: true, scrub: 1, end: () => "+=" + (horizontalScroll.scrollWidth - window.innerWidth) }
+        });
+
+        // 2. CINEMATIC TECH ANIMATIONS (Sliding from sides)
+        gsap.utils.toArray('.tech-block').forEach((block) => {
+            const imgWrap = block.querySelector('.tech-image-wrap');
+            const img = block.querySelector('.tech-img');
+            const content = block.querySelector('.tech-content');
+            const isReverse = block.classList.contains('reverse');
+            const dir = isReverse ? 1 : -1;
+            
+            gsap.from(imgWrap, {
+                x: 150 * dir, opacity: 0, clipPath: "inset(10% 5% 10% 5%)", filter: "blur(10px)", duration: 1.5, ease: "power3.out",
+                scrollTrigger: { trigger: block, start: "top 85%" }
+            });
+            
+            gsap.to(img, {
+                yPercent: 15, ease: "none",
+                scrollTrigger: { trigger: imgWrap, start: "top bottom", end: "bottom top", scrub: true }
+            });
+            
+            gsap.from(content, {
+                x: -150 * dir, opacity: 0, duration: 1.5, ease: "power3.out", delay: 0.2,
+                scrollTrigger: { trigger: block, start: "top 85%" }
+            });
+        });
+
+        // Before / After Slider
+        const baSlider = document.getElementById('ba-slider');
+        const baWrapper = document.getElementById('ba-wrapper');
+        const baHandle = document.getElementById('ba-handle');
+        const baLine = document.getElementById('ba-line');
+        const baBeforeImg = document.getElementById('ba-before-img');
+        
+        function resizeSlider() { baBeforeImg.style.width = `${baSlider.offsetWidth}px`; }
+        window.addEventListener('resize', resizeSlider);
+        resizeSlider();
+
+        baSlider.addEventListener('mousemove', (e) => {
+            const rect = baSlider.getBoundingClientRect();
+            const x = Math.max(0, Math.min(e.clientX - rect.left, rect.width));
+            const percent = (x / rect.width) * 100;
+            gsap.to(baWrapper, { width: `${percent}%`, duration: 0.4, ease: 'power2.out' });
+            gsap.to(baLine, { left: `${percent}%`, duration: 0.4, ease: 'power2.out' });
+            gsap.to(baHandle, { left: `${percent}%`, duration: 0.4, ease: 'power2.out' });
+        });
+
+        // Magnetic Buttons
+        document.querySelectorAll('[data-magnetic]').forEach(btn => {
+            btn.addEventListener('mousemove', function(e) {
+                const rect = btn.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                gsap.to(btn, { x: x * 0.4, y: y * 0.4, duration: 0.5, ease: 'power2.out' });
+            });
+            btn.addEventListener('mouseleave', function() { gsap.to(btn, { x: 0, y: 0, duration: 0.5, ease: 'elastic.out(1, 0.3)' }); });
+        });
+    </script>
+</body>
+</html>

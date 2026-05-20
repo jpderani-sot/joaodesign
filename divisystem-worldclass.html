@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="has-scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Divisystem | World Class Redesign</title>
+
+    <!-- Locomotive Scroll CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --brand-blue: #1492D0;
+            --brand-dark: #222224;
+            --brand-gray: #4D4D4D;
+            --bg-light: #F4F4F4;
+            --bg-white: #FFFFFF;
+            --text-light: #F8F8F8;
+            --text-dark: #1A1A1A;
+            --font-main: 'Inter', sans-serif;
+            --font-display: 'Oswald', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--brand-dark);
+            color: var(--text-light);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ====================
+           LOADER ANIMATION
+           ==================== */
+        #loader {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: var(--brand-dark);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #loader-logo-wrapper {
+            width: 250px;
+            height: 340px; /* Maintains aspect ratio for 158x217 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .the-logo {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            will-change: transform, width, height;
+        }
+
+        /* ====================
+           HEADER
+           ==================== */
+        header {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            padding: 1.5rem 5vw;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 9000; /* Ensure header is above everything */
+            background: linear-gradient(to bottom, rgba(0,0,0,0.6), transparent);
+        }
+
+        .header-nav {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 500;
+            color: #FFF;
+        }
+
+        .header-nav li { cursor: pointer; transition: color 0.3s; }
+        .header-nav li:hover { color: var(--brand-blue); }
+
+        .header-logo-container {
+            width: 60px;
+            height: 82px; /* Controlled final size in header */
+            display: block;
+        }
+
+        /* ====================
+           HERO SECTION
+           ==================== */
+        .hero {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .hero-video {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            min-width: 100%; min-height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            z-index: 1;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.1) 100%);
+            z-index: 2;
+        }
+
+        .hero-content {
+            position: absolute;
+            bottom: 10vh;
+            left: 5vw;
+            z-index: 3;
+            max-width: 1200px;
+        }
+
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: clamp(3rem, 8vw, 8rem);
+            line-height: 1;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            color: var(--text-light);
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1rem, 2vw, 1.5rem);
+            font-weight: 300;
+            color: #DDD;
+            max-width: 600px;
+            line-height: 1.6;
+        }
+
+        /* ====================
+           SECTIONS & GRID
+           ==================== */
+        .section {
+            padding: 15vh 5vw;
+            position: relative;
+            background: var(--bg-white);
+            color: var(--text-dark);
+        }
+
+        .section-dark {
+            background: var(--brand-dark);
+            color: var(--text-light);
+        }
+
+        .section-header {
+            margin-bottom: 10vh;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 5vw, 5rem);
+            line-height: 1;
+            text-transform: uppercase;
+        }
+
+        .section-desc {
+            max-width: 400px;
+            font-size: 1.1rem;
+            color: var(--brand-gray);
+            font-weight: 400;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .product-card {
+            position: relative;
+            height: 70vh;
+            overflow: hidden;
+            background: #EAEAEA;
+            cursor: pointer;
+            border-radius: 8px;
+        }
+
+        .product-card:nth-child(even) { margin-top: 15vh; }
+
+        .product-img {
+            width: 100%;
+            height: 120%;
+            object-fit: cover;
+            position: relative;
+            top: -10%;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .product-card:hover .product-img { transform: scale(1.05); }
+
+        .product-info {
+            position: absolute;
+            bottom: 0; left: 0; width: 100%;
+            padding: 3rem;
+            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+            color: #FFF;
+            z-index: 10;
+        }
+
+        .product-info h3 {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .cta-banner {
+            background: var(--brand-blue);
+            color: #FFF;
+            text-align: center;
+            padding: 20vh 5vw;
+        }
+
+        .cta-banner h2 {
+            font-family: var(--font-display);
+            font-size: clamp(3rem, 6vw, 6rem);
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            padding: 1rem 3rem;
+            border: 1px solid #FFF;
+            border-radius: 50px;
+            color: #FFF;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .cta-btn:hover { background: #FFF; color: var(--brand-blue); }
+        
+        .reveal-up {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-up.is-inview { opacity: 1; transform: translateY(0); }
+
+    </style>
+</head>
+<body>
+
+    <!-- LOADER -->
+    <div id="loader">
+        <div id="loader-logo-wrapper">
+            <img src="file:///c:/Users/jubav/Downloads/divisystem.com.br/dividsvg.svg" alt="Divisystem" class="the-logo">
+        </div>
+    </div>
+
+    <!-- HEADER -->
+    <header>
+        <div class="header-logo-container"></div>
+        <ul class="header-nav">
+            <li>Soluções</li>
+            <li>Projetos</li>
+            <li>Quem Somos</li>
+            <li>Contato</li>
+        </ul>
+    </header>
+
+    <!-- MAIN -->
+    <main data-scroll-container id="js-scroll">
+        <section class="hero" data-scroll-section>
+            <video class="hero-video" autoplay muted loop playsinline>
+                <source src="file:///c:/Users/jubav/Downloads/divisystem.com.br/videcapa.mp4" type="video/mp4">
+            </video>
+            <div class="hero-overlay"></div>
+            
+            <div class="hero-content">
+                <h1 class="hero-title" data-scroll data-scroll-speed="3">
+                    Alto Desempenho<br>em Acabamentos
+                </h1>
+                <p class="hero-subtitle" data-scroll data-scroll-speed="1.5">
+                    Forros modulares, revestimentos acústicos e divisórias de alto padrão. Engenharia suíça e internacional para arquitetura corporativa.
+                </p>
+            </div>
+        </section>
+
+        <section class="section" data-scroll-section>
+            <div class="section-header">
+                <h2 class="section-title reveal-up" data-scroll>Nossas Soluções</h2>
+                <p class="section-desc reveal-up" data-scroll data-scroll-delay="0.1">
+                    Materiais de vanguarda que combinam design monolítico, conforto térmico e excelência acústica para ambientes exigentes.
+                </p>
+            </div>
+            <div class="product-grid">
+                <div class="product-card" data-scroll data-scroll-speed="1">
+                    <img src="https://images.prismic.io/site-divisystem/4ec5eb38-8322-4b83-9f4e-2d26ed079d3f_divisystem-nuvem-acustica-baffle-acustico.png" alt="Nuvem Acústica" class="product-img" data-scroll data-scroll-speed="-1.5">
+                    <div class="product-info">
+                        <h3>Nuvem Acústica</h3>
+                        <p>Controle de ruído com design flutuante.</p>
+                    </div>
+                </div>
+                <div class="product-card" data-scroll data-scroll-speed="2">
+                    <img src="https://images.prismic.io/site-divisystem/aOjul55xUNkB10nM_divisystem-piso-laminado-resistente-a-agua-quickstep.jpg" alt="Piso Alto Padrão" class="product-img" data-scroll data-scroll-speed="-1.5">
+                    <div class="product-info">
+                        <h3>Piso Laminado</h3>
+                        <p>Resistência extrema Quickstep.</p>
+                    </div>
+                </div>
+                <div class="product-card" data-scroll data-scroll-speed="1">
+                    <img src="https://images.prismic.io/site-divisystem/aTmtrnNYClf9oBmW_divisystem-forro-modular-la-de-vidro-branco-placa.jpg" alt="Forro Modular" class="product-img" data-scroll data-scroll-speed="-1.5">
+                    <div class="product-info">
+                        <h3>Forro Modular</h3>
+                        <p>Bloqueio térmico e visual limpo.</p>
+                    </div>
+                </div>
+                <div class="product-card" data-scroll data-scroll-speed="3">
+                    <img src="https://images.prismic.io/site-divisystem/8944740e-40e5-4d8e-b137-d61b239815a1_divisystem-revestimento-acustico-ripado.png" alt="Swissclic" class="product-img" data-scroll data-scroll-speed="-1.5">
+                    <div class="product-info">
+                        <h3>Swissclic</h3>
+                        <p>Revestimento acústico Suíço.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section section-dark" style="padding: 0; overflow: hidden;" data-scroll-section>
+            <div style="padding: 15vh 0; white-space: nowrap;">
+                <h1 style="font-family: var(--font-display); font-size: 15vw; color: rgba(255,255,255,0.05); text-transform: uppercase;" data-scroll data-scroll-direction="horizontal" data-scroll-speed="8">
+                    PERFORMANCE ACÚSTICA • DESIGN CORPORATIVO • 
+                </h1>
+            </div>
+            <div style="width: 80%; height: 60vh; margin: 0 auto 10vh; overflow: hidden; border-radius: 4px;" data-scroll data-scroll-speed="1.5">
+                <video autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;" data-scroll data-scroll-speed="-1">
+                    <source src="file:///c:/Users/jubav/Downloads/divisystem.com.br/SaveClip.App_AQNB_KOt4o-nai-zVnXw5if-7EV3gMMA1BdsZuZtCYRMbNBXI4WGoYtL5BpnCABzyLWVj76aUo9xX1GFuMzFLvvDy2VzZ_VRxloyFvM.mp4" type="video/mp4">
+                </video>
+            </div>
+        </section>
+
+        <section class="cta-banner" data-scroll-section>
+            <h2 class="reveal-up" data-scroll>Eleve o padrão<br>da sua obra.</h2>
+            <a href="#" class="cta-btn reveal-up" data-scroll data-scroll-delay="0.1">Fale com um Especialista</a>
+        </section>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Flip.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"></script>
+
+    <script>
+        window.addEventListener('load', () => {
+            const scroll = new LocomotiveScroll({
+                el: document.querySelector('#js-scroll'),
+                smooth: true,
+                multiplier: 1,
+                class: 'is-inview'
+            });
+
+            const logo = document.querySelector('.the-logo');
+            const targetContainer = document.querySelector('.header-logo-container');
+            const loaderOverlay = document.querySelector('#loader');
+            const heroVideo = document.querySelector('.hero-video');
+
+            setTimeout(() => {
+                const state = Flip.getState(logo);
+                targetContainer.appendChild(logo);
+
+                Flip.from(state, {
+                    duration: 1.5,
+                    ease: "power3.inOut",
+                    absolute: true,
+                    scale: true,
+                    onComplete: () => {
+                        gsap.to(loaderOverlay, {
+                            opacity: 0,
+                            duration: 0.8,
+                            ease: "power2.out",
+                            onComplete: () => loaderOverlay.style.display = 'none'
+                        });
+                        gsap.to(heroVideo, {
+                            opacity: 1,
+                            duration: 1.5,
+                            ease: "power2.out"
+                        });
+                    }
+                });
+            }, 800);
+            
+            setTimeout(() => scroll.update(), 2000);
+        });
+    </script>
+</body>
+</html>

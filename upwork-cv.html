@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>João Pedro Derani - Designer & Front-End Developer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Syne:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-main: #111111;
+            --text-muted: #555555;
+            --accent: #222222;
+            --border: #eaeaea;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f4f4;
+            color: var(--text-main);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            display: flex;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        .cv-container {
+            background-color: var(--bg-color);
+            width: 210mm; /* A4 Width */
+            min-height: 297mm; /* A4 Height */
+            padding: 20mm;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        header {
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 8mm;
+            margin-bottom: 8mm;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .header-left h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: 32pt;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            line-height: 1;
+            margin-bottom: 6px;
+        }
+
+        .header-left h2 {
+            font-size: 11pt;
+            font-weight: 400;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .header-right {
+            text-align: right;
+            font-size: 9.5pt;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .header-right a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .section {
+            margin-bottom: 8mm;
+        }
+
+        .section-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 13pt;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 2mm;
+            margin-bottom: 4mm;
+        }
+
+        .summary p {
+            font-size: 10pt;
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        .experience-item {
+            margin-bottom: 6mm;
+        }
+
+        .exp-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 1mm;
+        }
+
+        .exp-header h3 {
+            font-size: 11pt;
+            font-weight: 600;
+        }
+
+        .exp-header span {
+            font-size: 9.5pt;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        .exp-role {
+            font-size: 10pt;
+            font-weight: 500;
+            color: var(--accent);
+            margin-bottom: 3mm;
+        }
+
+        .exp-details {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .exp-details li {
+            font-size: 9.5pt;
+            color: var(--text-muted);
+            margin-bottom: 2mm;
+            padding-left: 4mm;
+            position: relative;
+            line-height: 1.5;
+        }
+
+        .exp-details li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--text-muted);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10mm;
+        }
+
+        .skills-list {
+            list-style: none;
+        }
+
+        .skills-list li {
+            font-size: 9.5pt;
+            color: var(--text-muted);
+            margin-bottom: 2.5mm;
+            line-height: 1.5;
+        }
+
+        .skills-list li strong {
+            color: var(--text-main);
+            display: block;
+            font-size: 10pt;
+            margin-bottom: 2px;
+        }
+
+        .controls {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: white;
+            padding: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            z-index: 1000;
+        }
+
+        .controls button {
+            background: #222;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+
+        .controls button:hover {
+            background: #000;
+        }
+
+        @media print {
+            body {
+                background: none;
+                padding: 0;
+                display: block;
+            }
+            .cv-container {
+                box-shadow: none;
+                width: 100%;
+                min-height: auto;
+                padding: 0;
+            }
+            .controls {
+                display: none;
+            }
+            @page {
+                size: A4;
+                margin: 15mm;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="controls">
+        <p style="font-size: 12px; margin-bottom: 10px; font-weight: 500; color: #555;">CV Ready for Upwork<br>Size: ~100KB</p>
+        <button onclick="window.print()">Export as PDF</button>
+    </div>
+
+    <div class="cv-container">
+        <header>
+            <div class="header-left">
+                <h1>João Pedro Derani</h1>
+                <h2>Designer & Front-End Developer</h2>
+            </div>
+            <div class="header-right">
+                <p>Location: Curitiba, Brazil (Remote)</p>
+                <p contenteditable="true">Portfolio: <a href="#">yourportfolio.com</a></p>
+                <p>Email: <a href="mailto:jp.derani@gmail.com">jp.derani@gmail.com</a></p>
+            </div>
+        </header>
+
+        <section class="section summary">
+            <h2 class="section-title">About Me</h2>
+            <p>
+                I am a passionate junior designer and front-end developer with a degree in Design from PUCPR. I love bringing ideas to life, whether it's building a clean, responsive website from scratch or creating physical product designs like packaging and home appliances. I enjoy the entire problem-solving process—from sketching the initial wireframes to writing the final CSS. My goal is to create functional, user-friendly, and beautiful digital experiences that help businesses connect with their audiences in a meaningful way.
+            </p>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">Experience</h2>
+            
+            <div class="experience-item">
+                <div class="exp-header">
+                    <h3>Freelance Designer & Front-End Developer</h3>
+                    <span>2020 – Present</span>
+                </div>
+                <div class="exp-role">Independent Consultant / Upwork</div>
+                <ul class="exp-details">
+                    <li><strong>Web Design & Development:</strong> Designed and developed custom, responsive websites for various local businesses, including medical clinics (Clínica Montanari and other clinics in the field) and restaurants (Restaurante Marlô, Manu).</li>
+                    <li><strong>Front-End Execution:</strong> Built clean, user-friendly web pages using HTML5, CSS3, and JavaScript. Implemented smooth scrolling and CSS animations to improve the overall user experience and interface interaction.</li>
+                    <li><strong>UI/UX Design:</strong> Created intuitive interface layouts for automotive clients and service companies (like Cor & Arte Pinturas), focusing on clear navigation, accessibility, and modern aesthetics.</li>
+                    <li><strong>Product & Industrial Design:</strong> Worked on physical product concepts, designing modern home appliances from initial sketch to 3D modeling, as well as creating elegant consumer packaging.</li>
+                    <li><strong>Graphic Design:</strong> Developed brand identities, logos, and print-ready stationary (such as CMYK optimized business cards) for small businesses.</li>
+                </ul>
+            </div>
+        </section>
+
+        <div class="grid-2">
+            <section class="section">
+                <h2 class="section-title">Skills</h2>
+                <ul class="skills-list">
+                    <li>
+                        <strong>UI/UX & Web Design</strong>
+                        Wireframing, Prototyping, Responsive Layouts, User-Centered Design, Interface Mockups.
+                    </li>
+                    <li>
+                        <strong>Front-End Development</strong>
+                        HTML5, CSS3, JavaScript, CSS Animations, Flexbox & Grid layouts, basic GSAP.
+                    </li>
+                    <li>
+                        <strong>Graphic & Product Design</strong>
+                        Packaging Design, Industrial Design (Home Appliances), Print Design (CMYK), Branding.
+                    </li>
+                    <li>
+                        <strong>Software & Tools</strong>
+                        Figma, Adobe Creative Suite (Illustrator, Photoshop, InDesign), 3D Rendering Concepts.
+                    </li>
+                </ul>
+            </section>
+
+            <section class="section">
+                <h2 class="section-title">Education</h2>
+                
+                <div class="experience-item" style="margin-bottom: 4mm;">
+                    <div class="exp-header">
+                        <h3>Bachelor of Design</h3>
+                        <span>Graduated</span>
+                    </div>
+                    <div class="exp-role">PUCPR (Pontifícia Universidade Católica do Paraná)</div>
+                    <ul class="exp-details">
+                        <li>Studied industrial design, visual communication, ergonomics, and digital media.</li>
+                        <li>Developed a strong foundation in design thinking and user-centric problem solving.</li>
+                    </ul>
+                </div>
+                
+                <h2 class="section-title" style="margin-top: 6mm;">Languages</h2>
+                <ul class="skills-list">
+                    <li><strong>Portuguese:</strong> Native</li>
+                    <li><strong>English:</strong> Advanced (Professional Working Proficiency)</li>
+                    <li><strong>Spanish:</strong> Basic</li>
+                    <li><strong>French:</strong> Basic</li>
+                </ul>
+            </section>
+        </div>
+    </div>
+
+</body>
+</html>

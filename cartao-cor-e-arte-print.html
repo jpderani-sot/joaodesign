@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Cartão de Visitas Print - Cor & Arte</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800;900&family=Inter:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --black: #0c0c0c;
+            --white: #ffffff;
+            --olive: #8a8e63; /* Cor baseada no verso original */
+            --orange: #f05a28;
+            --rainbow: linear-gradient(90deg, #e3000f 0%, #f05a28 20%, #ffde00 40%, #009e4d 60%, #0072ce 80%, #2e3192 100%);
+            --bleed: 3mm;
+            --width: 90mm;
+            --height: 50mm;
+        }
+
+        body {
+            background-color: #2b2b2b;
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px;
+            gap: 40px;
+            margin: 0;
+        }
+
+        .controls {
+            background: white;
+            padding: 20px 40px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            max-width: 600px;
+        }
+
+        .controls h2 { margin-top: 0; color: #111; }
+        .card-wrapper { position: relative; }
+
+        .card-container {
+            position: relative;
+            width: calc(var(--width) + (var(--bleed) * 2));
+            height: calc(var(--height) + (var(--bleed) * 2));
+            background: var(--black);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            color: var(--white);
+            box-sizing: border-box;
+        }
+
+        .trim-box {
+            position: absolute;
+            top: var(--bleed);
+            left: var(--bleed);
+            width: var(--width);
+            height: var(--height);
+            border: 1px dashed rgba(255, 255, 255, 0.5);
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        .safe-area {
+            position: absolute;
+            top: calc(var(--bleed) + 3mm);
+            left: calc(var(--bleed) + 3mm);
+            width: calc(var(--width) - 6mm);
+            height: calc(var(--height) - 6mm);
+            border: 1px dotted rgba(255, 0, 0, 0.4);
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        .label {
+            position: absolute;
+            top: -30px;
+            left: 0;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        /* --- FRENTE --- */
+        .frente {
+            justify-content: center;
+            align-items: center;
+        }
+
+        .f-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transform: translateY(-4mm); /* Ajuste visual para o centro não contar com o rodapé */
+        }
+
+        .f-logo {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 32pt;
+            font-weight: 900;
+            line-height: 1;
+            letter-spacing: -1.5px;
+            margin-bottom: 2mm;
+        }
+
+        .f-brush {
+            width: 58mm;
+            height: 2.5mm;
+            background: var(--orange);
+            border-radius: 50% 50% 50% 50% / 100% 100% 0% 0%;
+            margin-bottom: 2mm;
+            clip-path: polygon(0 20%, 100% 0, 95% 100%, 5% 100%);
+        }
+
+        .f-subtitle {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 10pt;
+            letter-spacing: 6px;
+            font-weight: 700;
+            margin-left: 6px; /* Compensate for letter spacing */
+        }
+
+        .f-footer-rainbow {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: calc(var(--bleed) + 9mm);
+            background: var(--rainbow);
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding-top: 3.5mm;
+            box-sizing: border-box;
+        }
+
+        .f-website {
+            color: var(--white);
+            font-family: 'Inter', sans-serif;
+            font-size: 10pt;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-shadow: 0px 1px 3px rgba(0,0,0,0.3);
+        }
+
+        /* --- VERSO --- */
+        .verso {
+            background: var(--olive);
+            color: var(--black);
+            padding: calc(var(--bleed) + 2mm) calc(var(--bleed) + 3mm);
+        }
+
+        .v-grid {
+            display: flex;
+            height: 100%;
+            gap: 4mm;
+        }
+
+        /* Coluna Esquerda */
+        .v-left {
+            width: 28mm;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+        }
+
+        .v-logo-box {
+            background: var(--black);
+            color: var(--white);
+            border-radius: 4mm;
+            padding: 3mm 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 28mm;
+        }
+
+        .v-logo-text {
+            font-size: 16pt;
+            font-weight: 900;
+            line-height: 1.1;
+            text-align: center;
+            letter-spacing: -0.5px;
+        }
+
+        .v-logo-text span {
+            font-size: 12pt;
+        }
+
+        .v-logo-brush {
+            width: 22mm;
+            height: 1.5mm;
+            background: var(--orange);
+            margin: 2mm 0 1.5mm 0;
+            clip-path: polygon(0 20%, 100% 0, 95% 100%, 5% 100%);
+        }
+
+        .v-logo-sub {
+            font-size: 6.5pt;
+            letter-spacing: 2px;
+            font-weight: 700;
+        }
+
+        .v-name-box {
+            background: var(--rainbow);
+            color: var(--white);
+            height: 11mm;
+            border-radius: 3mm;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14pt;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-shadow: 0px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        /* Coluna Direita */
+        .v-right {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* Topo da Coluna Direita (Mascote + Serviços) */
+        .v-right-top {
+            display: flex;
+            height: 28mm;
+        }
+
+        .v-services-area {
+            display: flex;
+            gap: 2mm;
+            flex-grow: 1;
+        }
+
+        .v-col {
+            flex: 1;
+        }
+
+        .v-col h4 {
+            color: var(--white);
+            font-size: 7.5pt;
+            font-weight: 800;
+            margin: 0 0 1mm 0;
+        }
+
+        .v-col ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            color: var(--white);
+            font-family: 'Inter', sans-serif;
+            font-size: 6pt;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        .v-mascot-area {
+            width: 22mm;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            position: relative;
+            right: -2mm;
+            top: -2mm;
+        }
+
+        .v-anos-text {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 6pt;
+            font-weight: 800;
+            color: var(--black);
+            text-transform: uppercase;
+            text-align: center;
+            line-height: 1.2;
+            transform: rotate(-8deg);
+            margin-bottom: 2mm;
+        }
+
+        .v-mascot-img {
+            width: 18mm;
+            height: 18mm;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1.5px solid var(--white);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            background: var(--black);
+        }
+
+        .v-divider {
+            height: 1.5px;
+            background: var(--black);
+            margin: 2mm 0;
+            width: 100%;
+        }
+
+        .v-contact-area {
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            flex-grow: 1;
+            margin-top: -1mm;
+        }
+
+        .v-ref {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 8pt;
+            font-weight: 900;
+            letter-spacing: 0.5px;
+            margin-bottom: 1.5mm;
+            color: var(--black);
+        }
+
+        .v-phones {
+            font-size: 8pt;
+            font-weight: 700;
+            margin-bottom: 1.5mm;
+            display: flex;
+            justify-content: center;
+            gap: 3mm;
+            color: var(--black);
+        }
+
+        .v-phones span {
+            display: flex;
+            align-items: center;
+            gap: 1mm;
+        }
+
+        .v-email {
+            font-size: 7pt;
+            font-weight: 600;
+            margin-bottom: 1.5mm;
+            color: var(--black);
+        }
+
+        .v-address {
+            font-size: 5.5pt;
+            font-weight: 600;
+            color: var(--black);
+        }
+
+        @media print {
+            body { background: white; padding: 0; gap: 10mm; display: block; }
+            .controls { display: none; }
+            .card-wrapper { float: left; margin: 10mm; }
+            .trim-box, .safe-area, .label { display: none; }
+            .card-container { box-shadow: none; break-inside: avoid; }
+            @page { size: A4; margin: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="controls">
+        <h2>Matriz Gráfica Definitiva - Cor & Arte</h2>
+        <p style="font-size: 14px; color: #333;">Layout idêntico ao original, mas redesenhado com vetores perfeitos, fontes premium e proporções exatas de impressão (96x56mm com 3mm de sangria).</p>
+        <p style="font-size: 12px; color: #666; margin-bottom: 20px;">Nota: O mascote foi substituído pela foto de perfil "world class" gerada, inserida num enquadramento circular elegante.</p>
+        <button onclick="window.print()" style="padding: 12px 24px; cursor: pointer; background: #00AEEF; color: white; border: none; border-radius: 4px; font-weight: 800; font-size: 14px; text-transform: uppercase;">Salvar PDF Alta Qualidade</button>
+    </div>
+
+    <!-- FRENTE -->
+    <div class="card-wrapper">
+        <div class="label">FRENTE (96x56mm)</div>
+        <div class="card-container frente">
+            <div class="trim-box"></div>
+            <div class="safe-area"></div>
+            
+            <div class="f-content">
+                <div class="f-logo">Cor & Arte</div>
+                <div class="f-brush"></div>
+                <div class="f-subtitle">PINTURAS</div>
+            </div>
+
+            <div class="f-footer-rainbow">
+                <span class="f-website">www.coreartepinturas.com.br</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- VERSO -->
+    <div class="card-wrapper" style="margin-top: 10px;">
+        <div class="label">VERSO (96x56mm)</div>
+        <div class="card-container verso">
+            <div class="trim-box" style="border-color: rgba(0,0,0,0.2);"></div>
+            <div class="safe-area"></div>
+
+            <div class="v-grid">
+                <!-- Coluna Esquerda -->
+                <div class="v-left">
+                    <div class="v-logo-box">
+                        <div class="v-logo-text">Cor <span>&</span><br>Arte</div>
+                        <div class="v-logo-brush"></div>
+                        <div class="v-logo-sub">PINTURAS</div>
+                    </div>
+                    <div class="v-name-box">
+                        Valdir
+                    </div>
+                </div>
+
+                <!-- Coluna Direita -->
+                <div class="v-right">
+                    <div class="v-right-top">
+                        <div class="v-services-area">
+                            <div class="v-col">
+                                <h4>Pinturas:</h4>
+                                <ul>
+                                    <li>Prediais</li>
+                                    <li>Residenciais</li>
+                                    <li>Condomínios</li>
+                                    <li>Casas</li>
+                                    <li>Apartamentos</li>
+                                </ul>
+                            </div>
+                            <div class="v-col">
+                                <h4>Especialidades:</h4>
+                                <ul>
+                                    <li>Textura Projetada</li>
+                                    <li>Texturas</li>
+                                    <li>Massa Corrida</li>
+                                    <li>Pequenos Serviços</li>
+                                    <li>Grafiato</li>
+                                    <li>Cimento Queimado</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Mascote Novo -->
+                        <div class="v-mascot-area">
+                            <div class="v-anos-text">27 anos<br>no ramo</div>
+                            <img src="cor_e_arte_perfil.png" alt="Mascote" class="v-mascot-img" onerror="this.src='https://ui-avatars.com/api/?name=Valdir&background=000&color=fff'">
+                        </div>
+                    </div>
+
+                    <div class="v-divider"></div>
+
+                    <div class="v-contact-area">
+                        <div class="v-ref">COM REFERÊNCIAS</div>
+                        <div class="v-phones">
+                            <span>
+                                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                                (41) 99134-1123
+                            </span>
+                            <span>
+                                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                                (41) 99544-3389
+                            </span>
+                        </div>
+                        <div class="v-email">valdicorearte@gmail.com</div>
+                        <div class="v-address">R. Ricardo Negrão Filho, 471 - Portão, Curitiba - PR</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

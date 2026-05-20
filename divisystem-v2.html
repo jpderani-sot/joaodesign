@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Divisystem | Hero Concept V2</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --brand-blue: #1492D0;
+            --brand-dark: #111111;
+            --text-light: #F8F8F8;
+            --font-sans: 'Inter', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            font-family: var(--font-sans);
+            background-color: var(--brand-dark);
+            color: var(--text-light);
+            overflow-x: hidden; 
+        }
+
+        /* ====================
+           HERO WRAPPER
+           ==================== */
+        .hero-section {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+            opacity: 0;
+            transform: scale(1.05);
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 40%, rgba(0,0,0,0.7) 100%);
+            z-index: 2;
+        }
+
+        /* ====================
+           ADVANCED HEADER
+           ==================== */
+        header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 2rem 4vw;
+            display: flex;
+            justify-content: space-between;
+            align-items: stretch;
+            z-index: 10;
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: flex-start;
+            padding-top: 0.3rem;
+            margin-right: 3rem;
+            opacity: 0; /* GSAP target */
+            transform: translateY(-20px);
+        }
+
+        .header-logo img {
+            height: 50px;
+            width: auto;
+            display: block;
+        }
+
+        .header-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .header-top-row {
+            display: flex;
+            justify-content: space-between; /* Nav on left, buttons on right */
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 1rem;
+        }
+
+        .header-nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .header-nav a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+            opacity: 0; /* GSAP target */
+            transform: translateY(-10px);
+        }
+        .header-nav a:hover { color: var(--brand-blue); }
+
+        .header-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn-primary {
+            background: var(--brand-blue);
+            color: #FFF;
+            text-decoration: none;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 0.7rem 1.5rem;
+            border-radius: 50px;
+            transition: background 0.3s, transform 0.3s;
+            opacity: 0; /* GSAP target */
+            transform: translateY(-10px);
+        }
+        .btn-primary:hover {
+            background: #1178AA;
+            transform: translateY(-2px);
+        }
+
+        .header-bottom-row {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        .header-search {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0; /* GSAP target */
+            transform: translateY(-10px);
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+        }
+
+        .header-search input {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            width: 250px;
+            height: 0;
+            background: rgba(20, 20, 20, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid transparent;
+            border-radius: 4px;
+            padding: 0 1.2rem;
+            color: transparent;
+            font-family: var(--font-sans);
+            font-size: 0.85rem;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
+            outline: none;
+            opacity: 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            box-sizing: border-box;
+        }
+
+        .header-search input::placeholder {
+            color: transparent;
+            transition: color 0.4s;
+        }
+
+        .header-search:hover input,
+        .header-search input:focus {
+            height: 45px;
+            padding: 0.7rem 1.2rem;
+            border-color: rgba(255,255,255,0.2);
+            color: #FFF;
+            opacity: 1;
+            pointer-events: auto;
+            cursor: text;
+        }
+
+        .header-search:hover input::placeholder,
+        .header-search input:focus::placeholder {
+            color: rgba(255,255,255,0.5);
+        }
+        
+        .header-search svg {
+            width: 18px;
+            height: 18px;
+            fill: #FFF;
+            pointer-events: none;
+            transition: fill 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .header-search:hover svg,
+        .header-search input:focus + svg {
+            fill: var(--brand-blue);
+        }
+
+        .header-contact {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .phone {
+            font-weight: 700;
+            font-size: 1.1rem;
+            letter-spacing: 0.5px;
+            opacity: 0; /* GSAP target */
+            transform: translateY(-10px);
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1.2rem;
+            opacity: 0; /* GSAP target */
+            transform: translateY(-10px);
+        }
+        .social-icons a {
+            color: #FFF;
+            display: flex;
+            align-items: center;
+            transition: color 0.3s, transform 0.3s;
+        }
+        .social-icons a:hover { 
+            color: var(--brand-blue); 
+            transform: translateY(-2px);
+        }
+        .social-icons svg {
+            width: 22px;
+            height: 22px;
+            fill: currentColor;
+        }
+
+        /* ====================
+           HERO TYPOGRAPHY
+           ==================== */
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            width: 100%;
+            padding: 0 5vw;
+            margin-top: 10vh; /* Pushed down slightly to account for taller header */
+        }
+
+        .hero-kicker {
+            font-family: var(--font-sans);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: var(--brand-blue);
+            margin-bottom: 1.5rem;
+            display: block;
+            overflow: hidden;
+        }
+        
+        .kicker-text {
+            display: inline-block;
+            transform: translateY(100%);
+        }
+
+        .hero-title {
+            font-family: var(--font-sans);
+            font-size: clamp(3rem, 7vw, 7rem);
+            font-weight: 600;
+            line-height: 1.1;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            margin-bottom: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .hero-title-line {
+            overflow: hidden;
+            padding-bottom: 10px; 
+        }
+
+        .title-text {
+            display: inline-block;
+            transform: translateY(110%);
+            will-change: transform;
+        }
+
+        .hero-subtitle {
+            font-family: var(--font-sans);
+            font-size: clamp(1.2rem, 2vw, 1.8rem);
+            font-weight: 300;
+            color: #D1D1D1;
+            max-width: 600px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        .subtitle-text {
+            display: inline-block;
+            transform: translateY(100%);
+        }
+
+        /* Scroll Indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            opacity: 0;
+        }
+
+        .scroll-text {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+        }
+
+        .scroll-line {
+            width: 1px;
+            height: 50px;
+            background: rgba(255,255,255,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scroll-line::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 50%;
+            background: #FFF;
+            animation: scrollDown 2s cubic-bezier(0.77, 0, 0.175, 1) infinite;
+        }
+
+        @keyframes scrollDown {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(200%); }
+        }
+
+        /* ====================
+           CATALOG SECTION
+           ==================== */
+        .catalog-section {
+            padding: 15vh 5vw;
+            background: #FFFFFF;
+            color: #111;
+        }
+
+        .catalog-header {
+            margin-bottom: 8vh;
+            max-width: 800px;
+        }
+
+        .catalog-title {
+            font-family: var(--font-sans);
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+        }
+
+        .catalog-desc {
+            font-family: var(--font-sans);
+            font-size: clamp(1.2rem, 2vw, 1.5rem);
+            color: #666;
+            font-weight: 300;
+            line-height: 1.4;
+        }
+
+        .catalog-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2vw;
+        }
+
+        .catalog-item {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            cursor: pointer;
+        }
+
+        .catalog-img-wrapper {
+            width: 100%;
+            height: 60vh;
+            overflow: hidden;
+            border-radius: 4px;
+        }
+
+        .catalog-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .catalog-item:hover .catalog-img {
+            transform: scale(1.05);
+        }
+
+        .catalog-info h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .catalog-info p {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .catalog-link {
+            color: var(--brand-blue);
+            text-decoration: none;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+        }
+
+        .catalog-item:hover .catalog-link {
+            color: #111;
+        }
+
+        .reveal-up {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-up.in-view {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ====================
+           ICONOGRAPHY SECTION
+           ==================== */
+        .iconography-section {
+            padding: 15vh 5vw;
+            background: #F8F8F8;
+            color: #111;
+            border-top: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .iconography-header {
+            margin-bottom: 8vh;
+            max-width: 800px;
+        }
+
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2vw;
+        }
+
+        .icon-card {
+            background: #FFF;
+            padding: 3rem 2rem;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: pointer;
+            border: 1px solid rgba(0,0,0,0.03);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .icon-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(135deg, rgba(20,146,208,0.05) 0%, rgba(20,146,208,0) 100%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: 1;
+        }
+
+        .icon-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.06);
+            border-color: rgba(20,146,208,0.1);
+        }
+
+        .icon-card:hover::before {
+            opacity: 1;
+        }
+
+        .icon-wrapper {
+            position: relative;
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(20, 146, 208, 0.04);
+            color: var(--brand-blue);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 2;
+        }
+
+        .icon-card:hover .icon-wrapper {
+            background: var(--brand-blue);
+            color: #FFF;
+            transform: scale(1.05);
+        }
+
+        .icon-wrapper svg {
+            width: 34px;
+            height: 34px;
+            stroke-width: 1.2;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .icon-card:hover .icon-wrapper svg {
+            stroke-width: 1.5;
+            animation: float-icon 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes float-icon {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-3px); }
+        }
+
+        .icon-info {
+            position: relative;
+            z-index: 2;
+        }
+
+        .icon-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+            color: #111;
+        }
+
+        .icon-desc {
+            font-size: 0.85rem;
+            color: #777;
+            line-height: 1.5;
+            font-weight: 400;
+        }
+
+    </style>
+</head>
+<body>
+
+    <section class="hero-section">
+        
+        <!-- Background Video -->
+        <video autoplay loop muted playsinline class="hero-bg">
+            <source src="file:///c:/Users/jubav/Downloads/divisystem.com.br/Divisystem - Institucional - tam médio.mp4" type="video/mp4">
+        </video>
+        <div class="hero-overlay"></div>
+
+        <!-- Advanced Header -->
+        <!-- Advanced Component Header -->
+        <script src="components.js"></script>
+        <divi-header></divi-header>
+
+
+
+        <div class="scroll-indicator">
+            <span class="scroll-text">Descubra</span>
+            <div class="scroll-line"></div>
+        </div>
+
+    </section>
+
+    <!-- ====================
+       CATALOG SECTION
+       ==================== -->
+    <section class="catalog-section" id="materiais">
+        <div class="catalog-header">
+            <h2 class="catalog-title reveal-up">Nosso Acervo de Materiais</h2>
+            <p class="catalog-desc reveal-up">Superfícies de alto padrão e soluções acústicas que definem a nova era da arquitetura corporativa.</p>
+        </div>
+        
+        <div class="catalog-grid">
+            
+            <!-- Item 1 -->
+            <div class="catalog-item reveal-up">
+                <div class="catalog-img-wrapper">
+                    <img src="file:///C:/Users/jubav/.gemini/antigravity/brain/271d973e-64a5-4271-a2db-63926f66f3a8/piso_laminado_4k_1778525786082.png" alt="Piso Laminado Quickstep" class="catalog-img">
+                </div>
+                <div class="catalog-info">
+                    <h3>Pisos Laminados e Vinílicos</h3>
+                    <p>Resistência extrema à água e tráfego com o acabamento impecável belga da Quickstep.</p>
+                    <a href="#" class="catalog-link">Explorar Pisos &rarr;</a>
+                </div>
+            </div>
+
+            <!-- Item 2 -->
+            <div class="catalog-item reveal-up" style="transition-delay: 0.1s;">
+                <div class="catalog-img-wrapper">
+                    <img src="file:///C:/Users/jubav/.gemini/antigravity/brain/271d973e-64a5-4271-a2db-63926f66f3a8/forro_acustico_4k_1778525800390.png" alt="Forro Modular Acústico" class="catalog-img">
+                </div>
+                <div class="catalog-info">
+                    <h3>Forros Modulares Acústicos</h3>
+                    <p>Fibra mineral e lã de vidro para o máximo conforto térmico e bloqueio de ruídos.</p>
+                    <a href="#" class="catalog-link">Explorar Forros &rarr;</a>
+                </div>
+            </div>
+
+            <!-- Item 3 -->
+            <div class="catalog-item reveal-up" style="transition-delay: 0.2s;">
+                <div class="catalog-img-wrapper">
+                    <img src="file:///C:/Users/jubav/.gemini/antigravity/brain/271d973e-64a5-4271-a2db-63926f66f3a8/revestimento_ripado_4k_1778525816108.png" alt="Revestimento Ripado" class="catalog-img">
+                </div>
+                <div class="catalog-info">
+                    <h3>Revestimentos Especiais</h3>
+                    <p>Painéis ripados acústicos (Swissclic) e divisórias navais de junta seca para ambientes majestosos.</p>
+                    <a href="#" class="catalog-link">Explorar Revestimentos &rarr;</a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ====================
+       ICONOGRAPHY SECTION
+       ==================== -->
+    <section class="iconography-section" id="icones">
+        <div class="iconography-header">
+            <h2 class="catalog-title reveal-up">Nossa Identidade em Detalhes</h2>
+            <p class="catalog-desc reveal-up">Ícones projetados sob o conceito de Quiet Luxury, representando a essência técnica e estética da Divisystem.</p>
+        </div>
+
+        <div class="icon-grid">
+            
+            <!-- Icon 1: Soluções para Forro -->
+            <div class="icon-card reveal-up">
+                <div class="icon-wrapper">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 4h18" />
+                        <rect x="6" y="8" width="2" height="10" rx="0.5" />
+                        <rect x="11" y="8" width="2" height="12" rx="0.5" />
+                        <rect x="16" y="8" width="2" height="8" rx="0.5" />
+                        <path d="M7 4v4" />
+                        <path d="M12 4v4" />
+                        <path d="M17 4v4" />
+                    </svg>
+                </div>
+                <div class="icon-info">
+                    <div class="icon-title">Soluções para Forro</div>
+                    <div class="icon-desc">Forros minerais, nuvens acústicas, baffles e perfis de suspensão.</div>
+                </div>
+            </div>
+
+            <!-- Icon 2: Revestimentos Parede e Teto -->
+            <div class="icon-card reveal-up" style="transition-delay: 0.1s;">
+                <div class="icon-wrapper">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="12 2 2 7 12 12 22 7 12 2" />
+                        <polyline points="2 12 12 17 22 12" />
+                        <polyline points="2 17 12 22 22 17" />
+                    </svg>
+                </div>
+                <div class="icon-info">
+                    <div class="icon-title">Revestimentos</div>
+                    <div class="icon-desc">Painéis FACTUM, ripados SWISSCLIC e Invisacoustics para teto e parede.</div>
+                </div>
+            </div>
+
+            <!-- Icon 3: Divisórias Sanitárias e Modulares -->
+            <div class="icon-card reveal-up" style="transition-delay: 0.2s;">
+                <div class="icon-wrapper">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                        <path d="M9 3v18" />
+                        <path d="M15 3v18" />
+                        <path d="M3 15h6" />
+                        <path d="M15 15h6" />
+                        <path d="M9 9h6" />
+                    </svg>
+                </div>
+                <div class="icon-info">
+                    <div class="icon-title">Divisórias</div>
+                    <div class="icon-desc">Modulares Naval, PVC e sistema Sanisystem para sanitários.</div>
+                </div>
+            </div>
+
+            <!-- Icon 4: Soluções para Piso -->
+            <div class="icon-card reveal-up" style="transition-delay: 0.3s;">
+                <div class="icon-wrapper">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="4" width="20" height="16" rx="1.5" />
+                        <path d="M2 10h20" />
+                        <path d="M2 16h20" />
+                        <path d="M8 10V4" />
+                        <path d="M16 16v-6" />
+                        <path d="M10 20v-4" />
+                    </svg>
+                </div>
+                <div class="icon-info">
+                    <div class="icon-title">Soluções para Piso</div>
+                    <div class="icon-desc">Pisos vinílicos e laminados Artureon, COREPEL e Grand Selection.</div>
+                </div>
+            </div>
+
+            <!-- Icon 5: Rodapés e Acessórios -->
+            <div class="icon-card reveal-up" style="transition-delay: 0.4s;">
+                <div class="icon-wrapper">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="14" width="18" height="6" rx="1" />
+                        <rect x="7" y="4" width="10" height="10" rx="1" />
+                    </svg>
+                </div>
+                <div class="icon-info">
+                    <div class="icon-title">Rodapés e Acessórios</div>
+                    <div class="icon-desc">Acabamentos perfeitos em poliestireno e complementos FLOORT.</div>
+                </div>
+            </div>
+
+            <!-- Icon 6: Linhas Complementares (Drywall) -->
+            <div class="icon-card reveal-up" style="transition-delay: 0.5s;">
+                <div class="icon-wrapper">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M8 4h8v2H10v12h6v2H8z" />
+                        <path d="M16 2v20" />
+                        <path d="M19 2v20" />
+                    </svg>
+                </div>
+                <div class="icon-info">
+                    <div class="icon-title">Linhas Complementares</div>
+                    <div class="icon-desc">Placas Drywall para parede e teto, e estruturas metálicas.</div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- GSAP for Cinematic Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script>
+        window.addEventListener('load', () => {
+            const tl = gsap.timeline();
+
+            // 1. Reveal Photo Background
+            tl.to('.hero-bg', {
+                opacity: 1,
+                scale: 1,
+                duration: 2.5,
+                ease: "power3.out"
+            }, 0.2);
+
+            // 2. Animate Complex Header Elements
+            // We stagger the logo, then nav links, then buttons, then search/phone
+            const headerElements = [
+                '.header-logo', 
+                '.header-nav a', 
+                '.btn-primary', 
+                '.header-search', 
+                '.phone', 
+                '.social-icons'
+            ];
+
+            tl.to(headerElements, {
+                y: 0,
+                opacity: 1,
+                duration: 1,
+                stagger: 0.05,
+                ease: "power2.out"
+            }, 0.5);
+
+
+
+            // 4. Fade in scroll indicator
+            tl.to('.scroll-indicator', {
+                opacity: 1,
+                duration: 1,
+                ease: "power2.out"
+            }, 2);
+
+            // Scroll Reveal Observer
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('in-view');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.15 });
+
+            document.querySelectorAll('.reveal-up').forEach(el => observer.observe(el));
+        });
+    </script>
+</body>
+</html>

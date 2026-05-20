@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Novos Componentes Premium | Design System</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <!-- Scripts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <style>
+        :root {
+            --rose-gold: #c4a265;
+            --deep-black: #0d0d0c;
+            --bordo: #4a3b32;
+        }
+
+        body {
+            background-color: var(--deep-black);
+            color: white;
+            font-family: 'Outfit', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .font-serif { font-family: 'Playfair Display', serif; }
+
+        /* Component 1: Cinema Letterbox Effect */
+        .letterbox-top, .letterbox-bottom {
+            position: fixed;
+            left: 0;
+            width: 100%;
+            height: 10vh;
+            background: black;
+            z-index: 100;
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .letterbox-top { top: 0; transform: translateY(-100%); }
+        .letterbox-bottom { bottom: 0; transform: translateY(100%); }
+        
+        .in-cinema .letterbox-top { transform: translateY(0); }
+        .in-cinema .letterbox-bottom { transform: translateY(0); }
+
+        /* Component 2: Patient Journey Timeline */
+        .journey-step {
+            position: relative;
+            padding-left: 3rem;
+            border-left: 1px solid rgba(196, 162, 101, 0.2);
+            padding-bottom: 4rem;
+        }
+        .journey-step::before {
+            content: '';
+            position: absolute;
+            left: -5px;
+            top: 0;
+            width: 100px;
+            height: 100px;
+            background: var(--rose-gold);
+            border-radius: 50%;
+            transform: scale(0);
+            transition: transform 0.6s ease;
+            opacity: 0.1;
+        }
+        .journey-step.active::before { transform: scale(1); }
+        .journey-dot {
+            position: absolute;
+            left: -4px;
+            top: 5px;
+            width: 8px;
+            height: 8px;
+            background: var(--rose-gold);
+            border-radius: 50%;
+            box-shadow: 0 0 15px var(--rose-gold);
+        }
+
+        /* Component 3: Testimonials Overlaid */
+        .testi-card {
+            background: rgba(255,255,255,0.02);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 30px;
+            overflow: hidden;
+        }
+
+        /* Component 4: Luxury FAQ Accordion */
+        .faq-item {
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .faq-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0, 1, 0, 1);
+        }
+        .faq-item.active .faq-content {
+            max-height: 1000px;
+            transition: max-height 1s ease-in-out;
+        }
+        .faq-icon { transition: transform 0.4s ease; }
+        .faq-item.active .faq-icon { transform: rotate(45deg); color: var(--rose-gold); }
+
+        /* Scroll Animations */
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 1s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+    </style>
+</head>
+<body>
+
+    <!-- Cinema Letterbox UI -->
+    <div class="letterbox-top"></div>
+    <div class="letterbox-bottom"></div>
+
+    <!-- SEÇÃO 1: HERO CINEMA (LETTERBOX TECHNIQUE) -->
+    <section class="h-screen relative flex items-center justify-center overflow-hidden" id="hero-cinema">
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=1920&q=80" 
+                 class="w-full h-full object-cover opacity-40 scale-110 transition-transform duration-[10s]" id="hero-img" alt="Background">
+            <div class="absolute inset-0 bg-gradient-to-b from-transparent via-black/40 to-black"></div>
+        </div>
+        
+        <div class="relative z-10 text-center px-6">
+            <span class="text-rose-gold font-bold text-xs uppercase tracking-[6px] mb-6 block reveal">The New Standard</span>
+            <h1 class="font-serif text-6xl md:text-8xl lg:text-9xl mb-8 reveal" style="transition-delay: 0.2s;">
+                Arte & <br> <span class="italic">Precisão</span>
+            </h1>
+            <p class="text-white/50 text-lg max-w-xl mx-auto mb-10 font-light reveal" style="transition-delay: 0.4s;">
+                Experiências digitais que transgridem o comum, unindo a estética clássica à tecnologia de ponta.
+            </p>
+            <div class="flex flex-col items-center gap-4 reveal" style="transition-delay: 0.6s;">
+                <div class="w-px h-20 bg-gradient-to-b from-rose-gold to-transparent"></div>
+                <span class="text-[10px] uppercase tracking-widest text-white/30">Role para imergir</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO 2: JORNADA DO PACIENTE (VERTICAL INTERACTIVE TIMELINE) -->
+    <section class="py-32 px-6 lg:px-16 bg-black" id="jornada">
+        <div class="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-20">
+            <div>
+                <span class="text-rose-gold font-bold text-xs uppercase tracking-widest mb-4 block">Exclusividade</span>
+                <h2 class="font-serif text-5xl lg:text-7xl mb-10 leading-tight">Sua Jornada <br> <span class="italic font-light">de Transformação</span></h2>
+                
+                <div class="space-y-2 mt-12">
+                    <div class="journey-step reveal active">
+                        <div class="journey-dot"></div>
+                        <h4 class="text-white text-xl font-bold mb-2">01. Consulta Visagista</h4>
+                        <p class="text-white/40 text-sm leading-relaxed">Mapeamento detalhado das proporções faciais e desejos individuais.</p>
+                    </div>
+                    <div class="journey-step reveal">
+                        <div class="journey-dot"></div>
+                        <h4 class="text-white text-xl font-bold mb-2">02. Protocolo Personalizado</h4>
+                        <p class="text-white/40 text-sm leading-relaxed">Criação de um plano único utilizando as técnicas mais avançadas do mundo.</p>
+                    </div>
+                    <div class="journey-step reveal">
+                        <div class="journey-dot"></div>
+                        <h4 class="text-white text-xl font-bold mb-2">03. O Procedimento</h4>
+                        <p class="text-white/40 text-sm leading-relaxed">Execução técnica de alta precisão em ambiente de luxo e segurança.</p>
+                    </div>
+                    <div class="journey-step reveal">
+                        <div class="journey-dot"></div>
+                        <h4 class="text-white text-xl font-bold mb-2">04. Acompanhamento VIP</h4>
+                        <p class="text-white/40 text-sm leading-relaxed">Suporte pós-procedimento dedicado para garantir a melhor recuperação.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="relative group h-[500px] lg:h-auto reveal" style="transition-delay: 0.3s;">
+                <div class="absolute -inset-4 bg-rose-gold/5 blur-3xl rounded-full"></div>
+                <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=800&q=80" 
+                     alt="Journey" class="w-full h-full object-cover rounded-[50px] relative z-10 border border-white/5 shadow-2xl">
+                
+                <!-- Floating Info -->
+                <div class="absolute bottom-10 -right-10 z-20 bg-black/60 backdrop-blur-xl p-8 rounded-3xl border border-white/10 max-w-xs reveal" style="transition-delay: 0.6s;">
+                    <iconify-icon icon="solar:star-bold-duotone" class="text-rose-gold text-3xl mb-4"></iconify-icon>
+                    <p class="text-white font-bold text-lg mb-2">Padrão Ouro</p>
+                    <p class="text-white/60 text-xs leading-relaxed">Cada etapa é monitorada para entregar a perfeição em cada detalhe.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO 3: TESTEMUNHOS OVERLAID (ELEGANT SLIDER) -->
+    <section class="py-32 px-6 bg-gradient-to-b from-black to-[#0d0d0c]">
+        <div class="max-w-[1400px] mx-auto">
+            <div class="text-center mb-20 reveal">
+                <h2 class="font-serif text-5xl lg:text-7xl mb-6">Vozes de <span class="italic">Satisfação</span></h2>
+                <div class="w-20 h-px bg-rose-gold mx-auto"></div>
+            </div>
+
+            <div class="swiper testimonialsSwiper overflow-visible reveal" style="transition-delay: 0.2s;">
+                <div class="swiper-wrapper">
+                    <!-- Slide 1 -->
+                    <div class="swiper-slide w-[80vw] md:w-[600px]">
+                        <div class="testi-card p-12 relative">
+                            <iconify-icon icon="ri:double-quotes-l" class="absolute top-8 right-8 text-6xl text-rose-gold/10"></iconify-icon>
+                            <div class="flex items-center gap-6 mb-8">
+                                <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=100&q=80" class="w-16 h-16 rounded-full object-cover grayscale">
+                                <div>
+                                    <h4 class="text-white font-bold">Helena Soares</h4>
+                                    <p class="text-rose-gold text-xs uppercase tracking-widest">Paciente de Harmonização</p>
+                                </div>
+                            </div>
+                            <p class="text-white/70 text-lg font-light leading-relaxed italic">
+                                "O atendimento superou todas as minhas expectativas. A naturalidade do resultado final é o que mais me impressionou. Sinto que recuperei minha confiança sem perder minha essência."
+                            </p>
+                        </div>
+                    </div>
+                    <!-- Slide 2 -->
+                    <div class="swiper-slide w-[80vw] md:w-[600px]">
+                        <div class="testi-card p-12 relative">
+                            <iconify-icon icon="ri:double-quotes-l" class="absolute top-8 right-8 text-6xl text-rose-gold/10"></iconify-icon>
+                            <div class="flex items-center gap-6 mb-8">
+                                <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=100&q=80" class="w-16 h-16 rounded-full object-cover grayscale">
+                                <div>
+                                    <h4 class="text-white font-bold">Beatriz Lima</h4>
+                                    <p class="text-rose-gold text-xs uppercase tracking-widest">Paciente Lipo Shape</p>
+                                </div>
+                            </div>
+                            <p class="text-white/70 text-lg font-light leading-relaxed italic">
+                                "Um ambiente acolhedor e profissionalismo impecável. Cada detalhe foi pensado para o meu conforto. Recomendo para quem busca o verdadeiro luxo na estética."
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO 4: LUXURY FAQ (FLUID ACCORDION) -->
+    <section class="py-32 px-6 lg:px-16 bg-[#0d0d0c]">
+        <div class="max-w-[1000px] mx-auto">
+            <div class="mb-20">
+                <span class="text-rose-gold font-bold text-xs uppercase tracking-[4px] mb-4 block">Dúvidas Frequentes</span>
+                <h2 class="font-serif text-5xl lg:text-7xl">Clareza & <span class="italic font-light">Transparência</span></h2>
+            </div>
+
+            <div class="space-y-2">
+                <!-- Item 1 -->
+                <div class="faq-item reveal group">
+                    <button class="w-full py-10 flex items-center justify-between text-left focus:outline-none" onclick="toggleFaq(this)">
+                        <span class="text-2xl font-light text-white/80 group-hover:text-white transition-colors">Qual o tempo de recuperação da Lipo Shape?</span>
+                        <iconify-icon icon="solar:add-circle-linear" class="faq-icon text-3xl text-white/20"></iconify-icon>
+                    </button>
+                    <div class="faq-content">
+                        <p class="pb-10 text-white/50 leading-relaxed max-w-3xl">
+                            A recuperação varia conforme cada organismo, mas nossos protocolos de acompanhamento VIP garantem um retorno seguro às atividades leves em poucos dias. O suporte total é oferecido durante todo o processo cicatricial.
+                        </p>
+                    </div>
+                </div>
+                <!-- Item 2 -->
+                <div class="faq-item reveal group">
+                    <button class="w-full py-10 flex items-center justify-between text-left focus:outline-none" onclick="toggleFaq(this)">
+                        <span class="text-2xl font-light text-white/80 group-hover:text-white transition-colors">Os resultados da Harmonização 3D são permanentes?</span>
+                        <iconify-icon icon="solar:add-circle-linear" class="faq-icon text-3xl text-white/20"></iconify-icon>
+                    </button>
+                    <div class="faq-content">
+                        <p class="pb-10 text-white/50 leading-relaxed max-w-3xl">
+                            Trabalhamos com preenchedores de alta performance que são absorvidos naturalmente pelo corpo ao longo do tempo. Em média, a manutenção é recomendada após 12 a 18 meses para preservar a harmonia facial ideal.
+                        </p>
+                    </div>
+                </div>
+                <!-- Item 3 -->
+                <div class="faq-item reveal group">
+                    <button class="w-full py-10 flex items-center justify-between text-left focus:outline-none" onclick="toggleFaq(this)">
+                        <span class="text-2xl font-light text-white/80 group-hover:text-white transition-colors">É possível associar protocolos diferentes?</span>
+                        <iconify-icon icon="solar:add-circle-linear" class="faq-icon text-3xl text-white/20"></iconify-icon>
+                    </button>
+                    <div class="faq-content">
+                        <p class="pb-10 text-white/50 leading-relaxed max-w-3xl">
+                            Sim, a associação de protocolos é uma de nossas especialidades. Através de uma análise visagista profunda, criamos uma jornada integrada que potencializa os resultados corporais e faciais de forma sinérgica.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-20 text-center border-t border-white/5">
+        <p class="text-white/20 text-[10px] uppercase tracking-widest">© 2026 Premium Design Components • Advanced Creative Suite</p>
+    </footer>
+
+    <script>
+        // --- CINEMA LETTERBOX LOGIC ---
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                document.body.classList.add('in-cinema');
+            } else {
+                document.body.classList.remove('in-cinema');
+            }
+            
+            // Hero Image Parallax
+            const heroImg = document.getElementById('hero-img');
+            heroImg.style.transform = `scale(1.1) translateY(${window.scrollY * 0.3}px)`;
+        });
+
+        // --- FAQ ACCORDION LOGIC ---
+        function toggleFaq(btn) {
+            const item = btn.parentElement;
+            const isActive = item.classList.contains('active');
+            
+            // Close all
+            document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+            
+            if (!isActive) {
+                item.classList.add('active');
+            }
+        }
+
+        // --- SWIPER INITIALIZATION ---
+        new Swiper('.testimonialsSwiper', {
+            slidesPerView: 'auto',
+            spaceBetween: 30,
+            grabCursor: true,
+            centeredSlides: true,
+            loop: true,
+            autoplay: { delay: 4000 }
+        });
+
+        // --- REVEAL ON SCROLL ---
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>

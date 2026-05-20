@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>João Pedro Derani | Portfolio Mundial</title>
+    
+    <!-- Locomotive Scroll CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Neue+Montreal:wght@300;400;500&family=Oswald:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #0f0f0f;
+            --text-color: #e0e0e0;
+            --accent: #d4af37; /* Subtle Gold */
+            --font-main: 'Neue Montreal', 'Inter', sans-serif;
+            --font-display: 'Oswald', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none; /* Custom Cursor */
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-main);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Custom Cursor */
+        .cursor {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background-color: var(--accent);
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s, background-color 0.3s;
+            mix-blend-mode: difference;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.5rem;
+            font-weight: bold;
+            color: #000;
+            text-transform: uppercase;
+        }
+
+        .cursor.hover-project {
+            background-color: #fff;
+            mix-blend-mode: normal;
+        }
+
+        /* Nav */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 2rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            z-index: 100;
+            mix-blend-mode: difference;
+            color: #fff;
+        }
+
+        .nav-logo {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            margin-left: 2rem;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-icon {
+            color: #fff;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .nav-icon:hover {
+            color: var(--accent) !important;
+            transform: scale(1.15);
+        }
+
+        /* Language Toggle */
+        .lang-toggle {
+            display: inline-flex;
+            align-items: center;
+            margin-left: 2.5rem;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.4);
+            letter-spacing: 1px;
+        }
+
+        .lang-toggle a {
+            margin-left: 0;
+            color: rgba(255, 255, 255, 0.4);
+            transition: color 0.3s ease;
+        }
+
+        .lang-toggle a.active {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .lang-toggle a:hover:not(.active) {
+            color: #fff;
+        }
+
+        .lang-toggle span {
+            margin: 0 0.5rem;
+            font-size: 0.8rem;
+        }
+
+        /* Contact Hover Panel */
+        .nav-contact-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        .contact-info-panel {
+            position: absolute;
+            top: calc(100% + 15px);
+            right: 0;
+            background: rgba(15, 15, 15, 0.85);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 0.8rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            color: #888;
+            opacity: 0;
+            transform: translateY(-10px);
+            pointer-events: none;
+            transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+            z-index: 1000;
+            white-space: nowrap;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border-radius: 4px;
+            user-select: text;
+            -webkit-user-select: text;
+        }
+
+        .contact-info-panel.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .contact-info-panel a {
+            color: #fff !important;
+            text-decoration: none;
+            margin-left: 0 !important;
+            font-size: 0.85rem !important;
+            transition: color 0.3s ease;
+            user-select: text;
+            -webkit-user-select: text;
+        }
+
+        .contact-info-panel a:hover {
+            color: var(--accent) !important;
+        }
+
+        .contact-item-group {
+            display: flex;
+            align-items: center;
+        }
+
+        .copy-btn {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+            padding: 4px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.3s ease;
+            margin-left: 8px;
+            outline: none;
+        }
+
+        .copy-btn:hover {
+            color: var(--accent);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: 12vw;
+            font-weight: 700;
+            line-height: 0.9;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .hero-title span {
+            display: block;
+            transform: translateY(110%);
+        }
+
+        .hero-subtitle {
+            margin-top: 2rem;
+            font-size: 1.2rem;
+            font-weight: 300;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            opacity: 0;
+            color: #888;
+        }
+
+        /* Projects List */
+        .projects-wrapper {
+            padding: 10vh 4rem 20vh;
+            display: flex;
+            flex-direction: column;
+            gap: 15vh;
+        }
+
+        .project-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 4rem;
+        }
+
+        .project-item:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .project-info {
+            flex: 1;
+        }
+
+        .project-year {
+            font-size: 0.9rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+        }
+
+        .project-name {
+            font-family: var(--font-display);
+            font-size: 4vw;
+            font-weight: 500;
+            text-transform: uppercase;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .project-name::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background-color: var(--accent);
+            transition: width 0.5s ease;
+        }
+
+        .project-item:hover .project-name::after {
+            width: 100%;
+        }
+
+        .project-cat {
+            font-size: 1rem;
+            color: #777;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .project-img-wrapper {
+            flex: 1.5;
+            height: 70vh;
+            overflow: hidden;
+            position: relative;
+            /* clip-path começa já visível, sem bloqueio */
+            clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .project-img-wrapper.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .project-img {
+            width: 100%;
+            height: 100%; 
+            object-fit: contain;
+            object-position: center;
+            transform: scale(1.1);
+            transition: transform 1s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .project-img-wrapper:hover .project-img {
+            transform: scale(1);
+        }
+
+        /* Footer */
+        footer {
+            padding: 10vh 4rem;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-family: var(--font-display);
+            font-size: 5vw;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+        }
+
+        .footer-cta {
+            color: #fff;
+            text-decoration: none;
+            position: relative;
+        }
+
+        .footer-cta:hover {
+            color: var(--accent);
+        }
+
+        /* Laboratory Section */
+        .laboratory-section {
+            padding: 15vh 4rem 15vh;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            background: linear-gradient(to bottom, #0f0f0f, #070707);
+        }
+
+        .lab-header-container {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            align-items: center;
+            gap: 4rem;
+            margin-bottom: 8vh;
+            width: 100%;
+        }
+
+        .lab-header-text {
+            display: flex;
+            flex-direction: column;
+            max-width: 700px;
+        }
+
+        .lab-header-3d {
+            position: relative;
+            width: 100%;
+            height: 350px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #canvas-3d {
+            width: 100% !important;
+            height: 100% !important;
+            max-width: 380px;
+            max-height: 380px;
+            background: transparent;
+            cursor: pointer;
+        }
+
+        .lab-subtitle {
+            font-size: 0.9rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+        }
+
+        .lab-title {
+            font-family: var(--font-display);
+            font-size: 4vw;
+            text-transform: uppercase;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .lab-desc {
+            font-size: 1.1rem;
+            color: #888;
+            line-height: 1.6;
+        }
+
+        .lab-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .lab-card {
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.01);
+            backdrop-filter: blur(10px);
+            padding: 3rem;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 320px;
+            transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .lab-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(212, 175, 55, 0.08) 0%, rgba(212, 175, 55, 0) 50%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+        }
+
+        .lab-card:hover::before {
+            opacity: 1;
+        }
+
+        .lab-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .lab-card-num {
+            font-size: 0.9rem;
+            color: var(--accent);
+            font-family: var(--font-display);
+            letter-spacing: 1px;
+        }
+
+        .lab-card-title {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            text-transform: uppercase;
+            margin-top: 1rem;
+            line-height: 1.1;
+        }
+
+        .lab-card-desc {
+            font-size: 0.95rem;
+            color: #777;
+            margin-top: 0.5rem;
+            line-height: 1.5;
+        }
+
+        .lab-card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent);
+        }
+
+        @media (max-width: 768px) {
+            /* Navbar Mobile */
+            nav {
+                padding: 1.5rem 2rem !important;
+            }
+            .nav-logo {
+                font-size: 1rem !important;
+            }
+            .nav-links a {
+                margin-left: 1rem !important;
+                font-size: 0.8rem !important;
+            }
+            .nav-icon {
+                margin-left: 1rem !important;
+            }
+            .contact-info-panel {
+                right: -2rem !important;
+                padding: 0.6rem 1rem !important;
+                font-size: 0.75rem !important;
+                gap: 0.8rem !important;
+            }
+            .contact-info-panel a {
+                font-size: 0.75rem !important;
+            }
+
+            /* Custom Cursor Fallback on Mobile Touch Screens */
+            .cursor {
+                display: none !important;
+            }
+            * {
+                cursor: auto !important;
+            }
+
+            /* Hero Mobile */
+            .hero-title {
+                font-size: 16vw !important;
+            }
+            .hero-subtitle {
+                font-size: 0.9rem !important;
+                letter-spacing: 2px !important;
+            }
+
+            /* Projects Wrapper Mobile */
+            .projects-wrapper {
+                padding: 5vh 2rem 10vh !important;
+                gap: 8vh !important;
+            }
+
+            /* Project Item Stack on Mobile */
+            .project-item {
+                flex-direction: column !important;
+                gap: 1.5rem !important;
+                align-items: flex-start !important;
+            }
+            .project-item:nth-child(even) {
+                flex-direction: column !important;
+            }
+
+            .project-name {
+                font-size: 8vw !important;
+                margin-bottom: 0.5rem !important;
+            }
+
+            .project-img-wrapper {
+                width: 100% !important;
+                height: 45vh !important;
+            }
+
+            /* Laboratory Section Mobile */
+            .lab-grid {
+                grid-template-columns: 1fr !important;
+                gap: 1.5rem !important;
+            }
+            .lab-header-container {
+                grid-template-columns: 1fr !important;
+                gap: 2rem !important;
+                margin-bottom: 4vh !important;
+            }
+            .lab-header-3d {
+                height: 250px !important;
+            }
+            .laboratory-section {
+                padding: 10vh 2rem 10vh !important;
+            }
+            .lab-title {
+                font-size: 8vw !important;
+            }
+            .lab-card {
+                padding: 2rem !important;
+                height: 280px !important;
+            }
+            .lab-card-title {
+                font-size: 1.6rem !important;
+            }
+
+            /* Footer Mobile */
+            footer {
+                padding: 8vh 2rem !important;
+                font-size: 8vw !important;
+            }
+        }
+    </style>
+</head>
+<body data-scroll-container>
+
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+
+    <nav data-scroll-section>
+        <div class="nav-logo">J. Derani</div>
+        <div class="nav-links">
+            <a href="#" class="hover-target">Work</a>
+            <div class="nav-contact-wrapper">
+                <a href="#" class="hover-target">Contact</a>
+                <div class="contact-info-panel">
+                    <div class="contact-item-group">
+                        <a href="mailto:jp.derani@gmail.com" class="hover-target">jp.derani@gmail.com</a>
+                        <button class="copy-btn hover-target" onclick="copyToClipboard('jp.derani@gmail.com', this)" title="Copiar E-mail">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                        </button>
+                    </div>
+                    <span style="color: rgba(255,255,255,0.2);">|</span>
+                    <div class="contact-item-group">
+                        <a href="https://wa.me/5541998111100" target="_blank" class="hover-target">+55 (41) 99811-1100</a>
+                        <button class="copy-btn hover-target" onclick="copyToClipboard('+5541998111100', this)" title="Copiar Telefone">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Email Link -->
+            <a href="mailto:jp.derani@gmail.com" class="nav-icon hover-target" title="E-mail" style="margin-left: 2rem; display: inline-flex; align-items: center; justify-content: center;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            </a>
+
+            <!-- WhatsApp Link -->
+            <a href="https://wa.me/5541998111100" target="_blank" class="nav-icon hover-target" title="WhatsApp" style="margin-left: 1.5rem; display: inline-flex; align-items: center; justify-content: center;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+            </a>
+
+            <!-- Language Toggle -->
+            <div class="lang-toggle">
+                <a href="index.html" class="hover-target">PT</a>
+                <span>/</span>
+                <a href="en.html" class="active">EN</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero" data-scroll-section>
+            <h1 class="hero-title">
+                <span class="line">João Pedro</span>
+                <span class="line">Derani</span>
+            </h1>
+            <p class="hero-subtitle">Product & Graphic Designer</p>
+        </section>
+
+        <section class="projects-wrapper" data-scroll-section>
+            
+            <!-- Project Montanari -->
+            <a href="case-montanari-en.html" class="project-item project-hover" style="text-decoration: none; color: inherit; display: flex;">
+                <div class="project-info" data-scroll data-scroll-speed="1">
+                    <div class="project-year">2026</div>
+                    <h2 class="project-name">Montanari Clinic</h2>
+                    <div class="project-cat">Web Design / Quiet Luxury</div>
+                </div>
+                <div class="project-img-wrapper gs-reveal">
+                    <img src="assets-montanari/capa-montanari.webp" alt="Montanari Clinic" class="project-img" data-scroll data-scroll-speed="-1.5">
+                </div>
+            </a>
+
+            <!-- Project Bruma -->
+            <a href="case-bruma-en.html" class="project-item project-hover" style="text-decoration: none; color: inherit; display: flex;">
+                <div class="project-info" data-scroll data-scroll-speed="1">
+                    <div class="project-year">2025</div>
+                    <h2 class="project-name">Bruma</h2>
+                    <div class="project-cat">Product Design</div>
+                </div>
+                <div class="project-img-wrapper gs-reveal">
+                    <img src="bolsabruma.png" alt="Bruma" class="project-img" data-scroll data-scroll-speed="-1.5">
+                </div>
+            </a>
+
+            <!-- Project Hangul -->
+            <a href="case-hangul.html" class="project-item project-hover" style="text-decoration: none; color: inherit; display: flex;">
+                <div class="project-info" data-scroll data-scroll-speed="1">
+                    <div class="project-year">2025</div>
+                    <h2 class="project-name">Hangul Mas</h2>
+                    <div class="project-cat">Graphic Design</div>
+                </div>
+                <div class="project-img-wrapper gs-reveal">
+                    <img src="fotoshangulamas/media/images/805353ca-df9c-4add-b109-eebb075092fc-rw-.png" alt="Hangul Mas" class="project-img" data-scroll data-scroll-speed="-1.5">
+                </div>
+            </a>
+
+            <!-- Project Nespresso -->
+            <a href="case-nespresso.html" class="project-item project-hover" style="text-decoration: none; color: inherit; display: flex;">
+                <div class="project-info" data-scroll data-scroll-speed="1">
+                    <div class="project-year">2025</div>
+                    <h2 class="project-name">Vertuo Capsule Holder</h2>
+                    <div class="project-cat">Product Design / Nespresso</div>
+                </div>
+                <div class="project-img-wrapper gs-reveal">
+                    <img src="nespresso_selecionadas/nespressopreta.jpeg" alt="Nespresso" class="project-img" data-scroll data-scroll-speed="-1.5">
+                </div>
+            </a>
+
+            <!-- Project Lego -->
+            <a href="case-lego.html" class="project-item project-hover" style="text-decoration: none; color: inherit; display: flex;">
+                <div class="project-info" data-scroll data-scroll-speed="1">
+                    <div class="project-year">2025</div>
+                    <h2 class="project-name">Lego x Wepink</h2>
+                    <div class="project-cat">Rebranding / Collab</div>
+                </div>
+                <div class="project-img-wrapper gs-reveal">
+                    <img src="lego_selecionadas/img1.png" alt="Lego x Wepink" class="project-img" data-scroll data-scroll-speed="-1.5">
+                </div>
+            </a>
+
+            <!-- Project Arapuca -->
+            <a href="case-arapuca.html" class="project-item project-hover" style="text-decoration: none; color: inherit; display: flex;">
+                <div class="project-info" data-scroll data-scroll-speed="1">
+                    <div class="project-year">2025</div>
+                    <h2 class="project-name">Arapuca</h2>
+                    <div class="project-cat">Product Design</div>
+                </div>
+                <div class="project-img-wrapper gs-reveal">
+                    <img src="arapuca_selecionadas/img1.png" alt="Arapuca" class="project-img" data-scroll data-scroll-speed="-1.5">
+                </div>
+            </a>
+
+            <!-- Project Renault -->
+            <a href="case-renault.html" class="project-item project-hover" style="text-decoration: none; color: inherit; display: flex;">
+                <div class="project-info" data-scroll data-scroll-speed="1">
+                    <div class="project-year">2025</div>
+                    <h2 class="project-name">Renault x Oakley</h2>
+                    <div class="project-cat">Industrial / Collab</div>
+                </div>
+                <div class="project-img-wrapper gs-reveal">
+                    <img src="renault_selecionadas/logoreno.png" alt="Renault x Oakley" class="project-img" data-scroll data-scroll-speed="-1.5">
+                </div>
+            </a>
+
+        </section>
+
+        <!-- Showcase: Laboratório de Design & UI -->
+        <section class="laboratory-section" data-scroll-section>
+            <div class="lab-header-container" data-scroll data-scroll-speed="1">
+                <div class="lab-header-text">
+                    <div class="lab-subtitle">Design System & Motion</div>
+                    <h2 class="lab-title">Interaction Lab</h2>
+                    <p class="lab-desc">Playgrounds for advanced animations, responsive motion design, and ultra-optimized premium native components.</p>
+                </div>
+                <div class="lab-header-3d">
+                    <canvas id="canvas-3d" class="hover-target"></canvas>
+                </div>
+            </div>
+            
+            <div class="lab-grid">
+                
+                <!-- Card 1: Ícones Animados -->
+                <a href="biblioteca-icones-animados.html" class="lab-card hover-target" data-scroll data-scroll-speed="0.5">
+                    <span class="lab-card-num">01 / Motion Vector</span>
+                    <div>
+                        <h3 class="lab-card-title">Animated Icons</h3>
+                        <p class="lab-card-desc">Library of magnetic, pulsating, and reactive vector micro-interactions created with native SVG and fluid physics.</p>
+                    </div>
+                    <div class="lab-card-footer">
+                        <span>Access Sandbox</span>
+                        <span>→</span>
+                    </div>
+                </a>
+
+                <!-- Card 2: Botões Premium -->
+                <a href="biblioteca-botoes-premium.html" class="lab-card hover-target" data-scroll data-scroll-speed="1">
+                    <span class="lab-card-num">02 / UI Component</span>
+                    <div>
+                        <h3 class="lab-card-title">Premium Buttons</h3>
+                        <p class="lab-card-desc">Collection of buttons featuring linear reflective shimmer, glassmorphism effects, and GPU-accelerated hover states.</p>
+                    </div>
+                    <div class="lab-card-footer">
+                        <span>Access Playground</span>
+                        <span>→</span>
+                    </div>
+                </a>
+
+                <!-- Card 3: Identidades Visuais -->
+                <a href="biblioteca-identidades.html" class="lab-card hover-target" data-scroll data-scroll-speed="1">
+                    <span class="lab-card-num">04 / Visual Identity</span>
+                    <div>
+                        <h3 class="lab-card-title">Brand Systems</h3>
+                        <p class="lab-card-desc">Editorial grid guidelines, integrated typography families, and color tokens applied to luxury interfaces.</p>
+                    </div>
+                    <div class="lab-card-footer">
+                        <span>Explore System</span>
+                        <span>→</span>
+                    </div>
+                </a>
+
+            </div>
+        </section>
+
+        <footer data-scroll-section>
+            <a href="#" class="footer-cta" data-scroll data-scroll-speed="2">Let's Work Together</a>
+        </footer>
+    </main>
+
+    <!-- Scripts: carregam com defer para não bloquear a página -->
+    <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
+
+    <script>
+        // Espera as libs carregarem (defer)
+        window.addEventListener('load', () => {
+
+        // 1. Custom Cursor Logic
+        const cursor = document.querySelector('.cursor');
+        document.addEventListener('mousemove', (e) => {
+            gsap.to(cursor, {
+                x: e.clientX,
+                y: e.clientY,
+                duration: 0.1,
+                ease: "power2.out"
+            });
+        });
+
+        document.querySelectorAll('.project-hover, .hover-target').forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                cursor.classList.add('hover-project');
+            });
+            item.addEventListener('mouseleave', () => {
+                cursor.classList.remove('hover-project');
+            });
+        });
+
+        // 2. Lab Cards Mouse Tracking (efeito de brilho radial)
+        document.querySelectorAll('.lab-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+
+        // 2b. Contact Panel: aparece no hover, fica 5s após o mouse sair
+        const contactWrapper = document.querySelector('.nav-contact-wrapper');
+        const contactPanel   = document.querySelector('.contact-info-panel');
+        let contactHideTimer = null;
+
+        const showPanel = () => {
+            clearTimeout(contactHideTimer);
+            contactPanel.classList.add('visible');
+        };
+
+        const scheduleHide = () => {
+            clearTimeout(contactHideTimer);
+            contactHideTimer = setTimeout(() => {
+                contactPanel.classList.remove('visible');
+            }, 5000); // 5 segundos
+        };
+
+        // Mostrar ao entrar no wrapper (link "Contato")
+        contactWrapper.addEventListener('mouseenter', showPanel);
+        // Iniciar contagem ao sair do wrapper
+        contactWrapper.addEventListener('mouseleave', scheduleHide);
+        // Se o mouse entrar no próprio painel, cancela o hide
+        contactPanel.addEventListener('mouseenter', showPanel);
+        // Ao sair do painel, reinicia contagem de 5s
+        contactPanel.addEventListener('mouseleave', scheduleHide);
+
+        // Função de copiar para o clipboard
+        window.copyToClipboard = (text, btnElement) => {
+            navigator.clipboard.writeText(text).then(() => {
+                const originalSvg = btnElement.innerHTML;
+                btnElement.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#d4af37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+                setTimeout(() => {
+                    btnElement.innerHTML = originalSvg;
+                }, 2000);
+            }).catch(err => console.error('Erro ao copiar:', err));
+        };
+
+        // 3. Hero Animation (sem delay excessivo)
+        const tl = gsap.timeline();
+        tl.to('.hero-title .line', {
+            y: "0%",
+            duration: 1.2,
+            stagger: 0.15,
+            ease: "power4.out",
+            delay: 0.2
+        })
+        .to('.hero-subtitle', {
+            opacity: 1,
+            duration: 0.8,
+            ease: "power2.out"
+        }, "-=0.8");
+
+        // 4. Reveal com IntersectionObserver (nativo, sem depender do Locomotive)
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 }); // dispara quando apenas 10% do elemento está visível
+
+        document.querySelectorAll('.gs-reveal').forEach(el => revealObserver.observe(el));
+
+        // 5. Locomotive Scroll: apenas smooth scroll, sem bloquear interação
+        const locoScroll = new LocomotiveScroll({
+            el: document.querySelector('[data-scroll-container]'),
+            smooth: true,
+            multiplier: 0.85,
+            lerp: 0.1
+        });
+
+        // 6. Interactive 3D Model: Torus Knot em Three.js
+        const init3DModel = () => {
+            const canvas = document.getElementById('canvas-3d');
+            if (!canvas) return;
+
+            const scene = new THREE.Scene();
+            
+            // Camera (moved closer from z=6 to z=4.2 to make the object significantly larger)
+            const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
+            camera.position.z = 4.2;
+
+            // Renderer
+            const renderer = new THREE.WebGLRenderer({
+                canvas: canvas,
+                alpha: true,
+                antialias: true
+            });
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+            // Resize handler (Fixed: query actual canvas display dimensions to prevent oval stretching/distortion!)
+            const resize = () => {
+                const rect = canvas.getBoundingClientRect();
+                const width = rect.width || 380;
+                const height = rect.height || 380;
+                renderer.setSize(width, height, false); // Crucial: false prevents canvas inline style overriding
+                camera.aspect = width / height;
+                camera.updateProjectionMatrix();
+            };
+            resize();
+            window.addEventListener('resize', resize);
+            if (typeof locoScroll !== 'undefined') {
+                locoScroll.on('scroll', resize);
+            }
+
+            // Create a Group to hold both geometries (simulates zero-gravity float inside chamber)
+            const mainGroup = new THREE.Group();
+            scene.add(mainGroup);
+
+            // 1. Inner Core: Faceted Icosahedron (Solid & Highly Reflective Gold - increased from 0.75 to 0.9)
+            const coreGeometry = new THREE.IcosahedronGeometry(0.9, 0); // Flat faces for sharp reflections
+            const coreMaterial = new THREE.MeshPhysicalMaterial({
+                color: 0xd4af37, // Golden Core
+                metalness: 0.95,
+                roughness: 0.15,
+                flatShading: true, // Crucial for spectacular individual facet glints!
+                clearcoat: 1.0,
+                clearcoatRoughness: 0.1
+            });
+            const coreMesh = new THREE.Mesh(coreGeometry, coreMaterial);
+            mainGroup.add(coreMesh);
+
+            // 2. Outer Shell: Silver Wireframe Icosahedron (Spins in reverse - increased from 1.2 to 1.45)
+            const shellGeometry = new THREE.IcosahedronGeometry(1.45, 1); // More refined facet grid
+            const shellMaterial = new THREE.MeshPhysicalMaterial({
+                color: 0xffffff, // Silver shell
+                metalness: 0.9,
+                roughness: 0.1,
+                wireframe: true,
+                transparent: true,
+                opacity: 0.35
+            });
+            const shellMesh = new THREE.Mesh(shellGeometry, shellMaterial);
+            mainGroup.add(shellMesh);
+
+            // Lights (High-end Cinematic Containment Chamber Theme)
+            const ambientLight = new THREE.AmbientLight(0x0a0a1a, 0.4); // Very soft deep space blue fill
+            scene.add(ambientLight);
+
+            // Light 1: Golden Key Light (Top-Right)
+            const goldLight = new THREE.DirectionalLight(0xd4af37, 3.5);
+            goldLight.position.set(6, 6, 4);
+            scene.add(goldLight);
+
+            // Light 2: Deep Indigo/Magenta Neon Rim Light (Bottom-Left - creates gorgeous high-end cyber-luxe contrast!)
+            const violetLight = new THREE.DirectionalLight(0x4b0082, 3.0);
+            violetLight.position.set(-6, -6, 2);
+            scene.add(violetLight);
+
+            // Light 3: Interactive Point Light (follows mouse, generates moving specular glints)
+            const pointLight = new THREE.PointLight(0xffffff, 4, 15);
+            pointLight.position.set(0, 0, 4);
+            scene.add(pointLight);
+
+            // Rotation and parallax tracking variables
+            let targetRotX = 0;
+            let targetRotY = 0;
+            let curRotX = 0;
+            let curRotY = 0;
+            let speed = 1.0;
+            let scaleVal = 1.0;
+            let targetScale = 1.0;
+
+            // Accumulated continuous rotation variables (continuous frame delta prevent snapping)
+            let angleX = 0;
+            let angleY = 0;
+
+            const section = document.querySelector('.laboratory-section');
+            if (section) {
+                section.addEventListener('mousemove', (e) => {
+                    // Center-relative calculation (smoother, resolution-independent parallax)
+                    const rect = canvas.getBoundingClientRect();
+                    const canvasCenterX = rect.left + rect.width / 2;
+                    const canvasCenterY = rect.top + rect.height / 2;
+
+                    const dx = e.clientX - canvasCenterX;
+                    const dy = e.clientY - canvasCenterY;
+
+                    // Normalize by window viewport size
+                    const normX = dx / window.innerWidth;
+                    const normY = dy / window.innerHeight;
+
+                    // Tight clamp to prevent wild rotations when mouse is far away
+                    // Max turn is ~30 degrees (0.5 radians)
+                    targetRotY = Math.max(-0.5, Math.min(0.5, normX * 2.0));
+                    targetRotX = Math.max(-0.5, Math.min(0.5, -normY * 2.0));
+
+                    // Move point light within strict aesthetic bounds
+                    pointLight.position.x = Math.max(-3, Math.min(3, normX * 8));
+                    pointLight.position.y = Math.max(-3, Math.min(3, -normY * 8));
+                });
+
+                section.addEventListener('mouseenter', () => {
+                    speed = 2.2; // Smooth speed-up on hover
+                    targetScale = 1.15;
+                    coreMaterial.color.setHex(0xffffff); // Core turns pure platinum white!
+                    shellMaterial.color.setHex(0xd4af37); // Shell turns gold!
+                });
+
+                section.addEventListener('mouseleave', () => {
+                    speed = 1.0;
+                    targetScale = 1.0;
+                    coreMaterial.color.setHex(0xd4af37); // Returns to gold core
+                    shellMaterial.color.setHex(0xffffff); // Returns to silver shell
+                    targetRotX = 0;
+                    targetRotY = 0;
+                });
+
+                // Splash morphing on click
+                canvas.addEventListener('mousedown', () => {
+                    targetScale = 1.35;
+                    speed = 6.0;
+                    shellMaterial.wireframe = false; // Outer shell solidifies temporarily!
+                    setTimeout(() => {
+                        targetScale = 1.15;
+                        speed = 2.2;
+                        shellMaterial.wireframe = true;
+                    }, 250);
+                });
+            }
+
+            const clock = new THREE.Clock();
+            const animate = () => {
+                requestAnimationFrame(animate);
+
+                const delta = clock.getDelta();
+                const totalTime = clock.getElapsedTime();
+
+                // Smooth rotation using lerp
+                curRotX += (targetRotX - curRotX) * 0.06;
+                curRotY += (targetRotY - curRotY) * 0.06;
+
+                // Frame-by-frame delta accumulation instead of absolute time multiplication
+                angleX += delta * 0.12 * speed;
+                angleY += delta * 0.16 * speed;
+
+                // Core spins one way
+                coreMesh.rotation.x = angleX + curRotX;
+                coreMesh.rotation.y = angleY + curRotY;
+
+                // Shell spins in reverse and slightly different speeds to look kinetically independent!
+                shellMesh.rotation.x = -angleX * 0.7 + curRotX * 0.5;
+                shellMesh.rotation.y = -angleY * 0.85 + curRotY * 0.5;
+
+                // Levitation Effect: Sin wave floating bounce simulating a zero-gravity magnetic containment field!
+                const floatOffset = Math.sin(totalTime * 1.6) * 0.12;
+                mainGroup.position.y = floatOffset;
+
+                // Scale interpolation
+                scaleVal += (targetScale - scaleVal) * 0.1;
+                mainGroup.scale.set(scaleVal, scaleVal, scaleVal);
+
+                renderer.render(scene, camera);
+            };
+
+            animate();
+        };
+
+        init3DModel();
+
+        }); // fim do window.load
+    </script>
+</body>
+</html>

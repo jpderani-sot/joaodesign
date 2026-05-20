@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteca de Ícones Animados | Design System</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <!-- Scripts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+
+    <style>
+        :root {
+            --rose-gold: #c4a265;
+            --deep-black: #0d0d0c;
+        }
+
+        body {
+            background-color: var(--deep-black);
+            color: white;
+            font-family: 'Outfit', sans-serif;
+            padding: 4rem 2rem;
+        }
+
+        .icon-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 20px;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .icon-card:hover {
+            background: rgba(255,255,255,0.05);
+            border-color: var(--rose-gold);
+            transform: translateY(-5px);
+        }
+
+        /* --- ANIMAÇÕES DE ÍCONES --- */
+
+        /* 1. Floating (Flutuação) */
+        .ani-float {
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* 2. Pulse (Pulsação de Brilho) */
+        .ani-pulse-glow {
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+        @keyframes pulse-glow {
+            0%, 100% { filter: drop-shadow(0 0 2px var(--rose-gold)); transform: scale(1); }
+            50% { filter: drop-shadow(0 0 15px var(--rose-gold)); transform: scale(1.1); }
+        }
+
+        /* 3. Spin Slow (Giro Lento) */
+        .ani-spin-slow {
+            animation: spin 8s linear infinite;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* 4. Hover Reveal (Revelação no Hover) */
+        .icon-reveal-box .icon-label {
+            max-height: 0;
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+        .icon-reveal-box:hover .icon-label {
+            max-height: 50px;
+            opacity: 1;
+        }
+
+        /* 5. Magnetic Icon (Reutilizando técnica V2) */
+        .mag-icon-wrap {
+            padding: 20px;
+        }
+
+        /* 6. Gradient Icons */
+        .icon-gradient {
+            background: linear-gradient(45deg, #c4a265, #e5c185);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* 7. Draw Animation (Simulada com Mask) */
+        .ani-draw {
+            mask-image: linear-gradient(to right, black var(--p, 0%), transparent var(--p, 0%));
+            -webkit-mask-image: linear-gradient(to right, black var(--p, 0%), transparent var(--p, 0%));
+            animation: draw 2s ease-out forwards;
+        }
+        @keyframes draw {
+            from { --p: 0%; }
+            to { --p: 100%; }
+        }
+        @property --p {
+            syntax: '<percentage>';
+            inherits: false;
+            initial-value: 0%;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="max-w-[1200px] mx-auto mb-20 text-center">
+        <h1 class="text-4xl md:text-6xl font-bold mb-6">Iconografia <span class="text-rose-gold italic">Animada</span></h1>
+        <p class="text-white/40 max-w-2xl mx-auto">Uma coleção curada de componentes de ícones com animações premium para elevar a interatividade do seu design system.</p>
+    </header>
+
+    <main class="max-w-[1200px] mx-auto space-y-24">
+
+        <!-- SEÇÃO 1: CLINICAL & LUXURY (ESTÉTICA) -->
+        <section>
+            <h2 class="text-xl font-bold uppercase tracking-[4px] text-rose-gold mb-10 border-b border-white/5 pb-4">Estética & Luxo</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+                
+                <!-- Crown (Float) -->
+                <div class="icon-card">
+                    <iconify-icon icon="ph:crown-bold" class="text-5xl text-rose-gold ani-float"></iconify-icon>
+                    <span class="text-[10px] uppercase opacity-40">Crown Float</span>
+                </div>
+
+                <!-- Star (Pulse) -->
+                <div class="icon-card">
+                    <iconify-icon icon="ph:star-bold" class="text-5xl text-rose-gold ani-pulse-glow"></iconify-icon>
+                    <span class="text-[10px] uppercase opacity-40">Star Glow</span>
+                </div>
+
+                <!-- Diamond (Spin) -->
+                <div class="icon-card">
+                    <iconify-icon icon="ph:diamond-bold" class="text-5xl text-rose-gold ani-spin-slow"></iconify-icon>
+                    <span class="text-[10px] uppercase opacity-40">Diamond Spin</span>
+                </div>
+
+                <!-- Sparkles -->
+                <div class="icon-card">
+                    <iconify-icon icon="solar:stars-minimalistic-bold" class="text-5xl text-rose-gold animate-pulse"></iconify-icon>
+                    <span class="text-[10px] uppercase opacity-40">Magic Pulse</span>
+                </div>
+
+                <!-- Shield (Draw) -->
+                <div class="icon-card">
+                    <iconify-icon icon="solar:shield-check-bold" class="text-5xl text-rose-gold ani-draw"></iconify-icon>
+                    <span class="text-[10px] uppercase opacity-40">Shield Draw</span>
+                </div>
+
+                <!-- Medals -->
+                <div class="icon-card">
+                    <iconify-icon icon="ph:medal-bold" class="text-5xl text-rose-gold hover:scale-125 transition-transform"></iconify-icon>
+                    <span class="text-[10px] uppercase opacity-40">Medal Zoom</span>
+                </div>
+
+                <!-- Gem (Luxury) -->
+                <div class="icon-card">
+                    <iconify-icon icon="ph:gem-bold" class="text-5xl text-rose-gold ani-pulse-glow"></iconify-icon>
+                    <span class="text-[10px] uppercase opacity-40">Elite Gem</span>
+                </div>
+
+                <!-- Flower (Organic) -->
+                <div class="icon-card">
+                    <iconify-icon icon="ph:flower-bold" class="text-5xl text-rose-gold ani-float"></iconify-icon>
+                    <span class="text-[10px] uppercase opacity-40">Organic Beauty</span>
+                </div>
+
+                <!-- Mirror (Reflective) -->
+                <div class="icon-card">
+                    <iconify-icon icon="ph:mirror-bold" class="text-5xl text-rose-gold ani-spin-slow"></iconify-icon>
+                    <span class="text-[10px] uppercase opacity-40">Luxury Mirror</span>
+                </div>
+
+                <!-- Spray (Essence) -->
+                <div class="icon-card">
+                    <iconify-icon icon="ph:spray-bottle-bold" class="text-5xl text-rose-gold hover:rotate-12 transition-transform"></iconify-icon>
+                    <span class="text-[10px] uppercase opacity-40">Premium Essence</span>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SEÇÃO 2: TECNOLOGIA & PRECISÃO -->
+        <section>
+            <h2 class="text-xl font-bold uppercase tracking-[4px] text-blue-400 mb-10 border-b border-white/5 pb-4">Tecnologia & Precisão</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+                
+                <!-- Atom (Complex Spin) -->
+                <div class="icon-card">
+                    <div class="relative">
+                        <iconify-icon icon="lucide:atom" class="text-5xl text-blue-400 ani-spin-slow"></iconify-icon>
+                    </div>
+                    <span class="text-[10px] uppercase opacity-40">Atom Orbit</span>
+                </div>
+
+                <!-- CPU (Pulse) -->
+                <div class="icon-card">
+                    <iconify-icon icon="ph:cpu-bold" class="text-5xl text-blue-400 animate-pulse"></iconify-icon>
+                    <span class="text-[10px] uppercase opacity-40">CPU Beat</span>
+                </div>
+
+                <!-- DNA (Float) -->
+                <div class="icon-card">
+                    <iconify-icon icon="solar:dna-bold" class="text-5xl text-blue-400 ani-float"></iconify-icon>
+                    <span class="text-[10px] uppercase opacity-40">DNA Helix</span>
+                </div>
+
+                <!-- Globe (Spin) -->
+                <div class="icon-card">
+                    <iconify-icon icon="ph:globe-bold" class="text-5xl text-blue-400 ani-spin-slow"></iconify-icon>
+                    <span class="text-[10px] uppercase opacity-40">Global Network</span>
+                </div>
+
+                <!-- Microscope -->
+                <div class="icon-card">
+                    <iconify-icon icon="ph:microscope-bold" class="text-5xl text-blue-400 ani-pulse-glow"></iconify-icon>
+                    <span class="text-[10px] uppercase opacity-40">Precision Scan</span>
+                </div>
+
+                <!-- Test Tube -->
+                <div class="icon-card">
+                    <iconify-icon icon="solar:test-tube-bold" class="text-5xl text-blue-400 hover:rotate-12 transition-transform"></iconify-icon>
+                    <span class="text-[10px] uppercase opacity-40">Lab Tilt</span>
+                </div>
+
+                <!-- Research (Flask) -->
+                <div class="icon-card">
+                    <iconify-icon icon="ph:flask-bold" class="text-5xl text-blue-400 ani-float"></iconify-icon>
+                    <span class="text-[10px] uppercase opacity-40">Biotech Lab</span>
+                </div>
+
+                <!-- Bio-ID (Fingerprint) -->
+                <div class="icon-card">
+                    <iconify-icon icon="ph:fingerprint-bold" class="text-5xl text-blue-400 ani-pulse-glow"></iconify-icon>
+                    <span class="text-[10px] uppercase opacity-40">Genetic ID</span>
+                </div>
+
+                <!-- Waves (Frequency) -->
+                <div class="icon-card">
+                    <iconify-icon icon="ph:waves-bold" class="text-5xl text-blue-400 ani-draw"></iconify-icon>
+                    <span class="text-[10px] uppercase opacity-40">Deep Wave Tech</span>
+                </div>
+
+                <!-- Control (Thermometer) -->
+                <div class="icon-card">
+                    <iconify-icon icon="ph:thermometer-bold" class="text-5xl text-blue-400 animate-pulse"></iconify-icon>
+                    <span class="text-[10px] uppercase opacity-40">Temp Control</span>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SEÇÃO 3: PROCEDIMENTOS ESTÉTICOS -->
+        <section>
+            <h2 class="text-xl font-bold uppercase tracking-[4px] text-rose-gold mb-10 border-b border-white/5 pb-4">Procedimentos Estéticos</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+                
+                <!-- Harmonização (Face Target) -->
+                <div class="icon-card">
+                    <iconify-icon icon="ph:smiley-bold" class="text-5xl text-rose-gold ani-pulse-glow"></iconify-icon>
+                    <span class="text-[10px] uppercase opacity-40">Harmonização</span>
+                </div>
+
+                <!-- Toxina (Syringe) -->
+                <div class="icon-card">
+                    <iconify-icon icon="ph:syringe-bold" class="text-5xl text-rose-gold hover:-rotate-45 transition-transform"></iconify-icon>
+                    <span class="text-[10px] uppercase opacity-40">Toxina/Botox</span>
+                </div>
+
+                <!-- Lipo Shape (Curves) -->
+                <div class="icon-card">
+                    <iconify-icon icon="ph:wave-sine-bold" class="text-5xl text-rose-gold ani-float"></iconify-icon>
+                    <span class="text-[10px] uppercase opacity-40">Lipo Shape</span>
+                </div>
+
+                <!-- Bioestimuladores (Cells) -->
+                <div class="icon-card">
+                    <iconify-icon icon="ph:intersect-bold" class="text-5xl text-rose-gold ani-spin-slow"></iconify-icon>
+                    <span class="text-[10px] uppercase opacity-40">Bioestimuladores</span>
+                </div>
+
+                <!-- Lifting (Sparkle/Up) -->
+                <div class="icon-card">
+                    <iconify-icon icon="ph:sparkle-bold" class="text-5xl text-rose-gold animate-bounce"></iconify-icon>
+                    <span class="text-[10px] uppercase opacity-40">Efeito Lifting</span>
+                </div>
+
+                <!-- Skincare (Droplet) -->
+                <div class="icon-card">
+                    <iconify-icon icon="ph:drop-bold" class="text-5xl text-rose-gold ani-float"></iconify-icon>
+                    <span class="text-[10px] uppercase opacity-40">Skincare/Sérum</span>
+                </div>
+
+                <!-- Laser (Ray) -->
+                <div class="icon-card">
+                    <iconify-icon icon="ph:lightning-bold" class="text-5xl text-rose-gold ani-pulse-glow"></iconify-icon>
+                    <span class="text-[10px] uppercase opacity-40">Laser / Fotona</span>
+                </div>
+
+                <!-- Preenchimento Labial (Lips) -->
+                <div class="icon-card">
+                    <iconify-icon icon="lucide:smile" class="text-5xl text-rose-gold hover:scale-110 transition-transform"></iconify-icon>
+                    <span class="text-[10px] uppercase opacity-40">Preenchimento Labial</span>
+                </div>
+
+                <!-- Rinomodelação (Profile/Focus) -->
+                <div class="icon-card">
+                    <iconify-icon icon="ph:eyeglasses-bold" class="text-5xl text-rose-gold ani-float"></iconify-icon>
+                    <span class="text-[10px] uppercase opacity-40">Rinomodelação</span>
+                </div>
+
+                <!-- Microagulhamento (Grid) -->
+                <div class="icon-card">
+                    <iconify-icon icon="ph:dots-nine-bold" class="text-5xl text-rose-gold animate-pulse"></iconify-icon>
+                    <span class="text-[10px] uppercase opacity-40">Microagulhamento</span>
+                </div>
+
+                <!-- Fios de Sustentação (Lines) -->
+                <div class="icon-card">
+                    <iconify-icon icon="ph:git-commit-bold" class="text-5xl text-rose-gold ani-draw"></iconify-icon>
+                    <span class="text-[10px] uppercase opacity-40">Fios de PDO</span>
+                </div>
+
+                <!-- Peeling (Layers) -->
+                <div class="icon-card">
+                    <iconify-icon icon="ph:layers-bold" class="text-5xl text-rose-gold ani-float"></iconify-icon>
+                    <span class="text-[10px] uppercase opacity-40">Peeling Químico</span>
+                </div>
+
+                <!-- Mesoterapia (Target) -->
+                <div class="icon-card">
+                    <iconify-icon icon="ph:target-bold" class="text-5xl text-rose-gold ani-pulse-glow"></iconify-icon>
+                    <span class="text-[10px] uppercase opacity-40">Mesoterapia</span>
+                </div>
+
+                <!-- Skin Cleaning (Wand) -->
+                <div class="icon-card">
+                    <iconify-icon icon="ph:magic-wand-bold" class="text-5xl text-rose-gold hover:rotate-45 transition-transform"></iconify-icon>
+                    <span class="text-[10px] uppercase opacity-40">Limpeza Profunda</span>
+                </div>
+
+                <!-- Evaluation (Clipboard) -->
+                <div class="icon-card">
+                    <iconify-icon icon="ph:clipboard-text-bold" class="text-5xl text-rose-gold ani-draw"></iconify-icon>
+                    <span class="text-[10px] uppercase opacity-40">Avaliação Facial</span>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SEÇÃO 4: NAVEGAÇÃO & UI -->
+        <section>
+            <h2 class="text-xl font-bold uppercase tracking-[4px] text-white/60 mb-10 border-b border-white/5 pb-4">Navegação & UI</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+                
+                <!-- Magnetic Arrow (Efeito Magnético) -->
+                <div class="icon-card mag-icon-wrap" onmousemove="magneticIcon(event, this)">
+                    <iconify-icon icon="solar:arrow-right-up-bold" class="text-5xl text-white mag-target"></iconify-icon>
+                    <span class="text-[10px] uppercase opacity-40">Magnetic Link</span>
+                </div>
+
+                <!-- Menu (Hover Animation) -->
+                <div class="icon-card group">
+                    <iconify-icon icon="solar:hamburger-menu-bold" class="text-5xl text-white group-hover:scale-x-75 transition-transform"></iconify-icon>
+                    <span class="text-[10px] uppercase opacity-40">Menu Stretch</span>
+                </div>
+
+                <!-- Close (Rotate) -->
+                <div class="icon-card group">
+                    <iconify-icon icon="solar:close-circle-bold" class="text-5xl text-white group-hover:rotate-90 transition-transform"></iconify-icon>
+                    <span class="text-[10px] uppercase opacity-40">Close Rotate</span>
+                </div>
+
+                <!-- User (Reveal Label) -->
+                <div class="icon-card icon-reveal-box">
+                    <iconify-icon icon="solar:user-bold" class="text-5xl text-white"></iconify-icon>
+                    <span class="icon-label text-[10px] uppercase text-rose-gold font-bold">Acessar Conta</span>
+                </div>
+
+                <!-- Chat (Pulse) -->
+                <div class="icon-card">
+                    <iconify-icon icon="solar:chat-round-dots-bold" class="text-5xl text-white ani-pulse-glow"></iconify-icon>
+                    <span class="text-[10px] uppercase opacity-40">Live Support</span>
+                </div>
+
+                <!-- Search -->
+                <div class="icon-card group">
+                    <iconify-icon icon="ph:magnifying-glass-bold" class="text-5xl text-white group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"></iconify-icon>
+                    <span class="text-[10px] uppercase opacity-40">Search Scan</span>
+                </div>
+
+                <!-- Location (Pin) -->
+                <div class="icon-card">
+                    <iconify-icon icon="ph:map-pin-bold" class="text-5xl text-white ani-float"></iconify-icon>
+                    <span class="text-[10px] uppercase opacity-40">Onde Estamos</span>
+                </div>
+
+                <!-- Booking (Calendar) -->
+                <div class="icon-card">
+                    <iconify-icon icon="ph:calendar-blank-bold" class="text-5xl text-white hover:scale-110 transition-transform"></iconify-icon>
+                    <span class="text-[10px] uppercase opacity-40">Agendar Data</span>
+                </div>
+
+                <!-- Contact (Phone) -->
+                <div class="icon-card">
+                    <iconify-icon icon="ph:phone-bold" class="text-5xl text-white ani-pulse-glow"></iconify-icon>
+                    <span class="text-[10px] uppercase opacity-40">Ligar Agora</span>
+                </div>
+
+                <!-- Share -->
+                <div class="icon-card">
+                    <iconify-icon icon="ph:share-network-bold" class="text-5xl text-white ani-spin-slow"></iconify-icon>
+                    <span class="text-[10px] uppercase opacity-40">Compartilhar</span>
+                </div>
+
+                <!-- WhatsApp (Social) -->
+                <div class="icon-card">
+                    <iconify-icon icon="ph:whatsapp-logo-bold" class="text-5xl text-[#25d366] ani-pulse-glow"></iconify-icon>
+                    <span class="text-[10px] uppercase opacity-40">WhatsApp</span>
+                </div>
+
+                <!-- Instagram (Social) -->
+                <div class="icon-card">
+                    <iconify-icon icon="ph:instagram-logo-bold" class="text-5xl text-[#e1306c] ani-float"></iconify-icon>
+                    <span class="text-[10px] uppercase opacity-40">Instagram</span>
+                </div>
+
+                <!-- TikTok (Social) -->
+                <div class="icon-card">
+                    <iconify-icon icon="ph:tiktok-logo-bold" class="text-5xl text-white hover:scale-125 transition-transform"></iconify-icon>
+                    <span class="text-[10px] uppercase opacity-40">TikTok</span>
+                </div>
+
+                <!-- YouTube (Social) -->
+                <div class="icon-card">
+                    <iconify-icon icon="ph:youtube-logo-bold" class="text-5xl text-[#ff0000] ani-pulse-glow"></iconify-icon>
+                    <span class="text-[10px] uppercase opacity-40">YouTube</span>
+                </div>
+
+                <!-- Email (Contact) -->
+                <div class="icon-card">
+                    <iconify-icon icon="ph:envelope-bold" class="text-5xl text-white ani-draw"></iconify-icon>
+                    <span class="text-[10px] uppercase opacity-40">E-mail</span>
+                </div>
+
+                <!-- Phone (Contact) -->
+                <div class="icon-card">
+                    <iconify-icon icon="ph:phone-bold" class="text-5xl text-white ani-pulse-glow"></iconify-icon>
+                    <span class="text-[10px] uppercase opacity-40">Telefone</span>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SEÇÃO 6: VERSÕES ESTÁTICAS (CLEAN) -->
+        <section>
+            <h2 class="text-xl font-bold uppercase tracking-[4px] text-white/30 mb-10 border-b border-white/5 pb-4">Versões Estáticas (Sem Animação)</h2>
+            <div class="grid grid-cols-4 md:grid-cols-8 lg:grid-cols-12 gap-4">
+                
+                <!-- Estética -->
+                <iconify-icon icon="ph:crown-bold" class="text-3xl text-rose-gold/50 hover:text-rose-gold transition-colors"></iconify-icon>
+                <iconify-icon icon="ph:star-bold" class="text-3xl text-rose-gold/50 hover:text-rose-gold transition-colors"></iconify-icon>
+                <iconify-icon icon="ph:gem-bold" class="text-3xl text-rose-gold/50 hover:text-rose-gold transition-colors"></iconify-icon>
+                <iconify-icon icon="ph:flower-bold" class="text-3xl text-rose-gold/50 hover:text-rose-gold transition-colors"></iconify-icon>
+                <iconify-icon icon="ph:mirror-bold" class="text-3xl text-rose-gold/50 hover:text-rose-gold transition-colors"></iconify-icon>
+                <iconify-icon icon="ph:spray-bottle-bold" class="text-3xl text-rose-gold/50 hover:text-rose-gold transition-colors"></iconify-icon>
+                
+                <!-- Tech -->
+                <iconify-icon icon="lucide:atom" class="text-3xl text-blue-400/50 hover:text-blue-400 transition-colors"></iconify-icon>
+                <iconify-icon icon="ph:cpu-bold" class="text-3xl text-blue-400/50 hover:text-blue-400 transition-colors"></iconify-icon>
+                <iconify-icon icon="ph:dna-bold" class="text-3xl text-blue-400/50 hover:text-blue-400 transition-colors"></iconify-icon>
+                <iconify-icon icon="ph:flask-bold" class="text-3xl text-blue-400/50 hover:text-blue-400 transition-colors"></iconify-icon>
+                <iconify-icon icon="ph:fingerprint-bold" class="text-3xl text-blue-400/50 hover:text-blue-400 transition-colors"></iconify-icon>
+                <iconify-icon icon="ph:globe-bold" class="text-3xl text-blue-400/50 hover:text-blue-400 transition-colors"></iconify-icon>
+                
+                <!-- Proc -->
+                <iconify-icon icon="ph:smiley-bold" class="text-3xl text-rose-gold/50 hover:text-rose-gold transition-colors"></iconify-icon>
+                <iconify-icon icon="ph:syringe-bold" class="text-3xl text-rose-gold/50 hover:text-rose-gold transition-colors"></iconify-icon>
+                <iconify-icon icon="ph:wave-sine-bold" class="text-3xl text-rose-gold/50 hover:text-rose-gold transition-colors"></iconify-icon>
+                <iconify-icon icon="ph:sparkle-bold" class="text-3xl text-rose-gold/50 hover:text-rose-gold transition-colors"></iconify-icon>
+                <iconify-icon icon="ph:lightning-bold" class="text-3xl text-rose-gold/50 hover:text-rose-gold transition-colors"></iconify-icon>
+                <iconify-icon icon="lucide:smile" class="text-3xl text-rose-gold/50 hover:text-rose-gold transition-colors"></iconify-icon>
+                
+                <!-- Social -->
+                <iconify-icon icon="ph:whatsapp-logo-bold" class="text-3xl text-white/30 hover:text-[#25d366] transition-colors"></iconify-icon>
+                <iconify-icon icon="ph:instagram-logo-bold" class="text-3xl text-white/30 hover:text-[#e1306c] transition-colors"></iconify-icon>
+                <iconify-icon icon="ph:tiktok-logo-bold" class="text-3xl text-white/30 hover:text-white transition-colors"></iconify-icon>
+                <iconify-icon icon="ph:youtube-logo-bold" class="text-3xl text-white/30 hover:text-[#ff0000] transition-colors"></iconify-icon>
+                <iconify-icon icon="ph:envelope-bold" class="text-3xl text-white/30 hover:text-white transition-colors"></iconify-icon>
+                <iconify-icon icon="ph:phone-bold" class="text-3xl text-white/30 hover:text-white transition-colors"></iconify-icon>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="mt-32 pt-10 border-t border-white/5 text-center">
+        <p class="text-white/20 text-xs uppercase tracking-widest font-bold">Biblioteca de Iconografia Premium • V1.0</p>
+    </footer>
+
+    <script>
+        // Função para Ícone Magnético (Similar ao CTA V2)
+        function magneticIcon(e, el) {
+            const target = el.querySelector('.mag-target');
+            const rect = el.getBoundingClientRect();
+            const x = (e.clientX - rect.left - rect.width / 2) * 0.5;
+            const y = (e.clientY - rect.top - rect.height / 2) * 0.5;
+            
+            target.style.transform = `translate(${x}px, ${y}px)`;
+        }
+
+        // Reset ao sair do card magnético
+        document.querySelectorAll('.mag-icon-wrap').forEach(wrap => {
+            wrap.addEventListener('mouseleave', () => {
+                wrap.querySelector('.mag-target').style.transform = 'translate(0, 0)';
+            });
+        });
+    </script>
+</body>
+</html>

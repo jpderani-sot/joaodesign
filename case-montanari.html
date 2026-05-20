@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clínica Montanari | Case Study | João Pedro Derani</title>
+    
+    <!-- Locomotive Scroll CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Neue+Montreal:wght@300;400;500&family=Oswald:wght@300;400;500;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #0f0f0f;
+            --text-color: #e0e0e0;
+            --accent: #d4af37;
+            --font-main: 'Neue Montreal', 'Inter', sans-serif;
+            --font-display: 'Oswald', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-main);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Custom Cursor */
+        .cursor {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: var(--accent);
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s, background-color 0.3s;
+            mix-blend-mode: difference;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.5rem;
+            font-weight: bold;
+            color: #000;
+            text-transform: uppercase;
+        }
+
+        .cursor.hover-active {
+            width: 60px;
+            height: 60px;
+            background-color: #fff;
+            mix-blend-mode: normal;
+        }
+
+        /* Nav */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 2rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            z-index: 100;
+            mix-blend-mode: difference;
+        }
+
+        .nav-back {
+            color: #fff;
+            text-decoration: none;
+            font-family: var(--font-display);
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-back:hover {
+            color: var(--accent);
+        }
+
+        /* Hero Case Study */
+        .case-hero {
+            height: 100vh;
+            width: 100%;
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            padding: 4rem;
+            overflow: hidden;
+        }
+
+        .case-cover-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 120%; /* For parallax */
+            object-fit: cover;
+            z-index: 1;
+            opacity: 1; /* Removido o escurecimento para deixar o fundo claro */
+        }
+
+        .case-hero-content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+        }
+
+        .case-title {
+            font-family: var(--font-display);
+            font-size: 8vw;
+            font-weight: 700;
+            text-transform: uppercase;
+            line-height: 0.9;
+            margin-bottom: 2rem;
+            overflow: hidden;
+            color: #800339; /* Cor Bordô da Montanari */
+        }
+        
+        .case-title span {
+            display: block;
+            transform: translateY(100%);
+        }
+
+        /* Case Details Grid */
+        .case-details {
+            padding: 15vh 4rem;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 4rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .details-col h3 {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+        }
+
+        .details-col p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            color: #aaa;
+            margin-bottom: 2rem;
+        }
+
+        .overview-text {
+            font-size: 2.5rem;
+            font-family: var(--font-display);
+            line-height: 1.2;
+            font-weight: 300;
+            color: #fff;
+        }
+
+        /* Features Section */
+        .features-section {
+            padding: 15vh 4rem;
+        }
+
+        .feature-block {
+            display: flex;
+            align-items: center;
+            gap: 4rem;
+            margin-bottom: 15vh;
+        }
+
+        .feature-block:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .feature-text {
+            flex: 1;
+        }
+
+        .feature-text h2 {
+            font-family: var(--font-display);
+            font-size: 4rem;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            color: #fff;
+        }
+
+        .feature-text p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #aaa;
+        }
+
+        .feature-img-wrapper {
+            flex: 1.5;
+            height: 80vh;
+            overflow: hidden;
+        }
+
+        .feature-img-wrapper img {
+            width: 100%;
+            height: 120%;
+            object-fit: cover;
+        }
+
+        /* Design System / Colors */
+        .design-system {
+            padding: 15vh 4rem;
+            background-color: #1a1a1a;
+            text-align: center;
+        }
+
+        .design-system h2 {
+            font-family: var(--font-display);
+            font-size: 3rem;
+            text-transform: uppercase;
+            margin-bottom: 4rem;
+        }
+
+        .colors-container {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .color-swatch {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-size: 1rem;
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+
+        /* Next Project Footer */
+        .next-project {
+            padding: 20vh 4rem;
+            text-align: center;
+            display: block;
+            text-decoration: none;
+            color: #fff;
+        }
+
+        .next-label {
+            font-size: 1rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .next-title {
+            font-family: var(--font-display);
+            font-size: 8vw;
+            text-transform: uppercase;
+            transition: color 0.4s;
+        }
+
+        .next-project:hover .next-title {
+            color: var(--accent);
+        }
+
+        /* Reveal: usa opacity+translateY (GPU nativo, sem travamento) */
+        .gs-reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .gs-reveal.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Keyframe para os vídeos e imagens da galeria */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+    </style>
+</head>
+<body data-scroll-container>
+
+    <div class="cursor"></div>
+
+    <nav data-scroll-section style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+        <a href="index.html" class="nav-back hover-target">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            Back to Projects
+        </a>
+        <div class="lang-toggle" style="display: flex; gap: 0.5rem; font-size: 0.85rem; color: rgba(255,255,255,0.4);">
+            <a href="case-montanari.html" class="active" style="color: var(--accent); font-weight: 600; text-decoration: none;">PT</a>
+            <span>/</span>
+            <a href="case-montanari-en.html" class="hover-target" style="color: rgba(255,255,255,0.4); text-decoration: none;">EN</a>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Hero Cover -->
+        <section class="case-hero" data-scroll-section>
+            <img src="assets-montanari/capa-montanari.webp" alt="Clínica Montanari Office" class="case-cover-img" data-scroll data-scroll-speed="-2">
+            <div class="case-hero-content" data-scroll data-scroll-speed="1">
+                <h1 class="case-title">
+                    <span class="title-line">Clínica</span>
+                    <span class="title-line">Montanari</span>
+                </h1>
+            </div>
+        </section>
+
+        <!-- Brief / Overview -->
+        <section class="case-details" data-scroll-section>
+            <div class="details-col" data-scroll data-scroll-speed="1">
+                <h3>Serviços</h3>
+                <p>UX/UI Design<br>Design System<br>Front-end Development (GSAP)</p>
+
+                <h3>Ano</h3>
+                <p>2026</p>
+
+                <h3>Indústria</h3>
+                <p>Saúde Estética / Luxo</p>
+            </div>
+            <div class="details-col" data-scroll data-scroll-speed="0.5">
+                <p class="overview-text">O objetivo foi desenvolver um site <strong>Mobile First</strong>, responsivo e altamente atrativo, capaz de converter mais agendamentos de consultas e procedimentos estéticos. A clínica precisava de uma presença digital com recursos avançados que se destacasse entre os concorrentes, exibindo em detalhe cada procedimento, o perfil das doutoras e a filosofia da clínica. Essa proximidade com o cliente é essencial: muitos pacientes carregam um certo receio em relação a procedimentos estéticos, e o site precisa ser a <em>primeira quebra de gelo</em>, o passo inicial que transforma a curiosidade em uma consulta agendada.</p>
+            </div>
+        </section>
+
+        <!-- Features Showcase -->
+        <section class="features-section" data-scroll-section>
+            <!-- Feature 1 -->
+            <div class="feature-block">
+                <div class="feature-text" data-scroll data-scroll-speed="1">
+                    <h2>Scrollytelling &<br>Motion Design</h2>
+                    <p>Substituímos uma navegação estática por uma jornada guiada por animações GSAP de alta performance. Cada elemento (cards de equipe, serviços) se revela suavemente conforme a rolagem do usuário, simulando a fluidez de adentrar o espaço físico da clínica.</p>
+                </div>
+                <div class="feature-img-wrapper gs-reveal" data-scroll data-scroll-speed="-1" style="width: 100%; overflow: hidden; border-radius: 8px; box-shadow: 0 20px 40px rgba(0,0,0,0.5); display: flex; transform: translateZ(0);">
+                    <!-- World-Class Video Display Full Ratio -->
+                    <video id="demo-montanari" src="montavideo2.mp4" autoplay muted playsinline style="width: 100%; height: auto; outline: none; border: none; pointer-events: none;"></video>
+                </div>
+                <script>
+                    const vMontanari = document.getElementById('demo-montanari');
+                    const setVideoTime = () => {
+                        vMontanari.currentTime = 3.0;
+                    };
+                    if (vMontanari.readyState >= 1) {
+                        setVideoTime();
+                    } else {
+                        vMontanari.addEventListener('loadedmetadata', setVideoTime);
+                    }
+                    vMontanari.addEventListener('ended', () => { vMontanari.currentTime = 3.0; vMontanari.play(); });
+                    vMontanari.addEventListener('timeupdate', () => {
+                        if (vMontanari.currentTime < 2.5 && !vMontanari.paused) vMontanari.currentTime = 3.0;
+                    });
+                </script>
+            </div>
+
+            <!-- Feature 2 -->
+            <div class="feature-block">
+                <div class="feature-text" data-scroll data-scroll-speed="1">
+                    <h2>Recursos<br>Utilizados</h2>
+                    <p>A engenharia do projeto foi pensada para ser ágil e invisível. Em vez de depender de frameworks ou templates pesados, desenvolvi a interface do zero utilizando HTML, CSS puro e <strong>Vanilla JavaScript</strong>.<br><br>Para orquestrar a física de rolagem e as microinterações da tela, integrei o <strong>GSAP</strong> ao <strong>Locomotive Scroll</strong>. Essa arquitetura garante uma navegação consistente a 60 FPS, sem engasgos, respondendo de forma imediata e fluida a cada toque do usuário.</p>
+                </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Full Page Gallery Showcase without crop -->
+        <section class="gallery-showcase" data-scroll-section style="width: 100vw; display: flex; flex-direction: column; gap: 15vh; padding: 10vh 0; margin-left: calc(-50vw + 50%); position: relative;">
+            
+            <div style="width: 90vw; max-width: 1600px; margin: 0 auto; border-radius: 16px; overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,0.6); animation: fadeUp 0.8s ease forwards;">
+                <img src="printtipo.png" alt="Tipografia e Cores" style="width: 100%; height: auto; display: block;">
+            </div>
+
+            <div style="width: 90vw; max-width: 1600px; margin: 0 auto; border-radius: 16px; overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,0.6); animation: fadeUp 0.9s ease 0.1s both;">
+                <video src="Montanari Components Showcase _ João Pedro Derani - Google Chrome 2026-05-13 16-51-35.mp4" autoplay loop muted playsinline style="width: 100%; height: auto; display: block; margin-top: -6.5%; margin-bottom: -1%;"></video>
+            </div>
+
+            <div style="width: 90vw; max-width: 1600px; margin: 0 auto; border-radius: 16px; overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,0.6); animation: fadeUp 0.9s ease 0.2s both;">
+                <video src="Montanari Components Showcase _ João Pedro Derani - Google Chrome 2026-05-13 16-52-02.mp4" autoplay loop muted playsinline style="width: 100%; height: auto; display: block; margin-top: -6.5%; margin-bottom: -1%;"></video>
+            </div>
+
+            <div style="width: 90vw; max-width: 1600px; margin: 0 auto; border-radius: 16px; overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,0.6); animation: fadeUp 0.9s ease 0.3s both;">
+                <video src="Montanari Components Showcase _ João Pedro Derani - Google Chrome 2026-05-13 16-52-21.mp4" autoplay loop muted playsinline style="width: 100%; height: auto; display: block; margin-top: -6.5%; margin-bottom: -1%;"></video>
+            </div>
+
+        </section>
+
+        <!-- Design System / Colors -->
+        <section class="design-system" data-scroll-section>
+            <h2 data-scroll data-scroll-speed="1">Paleta Montanari</h2>
+            <div class="colors-container" data-scroll data-scroll-speed="0.5">
+                <div class="color-swatch" style="background-color: #800339; color: #fff;">Bordô</div>
+                <div class="color-swatch" style="background-color: #2a0112; color: #fff;">Bordô Dark</div>
+                <div class="color-swatch" style="background-color: #FC5185; color: #fff;">Rose</div>
+                <div class="color-swatch" style="background-color: #FDF9F6; color: #1a1a1a;">Off-White</div>
+            </div>
+        </section>
+
+        <!-- Next Project -->
+        <a href="index.html" class="next-project hover-target" data-scroll-section>
+            <span class="next-label">Próximo Projeto</span>
+            <h2 class="next-title">Bruma</h2>
+        </a>
+    </main>
+
+    <!-- Scripts com defer: não bloqueiam o scroll durante o carregamento -->
+    <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" defer></script>
+
+    <script>
+        window.addEventListener('load', () => {
+
+        // Cursor
+        const cursor = document.querySelector('.cursor');
+        document.addEventListener('mousemove', (e) => {
+            gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1, ease: "power2.out" });
+        });
+
+        document.querySelectorAll('.hover-target').forEach(item => {
+            item.addEventListener('mouseenter', () => cursor.classList.add('hover-active'));
+            item.addEventListener('mouseleave', () => cursor.classList.remove('hover-active'));
+        });
+
+        // Hero Animation (rápida)
+        const tl = gsap.timeline();
+        tl.to('.title-line', {
+            y: "0%",
+            duration: 1.2,
+            stagger: 0.15,
+            ease: "power4.out",
+            delay: 0.15
+        });
+
+        // Reveal com IntersectionObserver nativo (dispara ao 10% de visibilidade)
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.gs-reveal').forEach(el => revealObserver.observe(el));
+
+        // Locomotive Scroll (apenas smooth scroll)
+        const locoScroll = new LocomotiveScroll({
+            el: document.querySelector('[data-scroll-container]'),
+            smooth: true,
+            multiplier: 0.85,
+            lerp: 0.1
+        });
+
+        }); // fim window.load
+    </script>
+</body>
+</html>

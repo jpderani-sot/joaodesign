@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MANU | Curitiba</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Manrope:wght@200;300;400&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ==========================================================================
+           RESTAURANTE MANU - CURITIBA
+           High-End Gastronomy Cinematic Experience
+           ========================================================================== */
+        
+        :root {
+            --bg-dark: #050505;
+            --text-light: #e0dcd0;
+            --accent-gold: #c2a679;
+            --font-serif: 'Cormorant Garamond', serif;
+            --font-sans: 'Manrope', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            font-family: var(--font-sans);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            cursor: none; /* Custom cursor */
+        }
+
+        /* Custom Cursor */
+        .cursor-dot {
+            position: fixed; top: 0; left: 0; width: 8px; height: 8px;
+            background: var(--accent-gold); border-radius: 50%;
+            transform: translate(-50%, -50%); pointer-events: none; z-index: 9999;
+            transition: width 0.3s, height 0.3s, background 0.3s;
+        }
+        .cursor-outline {
+            position: fixed; top: 0; left: 0; width: 40px; height: 40px;
+            border: 1px solid rgba(194, 166, 121, 0.5); border-radius: 50%;
+            transform: translate(-50%, -50%); pointer-events: none; z-index: 9998;
+            transition: transform 0.1s;
+        }
+
+        /* Typography */
+        h1, h2, h3 { font-family: var(--font-serif); font-weight: 300; }
+        .serif-italic { font-style: italic; }
+        
+        /* Navigation */
+        nav {
+            position: fixed; top: 0; left: 0; width: 100%; padding: 2rem 4vw;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 100; mix-blend-mode: difference;
+        }
+        .logo { font-family: var(--font-serif); font-size: 1.8rem; letter-spacing: 0.1em; color: #fff; text-decoration: none; }
+        .nav-info { font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase; color: #fff; }
+
+        /* ==========================================================================
+           1. THE TEXT ZOOM REVEAL (Ultra Cinematic Hero)
+           ========================================================================== */
+        .zoom-section {
+            position: relative;
+            height: 300vh; /* Scroll distance */
+            background: #000;
+        }
+        .zoom-sticky {
+            position: sticky; top: 0; height: 100vh; width: 100vw;
+            overflow: hidden; display: flex; align-items: center; justify-content: center;
+        }
+        
+        /* The image that sits at the back */
+        .zoom-bg {
+            position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+            background: url('https://images.unsplash.com/photo-1600861194942-f883de0dfe96?auto=format&fit=crop&w=2000&q=80') center/cover;
+            transform: scale(1.2); will-change: transform;
+        }
+
+        /* The magic mask: black background, white text. Multiply blend mode makes white transparent */
+        .zoom-mask {
+            position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+            background-color: #000; color: #fff; mix-blend-mode: multiply;
+            z-index: 2; pointer-events: none;
+        }
+        .zoom-text {
+            font-family: var(--font-serif); font-size: 35vw; font-weight: 400; line-height: 1;
+            letter-spacing: -0.05em; text-align: center;
+            will-change: transform; transform-origin: center center;
+        }
+        
+        .scroll-indicator {
+            position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+            color: #fff; font-size: 0.8rem; letter-spacing: 0.3em; text-transform: uppercase;
+            z-index: 10; animation: bounce 2s infinite; mix-blend-mode: difference;
+        }
+        @keyframes bounce { 0%, 100% { transform: translate(-50%, 0); } 50% { transform: translate(-50%, 10px); } }
+
+        /* ==========================================================================
+           2. PHILOSOPHY (Smooth Parallax Split)
+           ========================================================================== */
+        .philosophy {
+            position: relative; background: var(--bg-dark); padding: 150px 4vw;
+            display: flex; gap: 8vw; align-items: flex-start; z-index: 10;
+        }
+        .phil-left {
+            flex: 1; position: sticky; top: 30vh;
+        }
+        .phil-title { font-size: 5rem; line-height: 0.9; margin-bottom: 2rem; }
+        .phil-desc { font-size: 1.2rem; line-height: 1.8; color: #999; max-width: 400px; font-weight: 300; }
+        
+        .phil-right {
+            flex: 1.2; display: flex; flex-direction: column; gap: 20vh; margin-top: 10vh; padding-bottom: 20vh;
+        }
+        .phil-img-wrapper {
+            position: relative; width: 100%; aspect-ratio: 3/4; overflow: hidden;
+        }
+        .phil-img {
+            width: 100%; height: 130%; object-fit: cover;
+            position: absolute; top: -15%;
+            /* Will be translated by JS for parallax */
+            will-change: transform;
+        }
+        .phil-caption { margin-top: 1.5rem; font-family: var(--font-serif); font-size: 1.5rem; color: var(--accent-gold); }
+
+        /* ==========================================================================
+           3. THE MENU (Interactive Image Trail Hover)
+           ========================================================================== */
+        .menu-section {
+            padding: 150px 4vw; background: #0a0a09; position: relative;
+            cursor: none;
+        }
+        .menu-title { font-size: 1rem; letter-spacing: 0.4em; text-transform: uppercase; color: var(--accent-gold); margin-bottom: 4rem; text-align: center; }
+        
+        .menu-list {
+            display: flex; flex-direction: column; border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .menu-item {
+            padding: 3rem 0; border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex; justify-content: space-between; align-items: center;
+            text-decoration: none; color: var(--text-light); transition: color 0.3s;
+            position: relative; z-index: 2;
+        }
+        .menu-item:hover { color: var(--accent-gold); }
+        .menu-name { font-family: var(--font-serif); font-size: 4.5rem; font-weight: 300; transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .menu-item:hover .menu-name { transform: translateX(30px); }
+        .menu-desc { font-family: var(--font-sans); font-size: 1rem; color: #666; font-weight: 300; text-transform: uppercase; letter-spacing: 0.1em; }
+
+        /* The floating image that follows the cursor on hover */
+        .hover-reveal {
+            position: fixed; top: 0; left: 0; width: 350px; height: 450px;
+            pointer-events: none; opacity: 0; transform: translate(-50%, -50%) scale(0.8);
+            transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 1; overflow: hidden;
+        }
+        .hover-reveal img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.2); transition: transform 0.4s ease; }
+        .menu-item:hover ~ .hover-reveal { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        .menu-item:hover ~ .hover-reveal img { transform: scale(1); }
+
+        /* ==========================================================================
+           4. FOOTER
+           ========================================================================== */
+        footer {
+            background: #000; padding: 150px 4vw 50px; text-align: center; border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .footer-title { font-size: 6rem; margin-bottom: 3rem; }
+        .btn-reserve {
+            display: inline-block; padding: 1.5rem 4rem; border: 1px solid var(--accent-gold); color: var(--accent-gold);
+            text-decoration: none; text-transform: uppercase; letter-spacing: 0.2em; font-size: 0.9rem;
+            transition: background 0.3s, color 0.3s;
+        }
+        .btn-reserve:hover { background: var(--accent-gold); color: #000; }
+        
+        .footer-bottom {
+            margin-top: 150px; display: flex; justify-content: space-between; color: #555; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Custom Cursor -->
+    <div class="cursor-dot" id="cursor-dot"></div>
+    <div class="cursor-outline" id="cursor-outline"></div>
+
+    <nav>
+        <a href="#" class="logo">MANU</a>
+        <div class="nav-info">Batel, Curitiba — PR</div>
+    </nav>
+
+    <main>
+        <!-- 1. TEXT ZOOM REVEAL -->
+        <section class="zoom-section" id="zoom-trigger">
+            <div class="zoom-sticky">
+                <div class="zoom-bg" id="zoom-bg"></div>
+                <div class="zoom-mask">
+                    <h1 class="zoom-text" id="zoom-text">MANU</h1>
+                </div>
+                <div class="scroll-indicator" id="scroll-ind">Scroll</div>
+            </div>
+        </section>
+
+        <!-- 2. PHILOSOPHY -->
+        <section class="philosophy">
+            <div class="phil-left">
+                <h2 class="phil-title">A Natureza<br><span class="serif-italic">no Prato.</span></h2>
+                <p class="phil-desc">Ingredientes frescos da Mata Atlântica, mel de abelhas nativas do Paraná e um respeito profundo pelo tempo da terra. A chef Manu Buffara redefine a gastronomia mundial sem sair de Curitiba.</p>
+            </div>
+            <div class="phil-right">
+                <div>
+                    <div class="phil-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1559948270-e44d56d925d4?auto=format&fit=crop&w=1500&q=80" class="phil-img parallax-img" alt="Prato 1">
+                    </div>
+                    <div class="phil-caption">Terra & Mar</div>
+                </div>
+                <div>
+                    <div class="phil-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?auto=format&fit=crop&w=1500&q=80" class="phil-img parallax-img" alt="Ingrediente">
+                    </div>
+                    <div class="phil-caption">Forrageamento Local</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. MENU / INGREDIENTS (Interactive Hover) -->
+        <section class="menu-section">
+            <h4 class="menu-title">Menu Degustação</h4>
+            <div class="menu-list">
+                
+                <a href="#" class="menu-item" data-img="https://images.unsplash.com/photo-1544025162-811114cd2245?auto=format&fit=crop&w=1000&q=80">
+                    <h2 class="menu-name">Ostra NATIVA</h2>
+                    <span class="menu-desc">Litoral Paranaense</span>
+                </a>
+                
+                <a href="#" class="menu-item" data-img="https://images.unsplash.com/photo-1615937657715-bc0b6b79aafc?auto=format&fit=crop&w=1000&q=80">
+                    <h2 class="menu-name">Porco MOURA</h2>
+                    <span class="menu-desc">Criação Caipira</span>
+                </a>
+                
+                <a href="#" class="menu-item" data-img="https://images.unsplash.com/photo-1581184953963-d15972933fc1?auto=format&fit=crop&w=1000&q=80">
+                    <h2 class="menu-name">Mel de MANDAÇAIA</h2>
+                    <span class="menu-desc">Polinização Local</span>
+                </a>
+
+                <a href="#" class="menu-item" data-img="https://images.unsplash.com/photo-1514326640560-7d063ef2aed5?auto=format&fit=crop&w=1000&q=80">
+                    <h2 class="menu-name">Cogumelos YANOMAMI</h2>
+                    <span class="menu-desc">Umami Selvagem</span>
+                </a>
+
+                <!-- The floating image container -->
+                <div class="hover-reveal" id="hover-reveal">
+                    <img src="" alt="Preview" id="hover-img">
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 4. FOOTER -->
+        <footer>
+            <h2 class="footer-title">Viva a Experiência</h2>
+            <a href="#" class="btn-reserve">Reservar Mesa</a>
+            <div class="footer-bottom">
+                <div>Al. Dom Pedro II, 317 - Batel</div>
+                <div>+55 41 3044-4395</div>
+                <div>© 2026 Restaurante Manu</div>
+            </div>
+        </footer>
+    </main>
+
+    <script>
+        // --- Custom Cursor Logic ---
+        const cursorDot = document.getElementById('cursor-dot');
+        const cursorOutline = document.getElementById('cursor-outline');
+        
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
+        let outlineX = mouseX;
+        let outlineY = mouseY;
+
+        window.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            cursorDot.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
+        });
+
+        // Smooth follow for outline
+        function animateCursor() {
+            let distX = mouseX - outlineX;
+            let distY = mouseY - outlineY;
+            outlineX += distX * 0.15;
+            outlineY += distY * 0.15;
+            cursorOutline.style.transform = `translate(${outlineX}px, ${outlineY}px)`;
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        // Cursor interactions
+        document.querySelectorAll('a').forEach(link => {
+            link.addEventListener('mouseenter', () => {
+                cursorDot.style.transform = `translate(${mouseX}px, ${mouseY}px) scale(3)`;
+                cursorDot.style.backgroundColor = 'transparent';
+                cursorDot.style.border = '1px solid var(--accent-gold)';
+                cursorOutline.style.opacity = '0';
+            });
+            link.addEventListener('mouseleave', () => {
+                cursorDot.style.transform = `translate(${mouseX}px, ${mouseY}px) scale(1)`;
+                cursorDot.style.backgroundColor = 'var(--accent-gold)';
+                cursorDot.style.border = 'none';
+                cursorOutline.style.opacity = '1';
+            });
+        });
+
+        // --- Cinematic Scroll Logic ---
+        const zoomTrigger = document.getElementById('zoom-trigger');
+        const zoomText = document.getElementById('zoom-text');
+        const zoomBg = document.getElementById('zoom-bg');
+        const scrollInd = document.getElementById('scroll-ind');
+        const parallaxImgs = document.querySelectorAll('.parallax-img');
+
+        let ticking = false;
+
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    updateScroll();
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        }, { passive: true });
+
+        function updateScroll() {
+            // 1. Text Mask Zoom Logic
+            const zoomRect = zoomTrigger.getBoundingClientRect();
+            if (zoomRect.top <= 0 && zoomRect.bottom >= 0) {
+                // p goes from 0 to 1 as we scroll down
+                let p = -zoomRect.top / (zoomRect.height - window.innerHeight);
+                
+                // Exponential scale for dramatic "fly-through" effect
+                // Starts at 1, goes up to 150 (huge)
+                let scale = 1 + Math.pow(p * 10, 3);
+                zoomText.style.transform = `scale(${scale})`;
+
+                // Fade out scroll indicator
+                scrollInd.style.opacity = 1 - (p * 5);
+                
+                // Scale the background image slightly inwards while text scales out
+                zoomBg.style.transform = `scale(${1.2 - (p * 0.2)})`;
+            }
+
+            // 2. Simple Parallax for Images in Philosophy Section
+            parallaxImgs.forEach(img => {
+                const rect = img.parentElement.getBoundingClientRect();
+                if (rect.top < window.innerHeight && rect.bottom > 0) {
+                    // map progress relative to window
+                    let p = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
+                    // Move image inside its wrapper (-15% to 15%)
+                    img.style.transform = `translateY(${p * 30 - 15}%)`;
+                }
+            });
+        }
+        updateScroll(); // init
+
+        // --- Hover Image Trail Logic ---
+        const menuItems = document.querySelectorAll('.menu-item');
+        const hoverReveal = document.getElementById('hover-reveal');
+        const hoverImg = document.getElementById('hover-img');
+        
+        let hoverX = window.innerWidth / 2;
+        let hoverY = window.innerHeight / 2;
+
+        window.addEventListener('mousemove', (e) => {
+            // Update position of the floating image
+            hoverReveal.style.left = `${e.clientX}px`;
+            hoverReveal.style.top = `${e.clientY}px`;
+        });
+
+        menuItems.forEach(item => {
+            item.addEventListener('mouseenter', (e) => {
+                const imgSrc = item.getAttribute('data-img');
+                hoverImg.src = imgSrc;
+            });
+        });
+
+    </script>
+</body>
+</html>

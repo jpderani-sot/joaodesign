@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bruma | Product Design | João Pedro Derani</title>
+    
+    <!-- Locomotive Scroll CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Neue+Montreal:wght@300;400;500&family=Oswald:wght@300;400;500;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #0a0a0a;
+            --text-color: #e0e0e0;
+            --accent: #d4af37;
+            --font-main: 'Neue Montreal', 'Inter', sans-serif;
+            --font-display: 'Oswald', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-main);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Custom Cursor */
+        .cursor {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: var(--accent);
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s, background-color 0.3s;
+            mix-blend-mode: difference;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.5rem;
+            font-weight: bold;
+            color: #000;
+            text-transform: uppercase;
+        }
+
+        .cursor.hover-active {
+            width: 60px;
+            height: 60px;
+            background-color: #fff;
+            mix-blend-mode: normal;
+        }
+
+        /* Nav */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 2rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            z-index: 100;
+            mix-blend-mode: difference;
+        }
+
+        .nav-back {
+            color: #fff;
+            text-decoration: none;
+            font-family: var(--font-display);
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-back:hover {
+            color: var(--accent);
+        }
+
+        /* Hero Case Study */
+        .case-hero {
+            height: 100vh;
+            width: 100%;
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            padding: 4rem;
+            overflow: hidden;
+        }
+
+        .case-cover-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 120%;
+            object-fit: cover;
+            z-index: 1;
+            opacity: 0.7;
+        }
+
+        .case-hero-content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+        }
+
+        .case-title {
+            font-family: var(--font-display);
+            font-size: 10vw;
+            font-weight: 700;
+            text-transform: uppercase;
+            line-height: 0.9;
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+        
+        .case-title span {
+            display: block;
+            transform: translateY(100%);
+        }
+
+        /* Case Details Grid */
+        .case-details {
+            padding: 15vh 4rem;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 4rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .details-col h3 {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+        }
+
+        .details-col p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            color: #aaa;
+            margin-bottom: 2rem;
+        }
+
+        .overview-text {
+            font-size: 2.5rem;
+            font-family: var(--font-display);
+            line-height: 1.2;
+            font-weight: 300;
+            color: #fff;
+        }
+
+        /* Full Width Image Section */
+        .full-image-section {
+            padding: 10vh 4rem;
+            width: 100%;
+        }
+
+        .full-img-wrapper {
+            width: 100%;
+            height: 80vh;
+            overflow: hidden;
+            clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0% 100%);
+        }
+
+        .full-img-wrapper img {
+            width: 100%;
+            height: 120%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        /* Masonry Gallery */
+        .gallery-section {
+            padding: 10vh 4rem 20vh;
+        }
+        
+        .gallery-title {
+            font-family: var(--font-display);
+            font-size: 3rem;
+            text-transform: uppercase;
+            margin-bottom: 4rem;
+            text-align: center;
+        }
+
+        .masonry-grid {
+            column-count: 2;
+            column-gap: 2rem;
+        }
+
+        .masonry-item {
+            break-inside: avoid;
+            margin-bottom: 2rem;
+            overflow: hidden;
+            border-radius: 4px;
+        }
+
+        .masonry-item img {
+            width: 100%;
+            display: block;
+            transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .masonry-item:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Next Project Footer */
+        .next-project {
+            padding: 20vh 4rem;
+            text-align: center;
+            display: block;
+            text-decoration: none;
+            color: #fff;
+        }
+
+        .next-label {
+            font-size: 1rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .next-title {
+            font-family: var(--font-display);
+            font-size: 8vw;
+            text-transform: uppercase;
+            transition: color 0.4s;
+        }
+
+        .next-project:hover .next-title {
+            color: var(--accent);
+        }
+
+    </style>
+</head>
+<body data-scroll-container>
+
+    <div class="cursor"></div>
+
+    <nav data-scroll-section style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+        <a href="index.html" class="nav-back hover-target">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            Back to Projects
+        </a>
+        <div class="lang-toggle" style="display: flex; gap: 0.5rem; font-size: 0.85rem; color: rgba(255,255,255,0.4);">
+            <a href="case-bruma.html" class="active" style="color: var(--accent); font-weight: 600; text-decoration: none;">PT</a>
+            <span>/</span>
+            <a href="case-bruma-en.html" class="hover-target" style="color: rgba(255,255,255,0.4); text-decoration: none;">EN</a>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Hero Cover -->
+        <section class="case-hero" data-scroll-section>
+            <!-- Cafe Bruma Cover -->
+            <img src="bruma_images/media/images/cafebruma.png" alt="Bruma Product Cover" class="case-cover-img" data-scroll data-scroll-speed="-2">
+            <div class="case-hero-content" data-scroll data-scroll-speed="1">
+                <h1 class="case-title">
+                    <span class="title-line"><img src="brumalogo.png" alt="Bruma Logo" style="max-height: 15vh; width: auto; object-fit: contain;"></span>
+                </h1>
+            </div>
+        </section>
+
+        <!-- Brief / Overview -->
+        <section class="case-details" data-scroll-section>
+            <div class="details-col" data-scroll data-scroll-speed="1">
+                <h3>Ferramentas Utilizadas</h3>
+                <p>Design de Produto<br>Modelagem 3D<br>Direção de Arte</p>
+
+                <h3>Ano</h3>
+                <p>2025</p>
+
+                <h3>Conceito</h3>
+                <p>Minimalismo Funcional</p>
+            </div>
+            <div class="details-col" data-scroll data-scroll-speed="0.5">
+                <p class="overview-text">Desenvolvido como meu Trabalho de Conclusão de Curso (TCC), a Bruma é um kit completo composto por bolsa, cafeteira, potes, colher e pano. O projeto foi desenhado com um único propósito: permitir que você prepare seu café em qualquer lugar do mundo. Afinal, para quem realmente gosta de café, o melhor café é o seu.</p>
+            </div>
+        </section>
+
+        <!-- Feature Large Image -->
+        <section class="full-image-section" data-scroll-section>
+            <div class="full-img-wrapper gs-reveal">
+                <img src="bolsabruma.png" alt="Bruma Details" data-scroll data-scroll-speed="-1.5">
+            </div>
+        </section>
+
+        <!-- Gallery Showcase -->
+        <section class="gallery-section" data-scroll-section>
+            <h2 class="gallery-title" data-scroll data-scroll-speed="1">Visualização de Produto</h2>
+            
+            <div class="masonry-grid">
+                <!-- Using the extracted images from the zip -->
+                <div class="masonry-item gs-fade" data-scroll>
+                    <img src="bruma_images/media/images/12c2aff9-d0b6-490a-840a-8ebefdb0ca74-rw-.png" alt="Bruma Render 1">
+                </div>
+                <div class="masonry-item gs-fade" data-scroll>
+                    <img src="bruma_images/media/images/6d866638-1dfb-416f-a463-4d215a2a863a-rw-.png" alt="Bruma Render 2">
+                </div>
+                <div class="masonry-item gs-fade" data-scroll>
+                    <img src="bruma_images/media/images/7ceb8b37-d1e0-4479-a893-e86fd6b6d9c0-rw-.png" alt="Bruma Render 3">
+                </div>
+                <div class="masonry-item gs-fade" data-scroll>
+                    <img src="bruma_images/media/images/aa4481d3-1f93-4664-b112-6f82643c9718-rw-.png" alt="Bruma Render 4">
+                </div>
+                <div class="masonry-item gs-fade" data-scroll>
+                    <img src="bruma_images/media/images/b391c8e6-c324-41d3-957d-332aee80f15d-rw-.png" alt="Bruma Render 5">
+                </div>
+                <div class="masonry-item gs-fade" data-scroll>
+                    <img src="bruma_images/media/images/e331a566-5927-481c-8c96-52e9f12995f1-rw-.png" alt="Bruma Render 6">
+                </div>
+                <div class="masonry-item gs-fade" data-scroll>
+                    <img src="bruma_images/media/images/f244c3bf-8a68-45e5-a351-c12fe67a007d-rw-.png" alt="Bruma Render 7">
+                </div>
+            </div>
+        </section>
+
+        <!-- Next Project -->
+        <a href="index.html" class="next-project hover-target" data-scroll-section>
+            <span class="next-label">Próximo Projeto</span>
+            <h2 class="next-title">Hangul Mas</h2>
+        </a>
+    </main>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <script>
+        // Init Locomotive Scroll
+        const locoScroll = new LocomotiveScroll({
+            el: document.querySelector('[data-scroll-container]'),
+            smooth: true,
+            multiplier: 0.8
+        });
+
+        gsap.registerPlugin(ScrollTrigger);
+        ScrollTrigger.scrollerProxy("[data-scroll-container]", {
+            scrollTop(value) {
+                return arguments.length ? locoScroll.scrollTo(value, 0, 0) : locoScroll.scroll.instance.scroll.y;
+            },
+            getBoundingClientRect() {
+                return {top: 0, left: 0, width: window.innerWidth, height: window.innerHeight};
+            },
+            pinType: document.querySelector("[data-scroll-container]").style.transform ? "transform" : "fixed"
+        });
+        ScrollTrigger.addEventListener("refresh", () => locoScroll.update());
+        ScrollTrigger.refresh();
+
+        // Custom Cursor
+        const cursor = document.querySelector('.cursor');
+        document.addEventListener('mousemove', (e) => {
+            gsap.to(cursor, {
+                x: e.clientX,
+                y: e.clientY,
+                duration: 0.1,
+                ease: "power2.out"
+            });
+        });
+
+        document.querySelectorAll('.hover-target').forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                cursor.classList.add('hover-active');
+            });
+            item.addEventListener('mouseleave', () => {
+                cursor.classList.remove('hover-active');
+            });
+        });
+
+        // Intro Animation
+        const tl = gsap.timeline();
+        tl.to('.title-line', {
+            y: "0%",
+            duration: 1.5,
+            ease: "power4.out",
+            delay: 0.2
+        });
+
+        // Curtain Reveal for large images
+        document.querySelectorAll('.gs-reveal').forEach((elem) => {
+            gsap.to(elem, {
+                scrollTrigger: {
+                    trigger: elem,
+                    scroller: "[data-scroll-container]",
+                    start: "top 80%",
+                },
+                clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
+                duration: 1.5,
+                ease: "power3.inOut"
+            });
+        });
+
+        // Fade Up for gallery items
+        document.querySelectorAll('.gs-fade').forEach((elem) => {
+            gsap.fromTo(elem, 
+                { opacity: 0, y: 50 },
+                {
+                    scrollTrigger: {
+                        trigger: elem,
+                        scroller: "[data-scroll-container]",
+                        start: "top 85%",
+                    },
+                    opacity: 1, 
+                    y: 0,
+                    duration: 1,
+                    ease: "power2.out"
+                }
+            );
+        });
+    </script>
+</body>
+</html>

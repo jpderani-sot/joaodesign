@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design System Library | Visual Identities</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cinzel:wght@400;600&family=Cormorant+Garamond:wght@400;600&family=DM+Serif+Display&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Jost:wght@300;400;500&family=Lato:wght@300;400;700&family=Montserrat:wght@300;400;600&family=Orbitron:wght@400;500;700&family=Oswald:wght@300;400;500&family=Outfit:wght@300;400;600&family=Playfair+Display:wght@400;600&family=Plus+Jakarta+Sans:wght@300;400;600&family=Poppins:wght@300;400;500;600&family=Rajdhani:wght@400;600;700&family=Roboto:wght@300;400;500&family=Space+Grotesk:wght@300;400;600&family=Syne:wght@400;600;700&family=Tenor+Sans&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #050505;
+            --text-color: #E0E0E0;
+            --text-muted: #888888;
+            --card-bg: rgba(20, 20, 20, 0.6);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --primary-accent: #ffffff;
+            --font-main: 'Inter', sans-serif;
+            --font-display: 'Space Grotesk', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(255,255,255,0.03) 0%, transparent 50%),
+                radial-gradient(circle at 85% 30%, rgba(255,255,255,0.02) 0%, transparent 50%);
+        }
+
+        ::selection {
+            background: rgba(255,255,255,0.2);
+            color: #fff;
+        }
+
+        /* ===== Header ===== */
+        header {
+            padding: 6rem 2rem 4rem;
+            text-align: center;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .lib-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0.5rem 1.2rem;
+            border-radius: 50px;
+            background: rgba(212, 175, 55, 0.08);
+            border: 1px solid rgba(212, 175, 55, 0.25);
+            font-size: 0.78rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            color: #d4af37;
+        }
+
+        h1 {
+            font-family: var(--font-display);
+            font-size: clamp(3rem, 5vw, 5rem);
+            font-weight: 400;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+            background: linear-gradient(to bottom right, #fff, #888);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p.subtitle {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 650px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* ===== Grid ===== */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 2.5rem;
+        }
+
+        /* ===== Card ===== */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            overflow: hidden;
+            position: relative;
+            backdrop-filter: blur(20px);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            animation: fadeIn 0.8s ease backwards;
+            cursor: pointer;
+        }
+
+        .card.is-hybrid {
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 0 20px rgba(255,255,255,0.05);
+        }
+
+        .card.is-hybrid::before {
+            content: 'NOVO HÍBRIDO';
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+            padding: 4px 10px;
+            border-radius: 30px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.2);
+            z-index: 10;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card:hover {
+            transform: translateY(-8px) scale(1.01);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.3);
+            z-index: 10;
+        }
+
+        .card-header {
+            height: 140px;
+            width: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .card-header::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, transparent, rgba(20,20,20,1));
+        }
+
+        .card-body {
+            padding: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .identity-domain {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 0.5rem;
+            display: block;
+            opacity: 0.9;
+        }
+
+        .identity-name {
+            font-size: 1.75rem;
+            font-weight: 400;
+            margin-bottom: 2rem;
+            color: #fff;
+            line-height: 1.2;
+        }
+
+        .card-section {
+            margin-bottom: 2rem;
+        }
+
+        .card-section h4 {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .swatches {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .swatch-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .swatch {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            box-shadow: inset 0 0 0 1px rgba(255,255,255,0.1);
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .swatch-hex {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            font-family: monospace;
+        }
+
+        .typo-showcase {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            background: rgba(0,0,0,0.3);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .typo-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .typo-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-bottom: 0.25rem;
+        }
+
+        .typo-sample {
+            font-size: 1.4rem;
+            color: #fff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .components-showcase {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-preview {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+        
+        .tag-preview {
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+
+        /* Filter Tabs */
+        .filters {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-muted);
+            padding: 0.6rem 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: var(--font-main);
+            font-size: 0.9rem;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background: #fff;
+            color: #000;
+            transform: scale(1.05);
+        }
+        
+        .filter-btn[data-filter="hybrid"] {
+            border-color: rgba(255, 255, 255, 0.4);
+            color: #fff;
+            background: rgba(255,255,255,0.05);
+        }
+
+        /* ===== MODAL OVERLAY ===== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(15px);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal-content {
+            background: #0f0f0f;
+            width: 95%;
+            max-width: 1400px;
+            height: 90vh;
+            border-radius: 24px;
+            border: 1px solid rgba(255,255,255,0.1);
+            overflow-y: auto;
+            position: relative;
+            transform: translateY(50px) scale(0.95);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 40px 80px rgba(0,0,0,0.6);
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: translateY(0) scale(1);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #fff;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 100;
+            font-size: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .close-btn:hover {
+            background: #fff;
+            color: #000;
+            transform: scale(1.1);
+        }
+
+        .modal-body {
+            padding: 4rem;
+        }
+
+        /* 3-column Layout for the modal */
+        .modal-grid-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1.5fr;
+            gap: 3rem;
+        }
+
+        .agent-code-block {
+            background: #000;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: #a78bfa;
+            white-space: pre-wrap;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .agent-code-block::before {
+            content: '🤖 AGENT SYSTEM PROMPT';
+            display: block;
+            font-size: 0.7rem;
+            color: #6b7280;
+            margin-bottom: 1rem;
+            letter-spacing: 1px;
+        }
+
+        @media (max-width: 1200px) {
+            .modal-grid-layout {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .modal-grid-layout {
+                grid-template-columns: 1fr;
+            }
+            .modal-body {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- MODAL OVERLAY -->
+    <div id="modal-overlay" class="modal-overlay" onclick="if(event.target === this) closeModal()">
+        <div id="modal-content" class="modal-content">
+            <!-- Content Injected via JS -->
+        </div>
+    </div>
+
+    <header>
+        <div class="lib-badge">✦ Biblioteca de Identidades Visuais</div>
+        <h1>Design System Library</h1>
+        <p class="subtitle">Um catálogo de sistemas de identidade visual desenvolvidos com paletas, tipografias e componentes definidos — prontos para aplicação em projetos reais.</p>
+    </header>
+
+    <div class="container">
+        <div class="filters">
+            <button class="filter-btn active" data-filter="all">Todos</button>
+            <button class="filter-btn" data-filter="hybrid">🚀 Híbridos & Novos</button>
+            <button class="filter-btn" data-filter="luxury">Quiet Luxury</button>
+            <button class="filter-btn" data-filter="clinic">Clínicas & Saúde</button>
+            <button class="filter-btn" data-filter="beauty">Estética & Beleza</button>
+            <button class="filter-btn" data-filter="tech">Tecnologia & AI</button>
+            <button class="filter-btn" data-filter="automotive">Automotivo</button>
+            <button class="filter-btn" data-filter="gastronomy">Gastronomia</button>
+            <button class="filter-btn" data-filter="creative">Criativo & Portfólio</button>
+        </div>
+
+        <div class="grid" id="identities-grid">
+            <!-- Cards will be injected by JS -->
+        </div>
+    </div>
+
+    <script>
+        const identities = [
+            // ==========================================
+            // NOVOS CONCEITOS (HÍBRIDOS SENSACIONAIS)
+            // ==========================================
+            {
+                id: "cyber-luxury",
+                name: "Cyber-Luxury",
+                domain: "Advanced Aesthetics / Tech",
+                category: "hybrid clinic tech luxury",
+                gradient: "linear-gradient(135deg, #080A0B, #D4AF37)",
+                colors: ["#080A0B", "#1A1A1A", "#D4AF37", "#00E5FF"],
+                fonts: [
+                    { label: "Futuristic Serif", family: "'Cinzel', serif", sample: "Aa - Surgery" },
+                    { label: "Neon Sans", family: "'Orbitron', sans-serif", sample: "Aa - Laser" }
+                ],
+                btnStyle: "background: transparent; color: #D4AF37; border: 1px solid #D4AF37; box-shadow: 0 0 10px rgba(212,175,55,0.3); border-radius: 0; font-family: 'Orbitron', sans-serif;",
+                tagStyle: "background: rgba(0,229,255,0.1); color: #00E5FF; border-left: 2px solid #00E5FF; font-family: 'Montserrat', sans-serif;"
+            },
+            {
+                id: "neo-patisserie",
+                name: "Neo-Patisserie",
+                domain: "Experimental Dining",
+                category: "hybrid gastronomy creative",
+                gradient: "linear-gradient(135deg, #8C1C3F, #E6A8B6)",
+                colors: ["#FFF4F4", "#8C1C3F", "#E6A8B6", "#1A0A0E"],
+                fonts: [
+                    { label: "Romantic Serif", family: "'Playfair Display', serif", sample: "Aa - Dessert" },
+                    { label: "Modern Sans", family: "'Plus Jakarta Sans', sans-serif", sample: "Aa - Menu" }
+                ],
+                btnStyle: "background: #8C1C3F; color: #FFF4F4; border-radius: 50px; font-family: 'Playfair Display', serif; font-style: italic;",
+                tagStyle: "background: transparent; color: #8C1C3F; border: 1px solid #E6A8B6; border-radius: 50px; font-family: 'Plus Jakarta Sans', sans-serif;"
+            },
+            {
+                id: "earthy-brutalism",
+                name: "Earthy Brutalism",
+                domain: "Sustainable Architecture",
+                category: "hybrid creative",
+                gradient: "linear-gradient(135deg, #4E5340, #E35D40)",
+                colors: ["#1C1C1C", "#4E5340", "#D1D1C7", "#E35D40"],
+                fonts: [
+                    { label: "Geometric", family: "'Space Grotesk', sans-serif", sample: "Aa - Structure" },
+                    { label: "Clean UI", family: "'Inter', sans-serif", sample: "Aa - Details" }
+                ],
+                btnStyle: "background: #D1D1C7; color: #1C1C1C; border-radius: 0; font-family: 'Space Grotesk', sans-serif; font-weight: 600;",
+                tagStyle: "background: #E35D40; color: #FFFFFF; font-family: 'Inter', sans-serif; border-radius: 0;"
+            },
+            {
+                id: "glass-beauty",
+                name: "Glass Beauty",
+                domain: "Beauty Tech / App",
+                category: "hybrid beauty tech",
+                gradient: "linear-gradient(135deg, #B388EB, #F2AEC1)",
+                colors: ["#FDFBFE", "#3D2C5A", "#B388EB", "#F2AEC1"],
+                fonts: [
+                    { label: "Avant-Garde", family: "'Syne', sans-serif", sample: "Aa - Beauty AI" },
+                    { label: "Soft UI", family: "'Outfit', sans-serif", sample: "Aa - Interface" }
+                ],
+                btnStyle: "background: linear-gradient(135deg, #B388EB, #F2AEC1); color: #fff; border-radius: 16px; font-family: 'Outfit', sans-serif;",
+                tagStyle: "background: rgba(179,136,235,0.2); color: #3D2C5A; border-radius: 8px; font-family: 'Syne', sans-serif; font-weight: 600;"
+            },
+            {
+                id: "midnight-velvet",
+                name: "Midnight Velvet",
+                domain: "Elite Auto Club",
+                category: "hybrid automotive luxury",
+                gradient: "linear-gradient(135deg, #0B0C10, #C5A880)",
+                colors: ["#0B0C10", "#1F2833", "#C5A880", "#66FCF1"],
+                fonts: [
+                    { label: "Luxury Serif", family: "'DM Serif Display', serif", sample: "Aa - Prestige" },
+                    { label: "Performance", family: "'Rajdhani', sans-serif", sample: "Aa - V8 Engine" }
+                ],
+                btnStyle: "background: #C5A880; color: #0B0C10; border-radius: 2px; font-family: 'Rajdhani', sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: 2px;",
+                tagStyle: "background: rgba(102,252,241,0.1); border: 1px solid #66FCF1; color: #66FCF1; font-family: 'Rajdhani', sans-serif;"
+            },
+            {
+                id: "holographic-minimal",
+                name: "Holographic Minimal",
+                domain: "Digital Creator Studio",
+                category: "hybrid creative tech",
+                gradient: "linear-gradient(135deg, #33CCFF, #FF3366)",
+                colors: ["#F4F4F9", "#121212", "#FF3366", "#33CCFF"],
+                fonts: [
+                    { label: "Loud Display", family: "'Bebas Neue', sans-serif", sample: "Aa - CREATE" },
+                    { label: "Quiet Text", family: "'Plus Jakarta Sans', sans-serif", sample: "Aa - Digital" }
+                ],
+                btnStyle: "background: #121212; color: #F4F4F9; border-radius: 30px; font-family: 'Plus Jakarta Sans', sans-serif; position: relative; overflow: hidden; box-shadow: 0 4px 15px rgba(255,51,102,0.3);",
+                tagStyle: "background: transparent; border: 1px solid #33CCFF; color: #33CCFF; border-radius: 30px; font-family: 'Bebas Neue', sans-serif; font-size: 1rem; padding: 2px 10px;"
+            },
+            {
+                id: "apothecary-spa",
+                name: "Apothecary Spa",
+                domain: "Holistic Health",
+                category: "hybrid clinic luxury beauty",
+                gradient: "linear-gradient(135deg, #2D4030, #8C3A3A)",
+                colors: ["#FAF8F5", "#2D4030", "#8C3A3A", "#181818"],
+                fonts: [
+                    { label: "Classic", family: "'Cormorant Garamond', serif", sample: "Aa - Botanica" },
+                    { label: "Modern Neutral", family: "'Lato', sans-serif", sample: "Aa - Essência" }
+                ],
+                btnStyle: "background: #2D4030; color: #FAF8F5; border-radius: 0; font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; border-bottom: 2px solid #8C3A3A;",
+                tagStyle: "background: transparent; color: #8C3A3A; border: 1px dashed #8C3A3A; font-family: 'Lato', sans-serif; border-radius: 0;"
+            },
+            {
+                id: "acid-sport",
+                name: "Acid Sport",
+                domain: "E-Sports / High Performance",
+                category: "hybrid tech automotive creative",
+                gradient: "linear-gradient(135deg, #CCFF00, #4B0082)",
+                colors: ["#050505", "#1A1A1A", "#CCFF00", "#4B0082"],
+                fonts: [
+                    { label: "Impact", family: "'Oswald', sans-serif", sample: "Aa - OVERRIDE" },
+                    { label: "Tech Mono", family: "'JetBrains Mono', monospace", sample: "Aa - Speed: 100" }
+                ],
+                btnStyle: "background: #CCFF00; color: #050505; border-radius: 0; font-family: 'Oswald', sans-serif; text-transform: uppercase; font-size: 1.2rem; transform: skewX(-15deg);",
+                tagStyle: "background: #4B0082; color: #CCFF00; font-family: 'JetBrains Mono', monospace; border-radius: 0;"
+            },
+
+            // ==========================================
+            // IDENTIDADES ORIGINAIS DA BIBLIOTECA
+            // ==========================================
+            {
+                id: "lumiere-aesthetic",
+                name: "Lumière Aesthetic",
+                domain: "Organic Luxury / Clínica",
+                category: "clinic luxury beauty",
+                gradient: "linear-gradient(135deg, #E8EAE6, #8F9E8B)",
+                colors: ["#E8EAE6", "#8F9E8B", "#D1CDC4", "#2A2A2A"],
+                fonts: [
+                    { label: "Primary (Serif)", family: "'Playfair Display', serif", sample: "Aa - Lumière" },
+                    { label: "Secondary (Sans)", family: "'Inter', sans-serif", sample: "Aa - Body Text" }
+                ],
+                btnStyle: "background: #8F9E8B; color: #fff; border-radius: 4px; font-family: 'Inter', sans-serif;",
+                tagStyle: "background: #E8EAE6; color: #2A2A2A; border: 1px solid #D1CDC4; font-family: 'Inter', sans-serif;"
+            },
+            {
+                id: "clinica-montanari",
+                name: "Champagne & Ivory",
+                domain: "Quiet Luxury / Cormorant + Montserrat",
+                category: "clinic luxury",
+                gradient: "linear-gradient(135deg, #F4F1ED, #D4AF37)",
+                colors: ["#F4F1ED", "#D4AF37", "#3A3A3A", "#FFFFFF"],
+                fonts: [
+                    { label: "Display Serif", family: "'Cormorant Garamond', serif", sample: "Aa - Cormorant" },
+                    { label: "UI Sans", family: "'Montserrat', sans-serif", sample: "Aa - Montserrat" }
+                ],
+                btnStyle: "background: #3A3A3A; color: #D4AF37; border-radius: 0; text-transform: uppercase; letter-spacing: 2px; font-family: 'Montserrat', sans-serif;",
+                tagStyle: "background: transparent; color: #D4AF37; border: 1px solid #D4AF37; font-family: 'Montserrat', sans-serif;"
+            },
+            {
+                id: "clinica-viegas",
+                name: "Emerald & Stone",
+                domain: "Classic Luxury / DM Serif + Jost",
+                category: "clinic luxury",
+                gradient: "linear-gradient(135deg, #1A3C34, #F2EBE5)",
+                colors: ["#1A3C34", "#0C231C", "#F2EBE5", "#D9C5B2"],
+                fonts: [
+                    { label: "Display Serif", family: "'DM Serif Display', serif", sample: "Aa - DM Serif" },
+                    { label: "Modern Sans", family: "'Jost', sans-serif", sample: "Aa - Jost" }
+                ],
+                btnStyle: "background: #1A3C34; color: #F2EBE5; border-radius: 2px; font-family: 'Jost', sans-serif; letter-spacing: 1px; border: 1px solid #D9C5B2;",
+                tagStyle: "background: rgba(217, 197, 178, 0.2); color: #F2EBE5; font-family: 'Jost', sans-serif; border-radius: 2px;"
+            },
+            {
+                id: "estetica-batel",
+                name: "Linen & Caramel",
+                domain: "High-end Warmth / Syne + Montserrat",
+                category: "clinic beauty luxury",
+                gradient: "linear-gradient(135deg, #EBE6E0, #C9A683)",
+                colors: ["#EBE6E0", "#C9A683", "#7A5C43", "#1C1917"],
+                fonts: [
+                    { label: "Display Sans", family: "'Syne', sans-serif", sample: "Aa - Syne" },
+                    { label: "Reading", family: "'Montserrat', sans-serif", sample: "Aa - Montserrat" }
+                ],
+                btnStyle: "background: #1C1917; color: #C9A683; border-radius: 0; font-family: 'Montserrat', sans-serif; text-transform: uppercase; letter-spacing: 1px;",
+                tagStyle: "background: transparent; border-bottom: 1px solid #C9A683; color: #1C1917; font-family: 'Montserrat', sans-serif; border-radius: 0;"
+            },
+            {
+                id: "restaurante-marlo",
+                name: "Bordeaux & Gold",
+                domain: "Warm Elegance / Cinzel + Lato",
+                category: "gastronomy",
+                gradient: "linear-gradient(135deg, #4A0E17, #E0A96D)",
+                colors: ["#4A0E17", "#E0A96D", "#F9F6F0", "#1A1A1A"],
+                fonts: [
+                    { label: "Roman Serif", family: "'Cinzel', serif", sample: "Aa - Cinzel" },
+                    { label: "Neutral Sans", family: "'Lato', sans-serif", sample: "Aa - Lato" }
+                ],
+                btnStyle: "background: #4A0E17; color: #F9F6F0; border-radius: 2px; font-family: 'Cinzel', serif;",
+                tagStyle: "background: #E0A96D; color: #1A1A1A; font-family: 'Lato', sans-serif;"
+            },
+            {
+                id: "nomade-barolo",
+                name: "Onyx & Copper",
+                domain: "Dark Luxury / Playfair + Inter",
+                category: "gastronomy luxury",
+                gradient: "linear-gradient(135deg, #121212, #C19B76)",
+                colors: ["#121212", "#2C2C2C", "#C19B76", "#F5F5F5"],
+                fonts: [
+                    { label: "Serif Elegance", family: "'Playfair Display', serif", sample: "Aa - Nômade" },
+                    { label: "Neutral Sans", family: "'Inter', sans-serif", sample: "Aa - Reservas" }
+                ],
+                btnStyle: "background: #C19B76; color: #121212; border-radius: 0; font-family: 'Playfair Display', serif; text-transform: uppercase;",
+                tagStyle: "background: transparent; border: 1px solid #444; color: #C19B76; font-family: 'Inter', sans-serif;"
+            },
+            {
+                id: "ane-belle",
+                name: "Rose & Mauve",
+                domain: "Soft Elegance / Tenor + Poppins",
+                category: "beauty luxury",
+                gradient: "linear-gradient(135deg, #FDF7F7, #E8A8A8)",
+                colors: ["#FDF7F7", "#E8A8A8", "#8C5E5E", "#2C2C2C"],
+                fonts: [
+                    { label: "Feminine Serif", family: "'Tenor Sans', sans-serif", sample: "Aa - Belle" },
+                    { label: "Body", family: "'Poppins', sans-serif", sample: "Aa - Studio" }
+                ],
+                btnStyle: "background: #E8A8A8; color: #2C2C2C; border-radius: 50px; font-family: 'Poppins', sans-serif; font-weight: 500;",
+                tagStyle: "background: transparent; color: #8C5E5E; border: 1px solid #8C5E5E; border-radius: 50px; font-family: 'Poppins', sans-serif;"
+            },
+            {
+                id: "thais-gomes",
+                name: "Lavender & Haze",
+                domain: "Pastel Elegance / Jost + Outfit",
+                category: "beauty",
+                gradient: "linear-gradient(135deg, #D4C4E1, #F6E6E4)",
+                colors: ["#F6E6E4", "#D4C4E1", "#9D84B7", "#4A3E57"],
+                fonts: [
+                    { label: "Delicate Sans", family: "'Jost', sans-serif", sample: "Aa - Thaís" },
+                    { label: "Legibility", family: "'Outfit', sans-serif", sample: "Aa - Especialidades" }
+                ],
+                btnStyle: "background: #9D84B7; color: #FFFFFF; border-radius: 20px; font-family: 'Jost', sans-serif;",
+                tagStyle: "background: rgba(212,196,225,0.4); color: #4A3E57; font-family: 'Outfit', sans-serif; border-radius: 20px; border: 1px solid #9D84B7;"
+            },
+            {
+                id: "corpo-e-arte",
+                name: "Crimson & Ink",
+                domain: "Vibrant High-Contrast / Roboto",
+                category: "clinic beauty",
+                gradient: "linear-gradient(135deg, #F32E6E, #111111)",
+                colors: ["#F32E6E", "#CC3366", "#333333", "#FCFCFC"],
+                fonts: [
+                    { label: "Main Font", family: "'Roboto', sans-serif", sample: "Aa - Corpo & Arte" }
+                ],
+                btnStyle: "background: #F32E6E; color: #fff; border-radius: 30px; font-family: 'Roboto', sans-serif; font-weight: 500;",
+                tagStyle: "background: #111; color: #F32E6E; font-family: 'Roboto', sans-serif; border-radius: 30px;"
+            },
+            {
+                id: "aether-motors",
+                name: "Aether Motors",
+                domain: "Cybernetic / Automotivo",
+                category: "tech automotive",
+                gradient: "linear-gradient(135deg, #00F0FF, #FF003C)",
+                colors: ["#050505", "#111111", "#00F0FF", "#FF003C"],
+                fonts: [
+                    { label: "Display", family: "'Orbitron', sans-serif", sample: "Aa - AETHER" },
+                    { label: "Tech Text", family: "'Rajdhani', sans-serif", sample: "Aa - Engine Specs" }
+                ],
+                btnStyle: "background: transparent; color: #00F0FF; border: 1px solid #00F0FF; box-shadow: 0 0 10px rgba(0,240,255,0.3); border-radius: 0; font-family: 'Orbitron', sans-serif;",
+                tagStyle: "background: rgba(255,0,60,0.1); color: #FF003C; border-left: 2px solid #FF003C; font-family: 'Rajdhani', sans-serif;"
+            },
+            {
+                id: "premium-car-detail",
+                name: "Premium Car Detail",
+                domain: "Performance / Automotivo",
+                category: "automotive",
+                gradient: "linear-gradient(135deg, #111111, #D32F2F)",
+                colors: ["#000000", "#1C1C1C", "#D32F2F", "#E0E0E0"],
+                fonts: [
+                    { label: "Bold Header", family: "'Oswald', sans-serif", sample: "Aa - DETAIL" },
+                    { label: "Technical", family: "'Roboto', sans-serif", sample: "Aa - Proteção" }
+                ],
+                btnStyle: "background: #D32F2F; color: #fff; border-radius: 0; font-family: 'Oswald', sans-serif; text-transform: uppercase; font-size: 1.1rem; transform: skewX(-10deg);",
+                tagStyle: "background: #1C1C1C; color: #D32F2F; border: 1px solid #D32F2F; font-family: 'Oswald', sans-serif;"
+            },
+            {
+                id: "aura-architect",
+                name: "Aura Architect",
+                domain: "Sleek Modern / SaaS",
+                category: "tech",
+                gradient: "linear-gradient(135deg, #3B82F6, #8B5CF6)",
+                colors: ["#0F172A", "#3B82F6", "#8B5CF6", "#FFFFFF"],
+                fonts: [
+                    { label: "Headings", family: "'Space Grotesk', sans-serif", sample: "Aa - Build Faster" },
+                    { label: "UI Text", family: "'Inter', sans-serif", sample: "Aa - Interface" }
+                ],
+                btnStyle: "background: linear-gradient(135deg, #3B82F6, #8B5CF6); color: #fff; border-radius: 8px; font-family: 'Inter', sans-serif;",
+                tagStyle: "background: rgba(139,92,246,0.2); color: #d8b4fe; border-radius: 6px; font-family: 'Space Grotesk', sans-serif;"
+            },
+            {
+                id: "genlabs-ai",
+                name: "GenLabs AI",
+                domain: "Futuristic / Startup",
+                category: "tech",
+                gradient: "linear-gradient(135deg, #2D00F7, #F20089)",
+                colors: ["#0A0A0A", "#2D00F7", "#F20089", "#E5E5E5"],
+                fonts: [
+                    { label: "Future Display", family: "'Outfit', sans-serif", sample: "Aa - AI Core" },
+                    { label: "Data Text", family: "'JetBrains Mono', monospace", sample: "Aa - Generate" }
+                ],
+                btnStyle: "background: linear-gradient(90deg, #2D00F7, #F20089); color: #fff; border-radius: 12px; font-family: 'Outfit', sans-serif; font-weight: 600; box-shadow: 0 4px 15px rgba(242,0,137,0.4);",
+                tagStyle: "background: rgba(45,0,247,0.2); color: #E5E5E5; border: 1px solid #2D00F7; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; border-radius: 8px;"
+            },
+            {
+                id: "dr-anna-abreu",
+                name: "Arctic White",
+                domain: "Medical Clean / Playfair + Inter",
+                category: "clinic",
+                gradient: "linear-gradient(135deg, #FFFFFF, #B0BEC5)",
+                colors: ["#FFFFFF", "#F4F6F8", "#B0BEC5", "#37474F"],
+                fonts: [
+                    { label: "Trust Serif", family: "'Playfair Display', serif", sample: "Aa - Dra. Anna" },
+                    { label: "Clean Sans", family: "'Inter', sans-serif", sample: "Aa - Procedimentos" }
+                ],
+                btnStyle: "background: #37474F; color: #FFFFFF; border-radius: 8px; font-family: 'Inter', sans-serif;",
+                tagStyle: "background: #F4F6F8; color: #37474F; border: 1px solid #B0BEC5; font-family: 'Inter', sans-serif; border-radius: 4px;"
+            },
+            {
+                id: "hurtado-dental",
+                name: "Teal & Frost",
+                domain: "Clean Clinical / Outfit + Jakarta",
+                category: "clinic",
+                gradient: "linear-gradient(135deg, #0F766E, #99F6E4)",
+                colors: ["#F8FAFC", "#0F766E", "#99F6E4", "#1E293B"],
+                fonts: [
+                    { label: "Headings", family: "'Outfit', sans-serif", sample: "Aa - Sorriso" },
+                    { label: "Paragraph", family: "'Plus Jakarta Sans', sans-serif", sample: "Aa - Atendimento" }
+                ],
+                btnStyle: "background: #0F766E; color: #fff; border-radius: 12px; font-family: 'Outfit', sans-serif;",
+                tagStyle: "background: #E0F2FE; color: #0369A1; border-radius: 50px; font-family: 'Plus Jakarta Sans', sans-serif;"
+            },
+            {
+                id: "gustavo-camile",
+                name: "Carbon & White",
+                domain: "Minimalist / Space Grotesk + Inter",
+                category: "creative tech",
+                gradient: "linear-gradient(135deg, #000000, #444444)",
+                colors: ["#000000", "#1E1E1E", "#888888", "#FFFFFF"],
+                fonts: [
+                    { label: "Geometric Sans", family: "'Space Grotesk', sans-serif", sample: "Aa - Portfolio" },
+                    { label: "Swiss Sans", family: "'Inter', sans-serif", sample: "Aa - Design" }
+                ],
+                btnStyle: "background: #FFFFFF; color: #000000; border-radius: 4px; font-family: 'Space Grotesk', sans-serif; font-weight: 600;",
+                tagStyle: "background: #1E1E1E; color: #FFFFFF; border: 1px solid #444444; font-family: 'Space Grotesk', sans-serif; border-radius: 4px;"
+            },
+            {
+                id: "imagenation-art",
+                name: "ImageNation Art",
+                domain: "Vibrant / Criativo",
+                category: "creative",
+                gradient: "linear-gradient(135deg, #FF3366, #33CCFF)",
+                colors: ["#121212", "#FF3366", "#33CCFF", "#FFCC00"],
+                fonts: [
+                    { label: "Bold Headline", family: "'Bebas Neue', sans-serif", sample: "Aa - IMAGINATION" },
+                    { label: "Dynamic Sans", family: "'Poppins', sans-serif", sample: "Aa - Artworks" }
+                ],
+                btnStyle: "background: #FFCC00; color: #121212; border-radius: 8px; font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; letter-spacing: 1px; transform: rotate(-2deg);",
+                tagStyle: "background: #33CCFF; color: #121212; font-family: 'Poppins', sans-serif; font-weight: 600; border-radius: 4px;"
+            },
+            {
+                id: "green-museum",
+                name: "Green Museum",
+                domain: "Organic / Sustentável",
+                category: "creative",
+                gradient: "linear-gradient(135deg, #2C3E2D, #8B9474)",
+                colors: ["#F5F5F0", "#8B9474", "#2C3E2D", "#1A241A"],
+                fonts: [
+                    { label: "Natural Serif", family: "'Cormorant Garamond', serif", sample: "Aa - Nature" },
+                    { label: "Earthy Sans", family: "'Lato', sans-serif", sample: "Aa - Explore" }
+                ],
+                btnStyle: "background: #2C3E2D; color: #F5F5F0; border-radius: 50px; font-family: 'Lato', sans-serif; border: 1px solid #8B9474;",
+                tagStyle: "background: #8B9474; color: #1A241A; font-family: 'Lato', sans-serif; border-radius: 4px;"
+            }
+        ];
+
+        // Store active filtered list for correct index mapping
+        let currentFilteredIds = [];
+
+        function renderCards(filter = 'all') {
+            const grid = document.getElementById('identities-grid');
+            grid.innerHTML = '';
+
+            currentFilteredIds = filter === 'all' 
+                ? identities 
+                : identities.filter(id => id.category.includes(filter));
+
+            currentFilteredIds.forEach((id, index) => {
+                const card = document.createElement('div');
+                card.className = id.category.includes('hybrid') ? 'card is-hybrid' : 'card';
+                card.style.animationDelay = `${index * 0.05}s`;
+                // Add onclick handler
+                card.onclick = () => openModal(index);
+
+                // Swatches HTML
+                const swatchesHtml = id.colors.map(color => `
+                    <div class="swatch-wrapper">
+                        <div class="swatch" style="background: ${color}"></div>
+                        <span class="swatch-hex">${color}</span>
+                    </div>
+                `).join('');
+
+                // Fonts HTML
+                const fontsHtml = id.fonts.map(font => `
+                    <div class="typo-item">
+                        <span class="typo-label">${font.label}</span>
+                        <span class="typo-sample" style="font-family: ${font.family}">${font.sample}</span>
+                    </div>
+                `).join('');
+
+                card.innerHTML = `
+                    <div class="card-header" style="background: ${id.gradient}"></div>
+                    <div class="card-body">
+                        <span class="identity-domain" style="color: ${id.colors[1]}">${id.domain}</span>
+                        <h3 class="identity-name" style="font-family: ${id.fonts[0].family}">${id.name}</h3>
+
+                        <div class="card-section">
+                            <h4>Paleta de Cores</h4>
+                            <div class="swatches">
+                                ${swatchesHtml}
+                            </div>
+                        </div>
+
+                        <div class="card-section">
+                            <h4>Tipografia</h4>
+                            <div class="typo-showcase">
+                                ${fontsHtml}
+                            </div>
+                        </div>
+
+                        <div class="card-section">
+                            <h4>Componentes Base</h4>
+                            <div class="components-showcase">
+                                <button class="btn-preview" style="${id.btnStyle}">Call to Action</button>
+                                <span class="tag-preview" style="${id.tagStyle}">Tag</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                grid.appendChild(card);
+            });
+        }
+
+        function openModal(index) {
+            const id = currentFilteredIds[index];
+            const modalOverlay = document.getElementById('modal-overlay');
+            const modalContent = document.getElementById('modal-content');
+
+            const bgSecondary = id.colors[0] === '#FFFFFF' || id.colors[0] === '#FDFBFE' || id.colors[0] === '#F4F4F9' || id.colors[0] === '#F8FAFC' || id.colors[0] === '#FDF7F7' || id.colors[0] === '#F5F5F0' || id.colors[0] === '#FAF8F5' ? '#F3F4F6' : 'rgba(255,255,255,0.03)';
+            
+            // Build the dynamic mock applications
+            const mockHtml = `
+                <div class="close-btn" onclick="closeModal()">&times;</div>
+                <div style="padding: 6rem 4rem; position: relative; overflow: hidden;">
+                    <div style="position: absolute; inset: 0; background: ${id.gradient}; opacity: 0.15;"></div>
+                    <h2 style="font-family: ${id.fonts[0].family}; font-size: 3.5rem; color: #fff; position: relative; z-index: 2; margin-bottom: 0.5rem;">${id.name}</h2>
+                    <p style="color: ${id.colors[1]}; font-family: ${id.fonts[1]?id.fonts[1].family:id.fonts[0].family}; text-transform: uppercase; letter-spacing: 2px; position: relative; z-index: 2; font-weight: 600;">${id.domain}</p>
+                </div>
+                
+                <div class="modal-body">
+                    <div class="modal-grid-layout">
+                        <!-- Column 1: Tokens -->
+                        <div>
+                            <h3 style="color: #fff; margin-bottom: 2rem; font-family: var(--font-display); font-size: 1.5rem;">Tokens Visuais</h3>
+                            
+                            <div style="margin-bottom: 3rem;">
+                                <h4 style="color: var(--text-muted); margin-bottom: 1rem; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;">Cores e Aplicação</h4>
+                                ${id.colors.map((color, i) => {
+                                    let role = i === 0 ? "Background / Surface" : i === 1 ? "Primary Accent" : i === 2 ? "Secondary Accent" : "Text / Contrast";
+                                    return `
+                                    <div style="display: flex; align-items: center; margin-bottom: 0.8rem; background: rgba(255,255,255,0.05); border-radius: 12px; padding: 0.8rem; border: 1px solid rgba(255,255,255,0.05);">
+                                        <div style="width: 50px; height: 50px; border-radius: 10px; background: ${color}; margin-right: 1.5rem; box-shadow: inset 0 0 0 1px rgba(255,255,255,0.1);"></div>
+                                        <div>
+                                            <span style="display: block; color: #fff; font-family: monospace; font-size: 1rem; margin-bottom: 0.2rem;">${color}</span>
+                                            <span style="display: block; color: var(--text-muted); font-size: 0.8rem;">${role}</span>
+                                        </div>
+                                    </div>
+                                    `;
+                                }).join('')}
+                            </div>
+
+                            <div>
+                                <h4 style="color: var(--text-muted); margin-bottom: 1rem; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;">Hierarquia Tipográfica</h4>
+                                ${id.fonts.map(font => `
+                                    <div style="margin-bottom: 1.5rem; padding: 1.5rem; border-left: 3px solid ${id.colors[1]}; background: rgba(255,255,255,0.02); border-radius: 0 12px 12px 0;">
+                                        <span style="display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem; text-transform: uppercase;">${font.label} &mdash; ${font.family}</span>
+                                        <span style="display: block; font-family: ${font.family}; font-size: 2.2rem; color: #fff; line-height: 1.2; margin-bottom: 1rem;">Aa Bb Cc</span>
+                                        <span style="display: block; font-family: ${font.family}; font-size: 1rem; color: #aaa; line-height: 1.5;">ABCDEFGHIJKLMNOPQRSTUVWXYZ<br>abcdefghijklmnopqrstuvwxyz<br>0123456789</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                        <!-- Column 2: CSS Variables + Usage -->
+                        <div>
+                            <h3 style="color: #fff; margin-bottom: 2rem; font-family: var(--font-display); font-size: 1.5rem;">Tokens CSS Prontos</h3>
+                            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem; line-height: 1.6;">Variáveis prontas para colar no início do seu projeto. Toda a identidade visual encapsulada em tokens reutilizáveis.</p>
+
+                            <h4 style="color: var(--text-muted); margin-bottom: 1rem; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;">:root — Design Tokens</h4>
+                            <div style="background: #0a0a0a; padding: 1.5rem; border-radius: 12px; font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; color: #bbb; border: 1px solid rgba(255,255,255,0.08); white-space: pre; margin-bottom: 2rem; line-height: 1.8;">:root {
+  --bg-primary:    ${id.colors[0]};
+  --accent-1:      ${id.colors[1]};
+  --accent-2:      ${id.colors[2]};
+  --text-main:     ${id.colors[3]};
+
+  --font-display:  ${id.fonts[0].family};
+  --font-body:     ${id.fonts[1] ? id.fonts[1].family : id.fonts[0].family};
+}</div>
+
+                            <h4 style="color: var(--text-muted); margin-bottom: 1.5rem; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;">Escala Tipográfica</h4>
+                            <div style="display: flex; flex-direction: column; gap: 0.8rem;">
+                                <div style="padding: 1rem 1.5rem; background: rgba(255,255,255,0.03); border-radius: 8px; border-left: 3px solid ${id.colors[1]}">
+                                    <span style="font-family: ${id.fonts[0].family}; font-size: 2rem; color: #fff; display: block; line-height: 1.1;">Display — H1</span>
+                                    <span style="font-size: 0.7rem; color: #555; font-family: monospace; letter-spacing: 1px;">${id.fonts[0].family} / clamp(2.5rem, 5vw, 6rem)</span>
+                                </div>
+                                <div style="padding: 1rem 1.5rem; background: rgba(255,255,255,0.03); border-radius: 8px; border-left: 3px solid ${id.colors[2]}">
+                                    <span style="font-family: ${id.fonts[1] ? id.fonts[1].family : id.fonts[0].family}; font-size: 1.1rem; color: #aaa; display: block; line-height: 1.6;">Body — Parágrafo com legibilidade otimizada para leitura extendida em interfaces digitais premium.</span>
+                                    <span style="font-size: 0.7rem; color: #555; font-family: monospace; letter-spacing: 1px;">${id.fonts[1] ? id.fonts[1].family : id.fonts[0].family} / 1rem / line-height: 1.7</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Column 3: UI Mocks -->
+                        <div>
+                            <h3 style="color: #fff; margin-bottom: 2rem; font-family: var(--font-display); font-size: 1.5rem;">Aplicações de Interface</h3>
+                            
+                            <!-- Hero Section Mock -->
+                            <div style="background: ${id.colors[0]}; color: ${id.colors[3]}; padding: 3rem 2.5rem; border-radius: 16px; margin-bottom: 2rem; box-shadow: 0 20px 40px rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.05); position: relative; overflow: hidden;">
+                                <div style="position: absolute; top: -100px; right: -100px; width: 300px; height: 300px; background: ${id.gradient}; filter: blur(80px); opacity: 0.4;"></div>
+                                
+                                <span style="${id.tagStyle}; display: inline-block; margin-bottom: 2rem; position: relative; z-index: 2; padding: 0.4rem 1rem;">Nova Coleção</span>
+                                
+                                <h1 style="font-family: ${id.fonts[0].family}; font-size: 2.5rem; margin-bottom: 1.5rem; color: ${id.colors[1]}; position: relative; z-index: 2; line-height: 1.1;">Experiência Exclusiva e Visual.</h1>
+                                
+                                <p style="font-family: ${id.fonts[1]?id.fonts[1].family:id.fonts[0].family}; margin-bottom: 2.5rem; font-size: 1.05rem; opacity: 0.8; max-width: 90%; position: relative; z-index: 2; line-height: 1.6;">Este é um componente Hero simulado, mostrando o comportamento das fontes e o peso visual do botão.</p>
+                                
+                                <button style="${id.btnStyle}; padding: 1.2rem 2.5rem; font-size: 1rem; cursor: pointer; position: relative; z-index: 2;">Descobrir Mais</button>
+                            </div>
+
+                            <!-- Cards Mock -->
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem;">
+                                <!-- Primary Card -->
+                                <div style="background: ${id.colors[1]}; color: ${id.colors[0]}; padding: 2rem 1.5rem; border-radius: 16px; font-family: ${id.fonts[1]?id.fonts[1].family:id.fonts[0].family}; box-shadow: 0 15px 30px rgba(0,0,0,0.3);">
+                                    <div style="width: 48px; height: 48px; background: ${id.colors[0]}; border-radius: 50%; margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: center;">
+                                        <span style="color: ${id.colors[1]}; font-size: 1.2rem;">✦</span>
+                                    </div>
+                                    <h3 style="font-family: ${id.fonts[0].family}; margin-bottom: 1rem; font-size: 1.3rem; line-height: 1.2;">Cartão Primário</h3>
+                                    <p style="opacity: 0.9; font-size: 0.85rem; line-height: 1.6;">Simulando o uso da cor de destaque como fundo.</p>
+                                </div>
+
+                                <!-- Secondary Card -->
+                                <div style="background: ${bgSecondary}; color: ${id.colors[3]}; padding: 2rem 1.5rem; border-radius: 16px; font-family: ${id.fonts[1]?id.fonts[1].family:id.fonts[0].family}; border: 1px solid rgba(150,150,150,0.1);">
+                                    <div style="width: 48px; height: 48px; background: ${id.colors[2]}; border-radius: 12px; margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: center;">
+                                        <span style="color: ${id.colors[0]}; font-size: 1.2rem;">✧</span>
+                                    </div>
+                                    <h3 style="font-family: ${id.fonts[0].family}; margin-bottom: 1rem; font-size: 1.3rem; color: ${id.colors[1]}; line-height: 1.2;">Secundário</h3>
+                                    <p style="opacity: 0.8; font-size: 0.85rem; line-height: 1.6;">Cartão auxiliar com ícones terciários.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            modalContent.innerHTML = mockHtml;
+            modalOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent scrolling on body
+        }
+
+        function closeModal() {
+            const modalOverlay = document.getElementById('modal-overlay');
+            modalOverlay.classList.remove('active');
+            document.body.style.overflow = ''; // Restore scrolling
+        }
+
+        // Initialize
+        renderCards();
+
+        // Filters
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                renderCards(e.target.dataset.filter);
+            });
+        });
+    </script>
+</body>
+</html>

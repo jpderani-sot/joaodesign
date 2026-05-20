@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurante Manu - Breathtaking Experience</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Nunito+Sans:opsz,wght@6..12,300;6..12,400;6..12,600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f5efe0;
+            --text-color: #33302e;
+            --text-secondary: #6d6d6d;
+            --accent-blue: #3a4194;
+            --border-color: #dcd7ca;
+            
+            --font-title: 'Cormorant Garamond', serif;
+            --font-body: 'Nunito Sans', sans-serif;
+            
+            --space-sm: 1.5rem;
+            --space-md: 3rem;
+            --space-lg: 6rem;
+            --space-xl: 10rem;
+        }
+
+        /* RESET & BASE */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html { 
+            background-color: #000; 
+            zoom: 0.9;
+        }
+
+        body {
+            background-color: #000;
+            color: var(--text-color);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overscroll-behavior: none;
+        }
+
+        /* CUSTOM SCROLLBAR */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: var(--text-secondary); border-radius: 3px; }
+
+        /* PRELOADER BG ONLY */
+        .preloader-bg {
+            position: fixed;
+            top: 0; left: 0; width: 112vw; height: 112vh;
+            background-color: #050505;
+            z-index: 9998;
+            transition: opacity 1.5s ease;
+        }
+        .preloader-bg.hidden { opacity: 0; pointer-events: none; }
+
+        /* HEADER DELICADO */
+        header {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            padding: 1.5rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, transparent 100%);
+            transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        header.scrolled {
+            background-color: rgba(5, 5, 5, 0.85);
+            backdrop-filter: blur(8px);
+            padding: 1rem 4rem;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .header-logo svg {
+            width: 65px;
+            fill: #fff;
+            transition: width 0.5s ease;
+        }
+        header.scrolled .header-logo svg { width: 50px; }
+        .header-logo svg path.path-u { fill: var(--accent-blue); }
+        
+        header nav a {
+            color: #fff;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            font-size: 0.7rem;
+            font-weight: 400;
+            margin-left: 3.5rem;
+            position: relative;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+        header nav a:hover { opacity: 1; }
+        header nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -8px; left: 0;
+            width: 0%; height: 1px;
+            background-color: var(--accent-blue);
+            transition: width 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        header nav a:hover::after { width: 100%; }
+
+        /* REVEAL ANIMATIONS */
+        .reveal {
+            opacity: 0;
+            transform: translateY(60px);
+            transition: all 1.2s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .reveal-delay-1 { transition-delay: 0.2s; }
+        .reveal-delay-2 { transition-delay: 0.4s; }
+
+        /* HERO SECTION */
+        .hero {
+            height: 111.2vh;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #000;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.8) 100%);
+            z-index: 1;
+        }
+        .hero-img {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 110%;
+            object-fit: cover;
+            transform: scale(1.05);
+            will-change: transform;
+        }
+        .hero-title-container {
+            position: relative;
+            z-index: 9999; /* Fica em cima do fundo preto do preloader inicialmente */
+            color: #fff;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+        }
+        
+        /* LOGO UNIFICADA (PRELOADER + HERO) */
+        .hero-logo-svg {
+            width: 20vw; 
+            max-width: 290px;
+            transform: scale(0.5); /* Começa pequena como no loading */
+            transition: transform 1.5s cubic-bezier(0.19, 1, 0.22, 1);
+            filter: drop-shadow(0 10px 30px rgba(0,0,0,0.6));
+        }
+        .hero.loaded .hero-logo-svg {
+            transform: scale(1); /* Expande para o tamanho real quando acaba o loading */
+        }
+        
+        .hero-logo-svg path {
+            fill: transparent;
+            stroke: #dcd7ca;
+            stroke-width: 1;
+            stroke-dasharray: 2000;
+            stroke-dashoffset: 2000;
+            animation: drawLogo 3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        .hero-logo-svg path.path-u { stroke: var(--accent-blue); }
+        .hero-logo-svg path.fill-after { animation: drawLogo 2.5s cubic-bezier(0.4, 0, 0.2, 1) forwards, fillLogo 1s 2.5s ease-in forwards; }
+        .hero-logo-svg path.fill-after.path-u { animation: drawLogo 2.5s cubic-bezier(0.4, 0, 0.2, 1) forwards, fillLogoU 1s 2.5s ease-in forwards; }
+
+        @keyframes drawLogo { to { stroke-dashoffset: 0; } }
+        @keyframes fillLogo { to { fill: #fff; stroke: transparent; } }
+        @keyframes fillLogoU { to { fill: var(--accent-blue); stroke: transparent; } }
+        
+        .hero-subtitle {
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            line-height: 1.8;
+            text-align: left;
+            border-left: 2px solid var(--accent-blue);
+            padding-left: 2rem;
+            opacity: 0;
+            transform: translateX(30px);
+            transition: all 1.5s cubic-bezier(0.19, 1, 0.22, 1);
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+        .hero.loaded .hero-subtitle { opacity: 1; transform: translateX(0); transition-delay: 0.5s; }
+
+        /* INSPIRAÇÃO / MANIFESTO (CORRIGIDO TOTALMENTE) */
+        .manifesto-section {
+            height: 166.7vh; /* Compensação de zoom */
+            position: relative;
+            background-color: var(--bg-color);
+        }
+        .manifesto-sticky {
+            position: sticky;
+            top: 0;
+            height: 111.2vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0 10vw;
+        }
+        .manifesto-text {
+            font-family: var(--font-title);
+            font-size: 4.5vw;
+            line-height: 1.4;
+            text-align: center;
+            color: var(--text-color);
+            max-width: 1300px;
+        }
+        .word {
+            display: inline-block;
+            opacity: 0.1;
+            transition: opacity 0.3s ease;
+        }
+        .manifesto-author {
+            margin-top: 2.5rem;
+            font-family: var(--font-body);
+            font-size: 1.2rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--accent-blue);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .manifesto-author.visible { opacity: 1; }
+
+        /* SPLIT SECTION: MINHA PAIXÃO */
+        .split-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 111.2vh;
+            background-color: var(--border-color);
+        }
+        .split-content {
+            padding: var(--space-xl) var(--space-lg);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background-color: var(--bg-color);
+        }
+        .split-title {
+            font-family: var(--font-title);
+            font-size: 4.5rem;
+            line-height: 1.1;
+            margin-bottom: 2rem;
+            color: var(--text-color);
+        }
+        .split-text {
+            font-size: 1.25rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+        .split-img-wrapper {
+            position: relative;
+            overflow: hidden;
+            height: 100%;
+        }
+        .split-img {
+            width: 100%;
+            height: 120%;
+            object-fit: cover;
+        }
+
+        /* HORIZONTAL PROGRESSION DISHES - BREATHTAKING IMMERSION */
+        .dishes-section {
+            height: 555.6vh;
+            position: relative;
+            background-image: url('file:///c:/Users/jubav/Downloads/restaurantemanu.com.br/manufachda.webp');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* Parallax impressionante da fachada */
+            z-index: 2;
+        }
+        .dishes-section::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(10, 10, 10, 0.75); /* Camada escura para destacar o conteúdo */
+            backdrop-filter: blur(3px);
+            z-index: 1;
+        }
+        .dishes-sticky {
+            position: sticky;
+            top: 0;
+            height: 111.2vh;
+            width: 100%;
+            overflow: hidden;
+            z-index: 2;
+        }
+        .dishes-track {
+            display: flex;
+            height: 111.2vh;
+            width: fit-content;
+            align-items: center;
+            padding: 0 15vw;
+            gap: 10vw;
+            will-change: transform;
+        }
+        
+        .dish-intro-lux {
+            width: 40vw;
+            flex-shrink: 0;
+            color: #fff;
+        }
+        .dish-intro-lux h2 {
+            font-family: var(--font-title);
+            font-size: 7rem;
+            margin-bottom: 2rem;
+            line-height: 1;
+            text-shadow: 0 5px 15px rgba(0,0,0,0.8);
+            white-space: nowrap;
+        }
+        .dish-intro-lux p {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            color: #ddd;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+        }
+        .scroll-indicator {
+            margin-top: 3rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            color: var(--accent-blue);
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            font-size: 0.8rem;
+        }
+        .scroll-line {
+            width: 80px; height: 1px;
+            background-color: var(--accent-blue);
+        }
+
+        /* Cartões de Prato Imersivos */
+        .dish-card-luxury {
+            width: 35vw;
+            height: 83.4vh;
+            position: relative;
+            flex-shrink: 0;
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+            cursor: pointer;
+        }
+        .dish-img-lux {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        .dish-card-luxury:hover .dish-img-lux {
+            transform: scale(1.08);
+        }
+        .dish-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 3rem;
+            pointer-events: none;
+        }
+        .dish-number-lux {
+            font-family: var(--font-title);
+            font-size: 8rem;
+            color: rgba(255,255,255,0.15);
+            position: absolute;
+            top: -2rem; right: 1rem;
+            line-height: 1;
+            pointer-events: none;
+        }
+        .dish-title-lux {
+            font-family: var(--font-title);
+            font-size: 3.5rem;
+            color: #fff;
+            margin-bottom: 1rem;
+            line-height: 1;
+        }
+        .dish-desc-lux {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #ccc;
+            max-width: 90%;
+        }
+
+        /* PARALLAX QUOTE */
+        .quote-section {
+            height: 133.4vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background-color: #000;
+        }
+        .quote-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 140%;
+            object-fit: cover;
+            opacity: 0.5;
+            will-change: transform;
+        }
+        .quote-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 0 10vw;
+            max-width: 1400px;
+        }
+        .quote-text {
+            font-family: var(--font-title);
+            font-size: 5.5vw;
+            color: #fff;
+            line-height: 1.2;
+            font-style: italic;
+            text-shadow: 0 15px 40px rgba(0,0,0,0.9);
+            margin-bottom: 3rem;
+            text-wrap: balance;
+        }
+        .quote-author {
+            color: #fff;
+            font-family: var(--font-body);
+            font-size: 1.8rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            text-shadow: 0 5px 20px rgba(0,0,0,0.8);
+            position: relative;
+            display: inline-block;
+        }
+        .quote-author::after {
+            content: '';
+            position: absolute;
+            bottom: -15px; left: 50%; transform: translateX(-50%);
+            width: 50px; height: 2px;
+            background-color: var(--accent-blue);
+        }
+
+        /* CRONOLOGIA / CHEF AWARDS */
+        .chef-history {
+            padding: var(--space-xl) 10vw;
+            background-color: var(--bg-color);
+        }
+        .history-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 5rem;
+        }
+        .history-sticky-col {
+            position: sticky;
+            top: 150px;
+            height: max-content;
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+        }
+        .history-title {
+            font-family: var(--font-title);
+            font-size: 5.5rem;
+            line-height: 0.9;
+        }
+        .history-image-wrapper {
+            width: 100%;
+            height: 55.6vh;
+            max-height: 500px;
+            overflow: hidden;
+            border-radius: 4px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        .history-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+        .history-image-wrapper:hover .history-img {
+            transform: scale(1.05);
+        }
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 5rem;
+        }
+        .history-item {
+            border-top: 1px solid var(--border-color);
+            padding-top: 2rem;
+        }
+        .h-year {
+            font-family: var(--font-body);
+            font-size: 1.4rem;
+            letter-spacing: 0.15em;
+            color: var(--accent-blue);
+            margin-bottom: 1rem;
+            display: block;
+        }
+        .h-title {
+            font-family: var(--font-title);
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        .h-desc {
+            font-size: 1.25rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+        }
+
+        /* CTA RESERVATION */
+        .cta-section {
+            height: 88.9vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background-color: #050505;
+            position: relative;
+            color: #fff;
+        }
+        .cta-title {
+            font-family: var(--font-title);
+            font-size: 7vw;
+            font-style: italic;
+            margin-bottom: var(--space-md);
+            color: #fff;
+        }
+        .btn-reserve {
+            display: inline-block;
+            padding: 1.5rem 4rem;
+            background-color: transparent;
+            border: 1px solid var(--accent-blue);
+            color: #fff;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            font-size: 0.9rem;
+            position: relative;
+            overflow: hidden;
+            transition: color 0.4s ease;
+        }
+        .btn-reserve::before {
+            content: '';
+            position: absolute;
+            top: 100%; left: 0; width: 100%; height: 100%;
+            background-color: var(--accent-blue);
+            transition: top 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+            z-index: 1;
+        }
+        .btn-reserve:hover::before { top: 0; }
+        .btn-reserve span { position: relative; z-index: 2; }
+        
+        /* FOOTER DETAILS */
+        .footer-details {
+            padding: 4rem 10vw;
+            background-color: #000;
+            color: #555;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            font-size: 0.9rem;
+            border-top: 1px solid #111;
+        }
+
+        /* Media Queries */
+        @media (max-width: 768px) {
+            header { padding: 1.5rem; flex-direction: column; gap: 1rem; }
+            header.scrolled { padding: 1rem; }
+            header nav a { margin: 0 1rem; font-size: 0.6rem; }
+            .hero-title-container { flex-direction: column; gap: 1.5rem; }
+            .hero-logo-svg { width: 45vw; }
+            .hero-subtitle { border-left: none; padding-left: 0; text-align: center; transform: translateY(20px); font-size: 0.9rem; }
+            .hero.loaded .hero-subtitle { transform: translateY(0); }
+            .split-section, .history-grid { grid-template-columns: 1fr; }
+            .split-content { padding: 4rem 1.5rem; }
+            
+            .dishes-track { flex-direction: column; height: auto; width: 100%; gap: 5rem; padding: 5rem 5vw;}
+            .dishes-sticky { position: relative; height: auto; }
+            .dishes-section { height: auto; background-attachment: scroll; }
+            .dish-intro-lux { width: 100%; text-align: center; }
+            .dish-card-luxury { width: 100%; height: 60vh; }
+            
+            .history-sticky-col { position: relative; top: 0; gap: 2rem; margin-bottom: 3rem; }
+            .history-image-wrapper { height: 44.5vh; }
+            .quote-text { font-size: 9vw; }
+            .footer-details { grid-template-columns: 1fr; text-align: center; }
+            .manifesto-section { height: auto; padding: 5rem 0; }
+            .manifesto-sticky { position: relative; height: auto; }
+            .word { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- PRELOADER BG ONLY (Sem logo solta, a mágica acontece na hero) -->
+    <div class="preloader-bg" id="preloader-bg"></div>
+
+    <!-- HEADER DELICADO -->
+    <header id="main-header">
+        <div class="header-logo">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 359.01">
+                <path d="M114.61,176.97h27.6V48.88l-27.39,24.07-.21,104.02ZM.46,175.82l27.91,24.97V27.43L.46,2.82V175.82ZM71.05,65.06l-34.41-30.35v34.45l34.47,31.19,35.65-31.34,8.09-7.18v.07l27.36-24.05V2.02l-71.16,63.05Z"></path>
+                <path d="M229.15,0l-79.56,177.07h28.72l51.37-116.24,.04,.09,13.32-30.78L229.15,0Zm18.04,39.14l-13.48,31.13,45.67,106.8h31.37L247.19,39.14Z"></path>
+                <path d="M0,187.33v146.12l27.38,24.14V211.91l-3.6-3.31L0,187.33Zm113.51-2.81v105.15L35.6,218.63v43.05s91.33,84.5,105.19,95.85V184.48l-27.27,.05Z"></path>
+                <path class="path-u" d="M337.75,248.45c-2.11,11.25-5.67,22.64-10.66,34.18-5.01,11.55-10.8,22.21-17.38,31.97-6.59,9.77-13.57,18.2-20.94,25.3-5.75,5.52-11.48,9.59-17.21,12.26-10.26,5.19-14.79,2.35-15.5,1.81-5.95-1.16-11.4-5.48-11.4-12.98,0-10.94,9.83-35.61,29.51-74l37.62-82.06h-30.43l-24.27,52.9c-38.49,77.82-61.06,116.49-78.49,116.49-6.55,0-9.83-4.65-9.83-13.94s3.1-20.44,9.31-32.82l70.14-139.06h-31.29l-55.68,112.42c-7.76,15.48-11.65,29.21-11.65,41.19,0,10.32,2.58,19.04,7.77,26.17,5.17,7.12,11.56,10.68,19.15,10.68s14.92-4.64,23.04-13.94c7.43-8.25,19.07-24.56,34.94-48.93l5.18-8.36c-6.73,14.45-10.1,25.7-10.1,33.75,0,10.33,2.63,19.16,7.91,26.48,5.27,7.33,11.71,10.99,19.31,10.99,.57,0,1.15-.04,1.74-.11v.17c11.71-2.63,22.84-8.98,33.37-19.11,11.07-10.66,20.94-24.26,29.64-40.84,8.68-16.56,14.87-32.84,18.56-48.84l-2.37-1.77Z"></path>
+            </svg>
+        </div>
+        <nav>
+            <a href="#">Menu</a>
+            <a href="#">A Chef</a>
+            <a href="#">Cronologia</a>
+            <a href="#">Reservas</a>
+            <a href="#">EN</a>
+        </nav>
+    </header>
+
+    <div class="scroll-container" id="scroll-container" style="background-color: var(--bg-color);">
+        
+        <!-- HERO (Agora a logo do loading VIVE aqui e se mescla perfeitamente) -->
+        <section class="hero" id="hero">
+            <img src="file:///c:/Users/jubav/Downloads/restaurantemanu.com.br/assets/Manu_2022-05-26-66_Easy-Resize_64935fc40db3.jpg" class="hero-img" id="hero-img" alt="Manu Hero">
+            <div class="hero-title-container" id="hero-title-container">
+                <svg class="hero-logo-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 359.01">
+                    <g id="Layer_1">
+                        <path class="fill-after" d="M114.61,176.97h27.6V48.88l-27.39,24.07-.21,104.02ZM.46,175.82l27.91,24.97V27.43L.46,2.82V175.82ZM71.05,65.06l-34.41-30.35v34.45l34.47,31.19,35.65-31.34,8.09-7.18v.07l27.36-24.05V2.02l-71.16,63.05Z"></path>
+                        <path class="fill-after" d="M229.15,0l-79.56,177.07h28.72l51.37-116.24,.04,.09,13.32-30.78L229.15,0Zm18.04,39.14l-13.48,31.13,45.67,106.8h31.37L247.19,39.14Z"></path>
+                        <path class="fill-after" d="M0,187.33v146.12l27.38,24.14V211.91l-3.6-3.31L0,187.33Zm113.51-2.81v105.15L35.6,218.63v43.05s91.33,84.5,105.19,95.85V184.48l-27.27,.05Z"></path>
+                        <path class="fill-after path-u" d="M337.75,248.45c-2.11,11.25-5.67,22.64-10.66,34.18-5.01,11.55-10.8,22.21-17.38,31.97-6.59,9.77-13.57,18.2-20.94,25.3-5.75,5.52-11.48,9.59-17.21,12.26-10.26,5.19-14.79,2.35-15.5,1.81-5.95-1.16-11.4-5.48-11.4-12.98,0-10.94,9.83-35.61,29.51-74l37.62-82.06h-30.43l-24.27,52.9c-38.49,77.82-61.06,116.49-78.49,116.49-6.55,0-9.83-4.65-9.83-13.94s3.1-20.44,9.31-32.82l70.14-139.06h-31.29l-55.68,112.42c-7.76,15.48-11.65,29.21-11.65,41.19,0,10.32,2.58,19.04,7.77,26.17,5.17,7.12,11.56,10.68,19.15,10.68s14.92-4.64,23.04-13.94c7.43-8.25,19.07-24.56,34.94-48.93l5.18-8.36c-6.73,14.45-10.1,25.7-10.1,33.75,0,10.33,2.63,19.16,7.91,26.48,5.27,7.33,11.71,10.99,19.31,10.99,.57,0,1.15-.04,1.74-.11v.17c11.71-2.63,22.84-8.98,33.37-19.11,11.07-10.66,20.94-24.26,29.64-40.84,8.68-16.56,14.87-32.84,18.56-48.84l-2.37-1.77Z"></path>
+                    </g>
+                </svg>
+                <p class="hero-subtitle">Minha vida,<br>Minha Comida e Alma</p>
+            </div>
+        </section>
+
+        <!-- INSPIRAÇÃO / MANIFESTO -->
+        <section class="manifesto-section" id="manifesto-section">
+            <div class="manifesto-sticky">
+                <p class="manifesto-text" id="manifesto-text">
+                    Se orgulhe de suas raízes, se orgulhe de sua terra, se orgulhe de sua família e da sua cultura. Essa é nossa maior inspiração!
+                </p>
+                <span class="manifesto-author" id="manifesto-author">- Manu Buffara</span>
+            </div>
+        </section>
+
+        <!-- SPLIT SECTION: MINHA PAIXÃO -->
+        <section class="split-section">
+            <div class="split-img-wrapper">
+                <img src="file:///c:/Users/jubav/Downloads/restaurantemanu.com.br/assets/274483573_5253770358003373_414_68ec3626322d.jpg" class="split-img parallax-img" alt="Manu Paixão">
+            </div>
+            <div class="split-content">
+                <h2 class="split-title reveal">Minha Paixão</h2>
+                <p class="split-text reveal reveal-delay-1">
+                    A cozinha chegou a mim como um daqueles amores arrebatadores, é desse lugar e de suas conexões que eu entendo como é viver melhor e tenho reforçado o orgulho de onde eu venho e de onde eu moro. Olhando para trás vejo que tudo faz sentido, eu não poderia estar em outro lugar a não ser na cozinha do Manu.
+                </p>
+                <p class="split-text reveal reveal-delay-2">
+                    Toda minha experiência de vida me reconectou a cozinha que sempre esteve presente mesmo sem perceber, do meu pai veio o campo e da minha mãe veio o mar e das minhas filhas veio a vontade da mudança.
+                </p>
+            </div>
+        </section>
+
+        <!-- HORIZONTAL PROGRESSION DISHES -->
+        <section class="dishes-section" id="dishes-section">
+            <div class="dishes-sticky">
+                <div class="dishes-track" id="dishes-track">
+                    
+                    <div class="dish-intro-lux">
+                        <h2>A Experiência</h2>
+                        <p>O primeiro restaurante na história do Brasil comandado por uma chef mulher a servir somente menu degustação. O Manu tem 5 mesas, serve 20 pessoas por dia e poderia estar em qualquer lugar do mundo, mas está em Curitiba.</p>
+                        <div class="scroll-indicator">
+                            <span>Deslize para explorar a arte</span>
+                            <div class="scroll-line"></div>
+                        </div>
+                    </div>
+
+                    <div class="dish-card-luxury">
+                        <img src="file:///c:/Users/jubav/Downloads/restaurantemanu.com.br/assets/Scallop-cashew-nut-milk-and-na_018333244c05.jpg" class="dish-img-lux" alt="Vieiras">
+                        <div class="dish-overlay">
+                            <span class="dish-number-lux">01</span>
+                            <h3 class="dish-title-lux">Vieiras & Castanha</h3>
+                            <p class="dish-desc-lux">Leite de castanha e mel nativo. Sintonizado com as últimas tendências, explorando o frescor com absoluto zelo e texturas marinhas perfeitamente equilibradas.</p>
+                        </div>
+                    </div>
+
+                    <div class="dish-card-luxury">
+                        <img src="file:///c:/Users/jubav/Downloads/restaurantemanu.com.br/assets/Coco-e-tomate-fermentado_Credi_238dc10863d8.jpg" class="dish-img-lux" alt="Coco e Tomate">
+                        <div class="dish-overlay">
+                            <span class="dish-number-lux">02</span>
+                            <h3 class="dish-title-lux">Coco & Tomate</h3>
+                            <p class="dish-desc-lux">Tomate fermentado envolto na suavidade e frescor do coco verde. 60% dos produtos usados nas receitas são vegetais preparados de formas supreendentes.</p>
+                        </div>
+                    </div>
+
+                    <div class="dish-card-luxury">
+                        <img src="file:///c:/Users/jubav/Downloads/restaurantemanu.com.br/assets/32_48a1d057822e.jpg" class="dish-img-lux" alt="Ova de Tainha">
+                        <div class="dish-overlay">
+                            <span class="dish-number-lux">03</span>
+                            <h3 class="dish-title-lux">Ova de Tainha</h3>
+                            <p class="dish-desc-lux">Picles de cebola e texturas complexas que resgatam a tradição pesqueira do sul. O mar profundo e respeitado, trazido de forma sublime à mesa curitibana.</p>
+                        </div>
+                    </div>
+
+                    <div class="dish-card-luxury">
+                        <img src="file:///c:/Users/jubav/Downloads/restaurantemanu.com.br/assets/274483573_5253770358003373_414_1c3cbb4f1618.jpg" class="dish-img-lux" alt="Polvo e Abacate">
+                        <div class="dish-overlay">
+                            <span class="dish-number-lux">04</span>
+                            <h3 class="dish-title-lux">Essência Natural</h3>
+                            <p class="dish-desc-lux">A harmonização dá grande espaço para a produção nacional de vinhos naturais, infusões de flores e fermentados criados artesanalmente dentro de casa.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- QUOTE PARALLAX -->
+        <section class="quote-section">
+            <img src="file:///c:/Users/jubav/Downloads/restaurantemanu.com.br/assets/Manu_2022-05-26-31_Easy-Resize_6ff17d490b77.jpg" class="quote-bg parallax-img" alt="Cozinhar é respeitar">
+            <div class="quote-content reveal">
+                <p class="quote-text">"Cozinhar é respeitar o tempo das coisas.<br>Cada comida exige um vestido, um rosto, uma tradição."</p>
+                <div class="quote-author">- Manu Buffara</div>
+            </div>
+        </section>
+
+        <!-- CHEF HISTORY -->
+        <section class="chef-history">
+            <div class="history-grid">
+                <div class="history-sticky-col">
+                    <h2 class="history-title reveal">Manoela<br>Buffara</h2>
+                    <div class="history-image-wrapper reveal reveal-delay-1">
+                        <img src="file:///c:/Users/jubav/Downloads/restaurantemanu.com.br/manufazenda.jpg" class="history-img" alt="Manu na Fazenda">
+                    </div>
+                </div>
+                <div class="history-list">
+                    <div class="history-item reveal">
+                        <span class="h-year">2011</span>
+                        <h3 class="h-title">A Fundação</h3>
+                        <p class="h-desc">Em janeiro de 2011, ela abriu o restaurante Manu, o primeiro na história do Brasil comandado por uma chef mulher a servir somente menu degustação.</p>
+                    </div>
+                    <div class="history-item reveal">
+                        <span class="h-year">2021</span>
+                        <h3 class="h-title">Latin America's 50 Best</h3>
+                        <p class="h-desc">Restaurante Manu ocupa a posição 49 do Latin America 50Best Restaurants e Manu ganha a vida cozinhando para o mundo todo.</p>
+                    </div>
+                    <div class="history-item reveal">
+                        <span class="h-year">2022</span>
+                        <h3 class="h-title">A Melhor da América Latina</h3>
+                        <p class="h-desc">Eleita a Melhor Chef mulher da America Latina pela Academia 50 Best. O chef Alex Atala e o crítico Andrea Petrini dizem que Manu colocou Curitiba no mapa gastronômico mundial.</p>
+                    </div>
+                    <div class="history-item reveal">
+                        <span class="h-year">2023</span>
+                        <h3 class="h-title">Expansão Global</h3>
+                        <p class="h-desc">Comanda o restaurante Fresh in the Garden nas Maldivas, e abre seu segundo restaurante, o Ella, no Meatpacking District em Nova York com projeto de Isay Weinfeld.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="cta-section">
+            <img src="file:///c:/Users/jubav/Downloads/restaurantemanu.com.br/assets/Manu_2022-05-26-73_Easy-Resize_f596c4e811bb.jpg" style="position: absolute; top:0; left:0; width:100%; height:100%; object-fit: cover; opacity: 0.3;" class="parallax-img">
+            <div style="position: relative; z-index: 2;" class="reveal">
+                <h2 class="cta-title">Garanta sua mesa.</h2>
+                <a href="#" class="btn-reserve"><span>Fazer Reserva</span></a>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="footer-details">
+            <div>
+                <p style="color: #fff; margin-bottom: 1rem; font-family: var(--font-title); font-size: 1.5rem;">Restaurante Manu</p>
+                <p>Alameda Dom Pedro II, 317, Batel</p>
+                <p>Curitiba/PR – Brasil</p>
+            </div>
+            <div>
+                <p style="color: #fff; margin-bottom: 1rem;">Reservas</p>
+                <p>Quarta-feira a Sábado das 18h às 22:30h.</p>
+                <p>Contato: +55 41 3044-4395.</p>
+                <p>Restrições alimentares informar no ato da reserva.</p>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- MAIN SCRIPT -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            
+            // --- SINGLE LOGO MERGED ANIMATION ---
+            // A logo da Hero é a logo do loading. O fundo preto some e a logo expande para o tamanho real.
+            setTimeout(() => {
+                const preloaderBg = document.getElementById('preloader-bg');
+                preloaderBg.classList.add('hidden');
+                document.getElementById('hero').classList.add('loaded');
+                
+                // Remove o z-index altíssimo após a animação concluir para não bugar o header
+                setTimeout(() => {
+                    document.getElementById('hero-title-container').style.zIndex = '2';
+                }, 1500);
+            }, 3600); // Dá tempo da logo se desenhar antes de expandir e revelar a imagem de fundo
+
+            // --- HEADER SCROLL ---
+            const header = document.getElementById('main-header');
+
+            // --- INTERSECTION OBSERVER FOR REVEAL ANIMATIONS ---
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.15
+            };
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+            // --- SPLIT TEXT FOR MANIFESTO ---
+            const manifesto = document.getElementById('manifesto-text');
+            const author = document.getElementById('manifesto-author');
+            const text = manifesto.innerText;
+            manifesto.innerHTML = '';
+            text.split(/\s+/).forEach(word => {
+                if (word.trim() === '') return;
+                const span = document.createElement('span');
+                span.innerHTML = word + '&nbsp;'; 
+                span.className = 'word';
+                manifesto.appendChild(span);
+            });
+            const words = document.querySelectorAll('.word');
+
+            // --- SMOOTH SCROLL & PARALLAX SETUP ---
+            let currentScrollY = 0;
+            let targetScrollY = 0;
+            let ease = 0.08;
+
+            const heroImg = document.getElementById('hero-img');
+            const parallaxImgs = document.querySelectorAll('.parallax-img');
+            
+            const manifestoSection = document.getElementById('manifesto-section');
+            const dishesSection = document.getElementById('dishes-section');
+            const dishesTrack = document.getElementById('dishes-track');
+
+            function updateScroll() {
+                targetScrollY = window.scrollY;
+                currentScrollY += (targetScrollY - currentScrollY) * ease;
+                
+                // Header Delicate Effect
+                if(targetScrollY > 100) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+                
+                // Hero Image Parallax
+                heroImg.style.transform = `translateY(${currentScrollY * 0.4}px) scale(1.05)`;
+
+                // Manifesto Text Fade
+                const manifestoRect = manifestoSection.getBoundingClientRect();
+                const windowHeight = window.innerHeight;
+                if(manifestoRect.top <= 0 && manifestoRect.bottom >= windowHeight) {
+                    let scrollSpace = manifestoRect.height - windowHeight;
+                    let progress = Math.abs(manifestoRect.top) / scrollSpace;
+                    
+                    let wordsToShow = Math.floor(progress * words.length * 1.5); 
+                    words.forEach((w, i) => {
+                        w.style.opacity = i < wordsToShow ? 1 : 0.1;
+                    });
+                    
+                    if(progress > 0.6) {
+                        author.classList.add('visible');
+                    } else {
+                        author.classList.remove('visible');
+                    }
+                } else if (manifestoRect.top > 0) {
+                    words.forEach(w => w.style.opacity = 0.1);
+                    author.classList.remove('visible');
+                } else if (manifestoRect.bottom < windowHeight) {
+                    words.forEach(w => w.style.opacity = 1);
+                    author.classList.add('visible');
+                }
+
+                // General Parallax Images
+                parallaxImgs.forEach(img => {
+                    const rect = img.parentElement.getBoundingClientRect();
+                    if(rect.top < windowHeight && rect.bottom > 0) {
+                        let y = (rect.top - windowHeight/2) * 0.15;
+                        img.style.transform = `translateY(${y}px) scale(1.1)`;
+                    }
+                });
+
+                // Dishes Horizontal Scroll (Smoothed with eased currentScrollY)
+                if(window.innerWidth > 768) {
+                    const dishesTop = dishesSection.offsetTop;
+                    const dishesHeight = dishesSection.offsetHeight;
+                    
+                    if(currentScrollY >= dishesTop && currentScrollY <= (dishesTop + dishesHeight - windowHeight)) {
+                        let progress = (currentScrollY - dishesTop) / (dishesHeight - windowHeight);
+                        let maxMove = dishesTrack.scrollWidth - window.innerWidth;
+                        let moveX = progress * -maxMove;
+                        dishesTrack.style.transform = `translateX(${moveX}px)`;
+                    } else if (currentScrollY < dishesTop) {
+                        dishesTrack.style.transform = `translateX(0px)`;
+                    } else if (currentScrollY > (dishesTop + dishesHeight - windowHeight)) {
+                        let maxMove = dishesTrack.scrollWidth - window.innerWidth;
+                        dishesTrack.style.transform = `translateX(${-maxMove}px)`;
+                    }
+                }
+
+                requestAnimationFrame(updateScroll);
+            }
+
+            requestAnimationFrame(updateScroll);
+        });
+    </script>
+</body>
+</html>

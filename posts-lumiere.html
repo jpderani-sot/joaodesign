@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lumière | Social Media Grid</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --sage-deep: #4A5D4E;
+            --sage-soft: #9EA08F;
+            --stone-warm: #E6E3D6;
+            --pearl: #F9F8F3;
+            --text-dark: #1c1917;
+            
+            --font-serif: 'Newsreader', serif;
+            --font-sans: 'Instrument Sans', sans-serif;
+            
+            --zoom: 0.9;
+        }
+
+        /* RESET & BASE */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html { 
+            background-color: var(--stone-warm); 
+            zoom: var(--zoom);
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            color: var(--text-dark);
+            padding: 5rem 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header-title {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+        .header-title h1 {
+            font-family: var(--font-serif);
+            font-size: 3rem;
+            font-weight: 300;
+            font-style: italic;
+            color: var(--sage-deep);
+        }
+        .header-title p {
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            font-size: 0.8rem;
+            opacity: 0.6;
+            margin-top: 1rem;
+        }
+
+        /* GRID SYSTEM */
+        .post-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            width: 100%;
+            max-width: 1200px;
+            padding: 0 2rem;
+        }
+
+        /* POST COMMON */
+        .post-container {
+            width: 100%;
+            aspect-ratio: 1/1;
+            background-color: #fff;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+            border: 1px solid rgba(0,0,0,0.05);
+            border-radius: 4px;
+        }
+
+        /* POST 1: MANIFESTO */
+        .post-manifesto {
+            background: url('post_sage_lifestyle_1778007340807.png');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 2.5rem;
+            width: 80%;
+            text-align: center;
+            border-radius: 2px;
+        }
+        .glass-card h2 {
+            font-family: var(--font-serif);
+            font-size: 1.8rem;
+            font-weight: 400;
+            line-height: 1.2;
+            color: #fff;
+        }
+        .logo-stamp {
+            position: absolute;
+            bottom: 2rem;
+            right: 2rem;
+            font-family: var(--font-serif);
+            font-size: 1.2rem;
+            font-weight: 300;
+            color: #fff;
+            opacity: 0.8;
+            letter-spacing: 2px;
+        }
+
+        /* POST 2: SCIENCE */
+        .post-science {
+            background-color: var(--pearl);
+            display: flex;
+            flex-direction: column;
+        }
+        .science-img {
+            height: 60%;
+            width: 100%;
+            background: url('post_sage_science_1778007359330.png');
+            background-size: cover;
+            background-position: center;
+        }
+        .science-content {
+            padding: 2rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .science-content .label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--sage-soft);
+            margin-bottom: 0.5rem;
+        }
+        .science-content h3 {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: var(--sage-deep);
+            line-height: 1.2;
+        }
+
+        /* POST 3: RESULT */
+        .post-result {
+            background: url('post_sage_result_conceptual_1778007504654.png');
+            background-size: cover;
+            background-position: center;
+        }
+        .result-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(74, 93, 78, 0.8), transparent);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 2.5rem;
+            color: #fff;
+        }
+        .result-overlay h4 {
+            font-family: var(--font-serif);
+            font-size: 1.8rem;
+            font-weight: 300;
+            font-style: italic;
+            margin-bottom: 0.5rem;
+        }
+        .result-overlay p {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.8;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+            .post-grid { grid-template-columns: 1fr; max-width: 500px; }
+        }
+
+        .description {
+            margin-top: 4rem;
+            max-width: 600px;
+            text-align: center;
+            color: var(--sage-deep);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-title">
+        <p>Lumière Estética Orgânica</p>
+        <h1>Social Media Preview</h1>
+    </div>
+
+    <div class="post-grid">
+        
+        <!-- POST 1: MANIFESTO -->
+        <div class="post-container post-manifesto" style="background-image: url('post_sage_lifestyle_1778007340807.png');">
+            <div class="glass-card">
+                <h2>A beleza que emana do <i>equilíbrio.</i></h2>
+            </div>
+            <div class="logo-stamp">LUMIÈRE</div>
+        </div>
+
+        <!-- POST 2: SCIENCE / PROCEDURE -->
+        <div class="post-container post-science">
+            <div class="science-img" style="background-image: url('post_sage_clinic_procedure_1778007600068.png');"></div>
+            <div class="science-content">
+                <span class="label">Estética de Alta Precisão</span>
+                <h3>Protocolos desenhados para respeitar sua arquitetura única.</h3>
+            </div>
+        </div>
+
+        <!-- POST 3: RESULT / DETAIL -->
+        <div class="post-container post-result" style="background-image: url('post_sage_result_conceptual_1778007504654.png');">
+            <div class="result-overlay">
+                <p>Resultado Conceptual</p>
+                <h4>A sutileza do impacto.</h4>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="description">
+        <p>Estes posts foram desenhados para elevar o posicionamento da clínica, utilizando a paleta de <b>Verde Sálvia</b> e <b>Pedra Quente</b>. O foco é o luxo silencioso, tipografia editorial e respiro visual.</p>
+    </div>
+
+</body>
+</html>
